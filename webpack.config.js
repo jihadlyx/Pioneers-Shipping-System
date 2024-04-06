@@ -3,7 +3,7 @@ const fs = require("fs");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const viewsDir = path.resolve(__dirname, "resources/views");
+const viewsDir = path.resolve(__dirname, "resources/views/site");
 
 const generateHTMLPlugins = () => {
     const files = fs.readdirSync(viewsDir);
@@ -51,5 +51,11 @@ module.exports = {
         publicPath: "/",
         filename: "asset/js/[name].js",
         clean: true,
+    },
+    resolve: {
+        alias: {
+            // تحديد مسار لمجلد "Dashboard" داخل مجلد "site"
+            Dashboard: path.resolve(__dirname, "resources/views/site/Dashboard"),
+        },
     },
 };
