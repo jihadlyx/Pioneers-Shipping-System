@@ -29,7 +29,7 @@ Route::get('/costumers', function () {
 Route::get('/permission', function () {
     return view('site.settings.Permissions.permissionsView');
 });
-Route::get('//matirialPermission', function () {
+Route::get('/matirialPermission', function () {
     return view('site.settings.Permissions.MatirialPermission.matirialPermissionView');
 });
 Route::get('/shipments', function () {
