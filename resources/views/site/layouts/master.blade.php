@@ -33,6 +33,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
     <!-- ===== Page Wrapper End ===== -->
 
     @include('site.layouts.script')
+    @yield('scripts')
 </body>
 
 </html>

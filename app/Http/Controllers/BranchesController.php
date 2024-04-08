@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class Branches extends Controller
+class BranchesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,7 @@ class Branches extends Controller
      */
     public function index()
     {
-        
+        return view('site.Branches.branchesView');
     }
 
     /**
@@ -34,7 +34,7 @@ class Branches extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return view('site.Branches.DeliveryPrices.addFormPrices');
     }
 
     /**
@@ -80,5 +80,13 @@ class Branches extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function pricesView($id) {
+        return view('site.Branches.DeliveryPrices.pricesView');
+    }
+
+    public function addFormPrices($id) {
+        return view('site.Branches.DeliveryPrices.addFormPrices');
     }
 }

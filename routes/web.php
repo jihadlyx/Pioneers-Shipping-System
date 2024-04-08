@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\BranchesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,47 +18,41 @@ Route::get('/', function () {
 });
 
 Route::get('/employees', function () {
-    return view('site.people.Employees.employeesView');
+    return view('site.People.Employees.employeesView');
 });
 Route::get('/delegates', function () {
-    return view('site.people.Delegates.delegatesView');
+    return view('site.People.Delegates.delegatesView');
 });
 Route::get('/costumers', function () {
-    return view('site.people.Costumers.costumersView');
+    return view('site.People.Customers.customersView');
 });
 Route::get('/permission', function () {
-    return view('site.settings.Permissions.permissions');
+    return view('site.settings.Permissions.permissionsView');
+});
+Route::get('//matirialPermission', function () {
+    return view('site.settings.Permissions.MatirialPermission.matirialPermissionView');
 });
 Route::get('/shipments', function () {
     return view('site.shipments.shipmentsView');
 });
 Route::get('/subCities', function () {
-    return view('site.sub_cities.subCitiesView');
-});
-Route::get('/rightsView', function () {
-    return view('site.settings.Permissions.Rights/rightsView');
+    return view('site.SubCities.subCitiesView');
 });
 Route::get('/status', function () {
-    return view('site.settings.status.statusView');
+    return view('site.Settings.TypeStatus.typeStatusView');
 });
-Route::get('/reasonsView', function () {
-    return view('site.settings.status.reasonsView');
-});
-Route::get('/branches', function () {
-    return view('site.Branches.branchesView');
-});
-Route::get('/pricesView', function () {
-    return view('site.Branches.DeliveryPreices.pricesView');
-});
-Route::get('/modalPrice.addFormPrices', function () {
-    return view('site.Branches.DeliveryPreices.addFormPrices');
-});
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
+Route::resource('/branches', BranchesController::class);
+
+// Route::resource('/branches.pricesView/{id}', BranchesController::class, '/branches.pricesView');
+Route::get('/branches/pricesView/{id}', [BranchesController::class, 'pricesView'])->name('branches.pricesView');
+Route::get('/branches/addFormPrices/{id}', [BranchesController::class, 'addFormPrices'])->name('branches.addFormPrices');
+
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified'
+// ])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('dashboard');
+//     })->name('dashboard');
+// });

@@ -82,9 +82,15 @@
     -webkit-appearance: textfield;
     outline-offset: -2px;
 }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .data-table-common .datatable-table > tbody > tr > td:first-child,
 .data-table-common .datatable-table > thead > tr > th:first-child {
-    padding-left: 2rem;
+    padding-right: 2rem;
 }
 .data-table-common .datatable-table > tbody > tr > td:last-child,
 .data-table-common .datatable-table > thead > tr > th:last-child {
@@ -150,12 +156,12 @@
     --tw-bg-opacity: 0.05;
 }
 .data-table-one .datatable-table > tbody > tr > td:first-child {
-    --tw-text-opacity: 1;
-    color: rgb(60 80 224 / var(--tw-text-opacity));
+    /* --tw-text-opacity: 1;
+    color: rgb(60 80 224 / var(--tw-text-opacity)); */
 }
 :is(.dark .data-table-one .datatable-table > tbody > tr > td:first-child) {
-    --tw-text-opacity: 1;
-    color: rgb(255 255 255 / var(--tw-text-opacity));
+    /* --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity)); */
 }
 .data-table-common .datatable-table > tbody > tr > td {
     border-bottom-width: 1px;

@@ -1,12 +1,12 @@
-<div id="AddBranch" x-transition=""
+<div id="AddCity" x-transition=""
     class="modal hidden fixed left-0 top-0 z-99999 h-screen w-full justify-center overflow-y-scroll bg-black/80 px-4 py-5">
     <div
         class="relative m-auto w-full max-w-180 sm:max-w-230 rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10">
         <div class=" flex items-center justify-between">
             <h2 class="flex-1 text-center text-title-md font-bold text-meta-5 dark:text-white">
-                إضافة فرع جديد
+                إضافة مدينة أو منطقة جديدة
             </h2>
-            <button data-target="SaveChanging"
+            <button data-target="SaveChangeing"
                 class="btn-modal-close absolute ltr:right-1 rtl:left-1 top-1 ltr:sm:right-5 rtl:sm:left-5 sm:top-5">
                 <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -16,35 +16,46 @@
                 </svg>
             </button>
         </div>
-        <form action="{{ route('branches.store') }}" class="needs-validation" novalidate>
+        <form action="#" class="needs-validation" novalidate>
             <div class="p-6.5">
                 <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
                     <div class="w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
-                            رقم الفرع
+                            رقم المدينة أو المنطقة
                         </label>
-                        <input type="text" placeholder="ادخل رقم الفرع"
+                        <input type="number" placeholder="ادخل رقم المدينة أو المنطقة"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
-                            الرجاء ادخل رقم الفرع
+                            الرجاء ادخل رقم المدينة أو المنطقة
                         </div>
                     </div>
                     <div class="w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
-                            اسم الفرع
+                            اسم المدينة أو المنطقة
                         </label>
-                        <input type="text" placeholder="ادخل اسم الفرع"
+                        <input type="text" placeholder="ادخل اسم المدينة أو المنطقة"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
-                            الرجاء ادخل حقل اسم الفرع
+                            الرجاء ادخل حقل اسم المدينة أو المنطقة
+                        </div>
+                    </div>
+                    <div class="w-full xl:w-1/2">
+                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                            سعر التوصيل
+                        </label>
+                        <input type="number" placeholder="ادخل سعر التوصيل"
+                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                            required />
+                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
+                            الرجاء ادخل سعر التوصيل
                         </div>
                     </div>
                 </div>
 
             </div>
-            <button type="submit"
+            <button
                 class="save-data flex w-fit items-center justify-center gap-2 rounded bg-primary px-4.5 py-2.5 font-medium text-white">
                 إضافة
             </button>

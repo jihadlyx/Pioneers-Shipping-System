@@ -1,16 +1,14 @@
 @extends('site.layouts.master')
 
 @section('title')
-    اسعار التوصيل للفرع
+    الشحنات
 @endsection
-
 @section('content')
     <!-- Breadcrumb Start -->
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 class="text-title-md2 font-bold text-black dark:text-white">
-            اسعار التوصيل للفرع
+            الشحنات
         </h2>
-
         <nav>
             <ol class="flex text-lg font-medium flex-wrap items-center gap-3">
                 <li>
@@ -29,7 +27,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-3 font-medium" href="/status">
+                    <a class="flex items-center gap-3 font-medium" href="/shipments">
                         <svg class="fill-current" width="18" height="7" viewBox="0 0 18 7" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -40,42 +38,87 @@
                                 fill=""></path>
                         </svg>
 
-                        <span class="hover:text-primary">الفروع</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="flex items-center gap-3 font-medium" href="">
-                        <svg class="fill-current" width="18" height="7" viewBox="0 0 18 7" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M1.4296 2.58734L3.1773 0.510459C3.3292 0.333165 3.6078 0.307837 3.8104 0.459804C3.9877 0.61177 4.0131 0.890376 3.8611 1.093L2.2148 3.04324H16.2464C16.4997 3.04324 16.7023 3.24586 16.7023 3.49914C16.7023 3.75241 16.4997 3.95504 16.2464 3.95504H2.2148L3.8611 5.90528C4.0131 6.08257 3.9877 6.36118 3.8104 6.53847C3.7345 6.61445 3.6332 6.63978 3.5318 6.63978C3.4052 6.63978 3.2786 6.58913 3.2026 6.48782L1.455 4.41094C1.0009 3.85373 1.0009 3.09389 1.4296 2.58734Z"
-                                fill=""></path>
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M3.8104 0.459804C3.6078 0.307837 3.3292 0.333165 3.1773 0.510459L1.4296 2.58734C1.0009 3.09389 1.0009 3.85373 1.455 4.41094L3.2026 6.48782C3.2786 6.58913 3.4052 6.63978 3.5318 6.63978C3.6332 6.63978 3.7345 6.61445 3.8104 6.53847C3.9877 6.36118 4.0131 6.08257 3.8611 5.90528L2.2148 3.95504H16.2464C16.4997 3.95504 16.7023 3.75241 16.7023 3.49914C16.7023 3.24586 16.4997 3.04324 16.2464 3.04324H2.2148L3.8611 1.093C4.0131 0.890376 3.9877 0.61177 3.8104 0.459804ZM2.9903 2.68302H16.2464C16.6986 2.68302 17.0625 3.04692 17.0625 3.49914C17.0625 3.95136 16.6986 4.31525 16.2464 4.31525H2.9903L4.1346 5.67085C4.1349 5.67123 4.1352 5.67161 4.1356 5.67199C4.4275 6.01385 4.354 6.50432 4.0652 6.79318C3.8978 6.96055 3.6887 7 3.5318 7C3.3205 7 3.0797 6.91713 2.9216 6.71335L1.1793 4.64286L1.1762 4.63904C0.618 3.95682 0.6042 3.00293 1.1545 2.35478C1.1547 2.35453 1.155 2.35429 1.1552 2.35404L2.9016 0.278534L2.9038 0.276033C3.1903 -0.0583053 3.6861 -0.0837548 4.0266 0.17163L4.036 0.17867L4.0449 0.186306C4.3792 0.472882 4.4047 0.968616 4.1493 1.30913L4.143 1.31743L2.9903 2.68302Z"
-                                fill=""></path>
-                        </svg>
-
-                        <span class="hover:text-primary">اسعار التوصيل للفرع</span>
+                        <span class="hover:text-primary">الشحنات</span>
                     </a>
                 </li>
             </ol>
         </nav>
     </div>
     <!-- Breadcrumb End -->
+    <div class="rounded-sm mb-5 border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <form action="#" class="needs-validation" novalidate>
+            <div class="p-6.5">
+                <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                    <div class="mb-4.5 w-full xl:w-1/2">
+                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                            البحث عن
+                        </label>
+                        <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
+                            <select
+                                class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                :class="isOptionSelected && 'text-black dark:text-white'"
+                                @change.once="isOptionSelected = true" required>
+                                <option value="" disabled selected class="text-body">
+                                    اختر
+                                </option>
+                                <option value="2" class="text-body">البحث عن الاسم</option>
+                                <option value="3" class="text-body">رقم الهاتف</option>
+                                <option value="4" class="text-body">الفرع</option>
+                            </select>
+
+                            <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">
+                                <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <g opacity="0.8">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
+                                            fill=""></path>
+                                    </g>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
+                            الرجاء اختيار نوع القيمة المراد البحث عنها
+                        </div>
+                    </div>
+
+                    <div class="w-full xl:w-1/2">
+                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                            القيمة المراد البحث عنها
+                        </label>
+                        <input type="text" placeholder="ادخل القيمة المراد البحث عنها"
+                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                            required />
+                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
+                            الرجاء ادخل قيمة الحقل
+                        </div>
+                    </div>
+
+                </div>
+                <button type="submit"
+                    class="flex w-fit justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
+                    بحث
+                </button>
+            </div>
+        </form>
+    </div>
     <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div class="data-table-common data-table-one max-w-full overflow-x-auto">
             <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
-                <div class="flex items-center gap-1 border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-                    <a href="{{ route('branches.addFormPrices', 1) }}" data-target="AddPrice"
-                        class=" flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
+                <div class="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
+                    <button data-target="AddShipment"
+                        class="modal-show flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
                         <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M15 7H9V1C9 0.4 8.6 0 8 0C7.4 0 7 0.4 7 1V7H1C0.4 7 0 7.4 0 8C0 8.6 0.4 9 1 9H7V15C7 15.6 7.4 16 8 16C8.6 16 9 15.6 9 15V9H15C15.6 9 16 8.6 16 8C16 7.4 15.6 7 15 7Z"
                                 fill=""></path>
                         </svg>
-                        إضافة سعر توصيل
-                    </a>
+                        إضافة شحنة
+                    </button>
+                    <?php echo $__env->make('site.Shipments.modal.add', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                    <?php echo $__env->make('site.Shipments.modal.save', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
                 </div>
                 <div class="datatable-top">
                     <div class="datatable-dropdown">
@@ -108,7 +151,127 @@
                                 <th data-sortable="true" style="width: 18.549511854951188%">
                                     <a href="#" class="datatable-sorter">
                                         <div class="flex items-center gap-1.5">
-                                            <p>سعر توصيل</p>
+                                            <p>اسم الشحنة</p>
+                                            <div class="inline-flex flex-col space-y-[2px]">
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                        viewBox="0 0 10 5" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 0L0 5H10L5 0Z" fill=""></path>
+                                                    </svg>
+                                                </span>
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                        viewBox="0 0 10 5" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </th>
+                                <th data-sortable="true" style="width: 14.086471408647142%">
+                                    <a href="#" class="datatable-sorter">
+                                        <div class="flex items-center gap-1.5">
+                                            <p>رقم الهاتف</p>
+                                            <div class="inline-flex flex-col space-y-[2px]">
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                        viewBox="0 0 10 5" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 0L0 5H10L5 0Z" fill=""></path>
+                                                    </svg>
+                                                </span>
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                        viewBox="0 0 10 5" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </th>
+                                <th data-sortable="true" style="width: 8.620641562064156%">
+                                    <a href="#" class="datatable-sorter">
+                                        <div class="flex items-center gap-1.5">
+                                            <p>الحالة</p>
+                                            <div class="inline-flex flex-col space-y-[2px]">
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                        viewBox="0 0 10 5" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 0L0 5H10L5 0Z" fill=""></path>
+                                                    </svg>
+                                                </span>
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                        viewBox="0 0 10 5" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </th>
+                                <th data-sortable="true" style="width: 8.715481171548117%">
+                                    <a href="#" class="datatable-sorter">
+                                        <div class="flex items-center gap-1.5">
+                                            <p>الفرع</p>
+                                            <div class="inline-flex flex-col space-y-[2px]">
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                        viewBox="0 0 10 5" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 0L0 5H10L5 0Z" fill=""></path>
+                                                    </svg>
+                                                </span>
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                        viewBox="0 0 10 5" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </th>
+                                <th data-sortable="true" style="width: 20.80195258019526%">
+                                    <a href="#" class="datatable-sorter">
+                                        <div class="flex items-center gap-1.5">
+                                            <p>البريد الإلكروني</p>
+                                            <div class="inline-flex flex-col space-y-[2px]">
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                        viewBox="0 0 10 5" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 0L0 5H10L5 0Z" fill=""></path>
+                                                    </svg>
+                                                </span>
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                        viewBox="0 0 10 5" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </th>
+                                <th data-sortable="true" class="red" style="width: 14.225941422594143%">
+                                    <a href="#" class="datatable-sorter">
+                                        <div class="flex items-center gap-1.5">
+                                            <p>العنوان</p>
                                             <div class="inline-flex flex-col space-y-[2px]">
                                                 <span class="inline-block">
                                                     <svg class="fill-current" width="10" height="5"
@@ -135,13 +298,10 @@
                             <tr data-index="0">
                                 <td class="px-4 py-5">
                                     <div class="text-gray-100 flex items-center gap-1">
-                                        <button data-target="EditPrice" class="hover:text-primary">
-                                            <svg class="fill-current" width="20" height="20" viewBox="0 0 16 16"
-                                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <button data-target="EditShipment" class="hover:text-primary">
+                                            <svg class="fill-current" width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_62_9787)">
-                                                    <path
-                                                        d="M15.55 2.97499C15.55 2.77499 15.475 2.57499 15.325 2.42499C15.025 2.12499 14.725 1.82499 14.45 1.52499C14.175 1.24999 13.925 0.974987 13.65 0.724987C13.525 0.574987 13.375 0.474986 13.175 0.449986C12.95 0.424986 12.75 0.474986 12.575 0.624987L10.875 2.32499H2.02495C1.17495 2.32499 0.449951 3.02499 0.449951 3.89999V14C0.449951 14.85 1.14995 15.575 2.02495 15.575H12.15C13 15.575 13.725 14.875 13.725 14V5.12499L15.35 3.49999C15.475 3.34999 15.55 3.17499 15.55 2.97499ZM8.19995 8.99999C8.17495 9.02499 8.17495 9.02499 8.14995 9.02499L6.34995 9.62499L6.94995 7.82499C6.94995 7.79999 6.97495 7.79999 6.97495 7.77499L11.475 3.27499L12.725 4.49999L8.19995 8.99999ZM12.575 14C12.575 14.25 12.375 14.45 12.125 14.45H2.02495C1.77495 14.45 1.57495 14.25 1.57495 14V3.87499C1.57495 3.62499 1.77495 3.42499 2.02495 3.42499H9.72495L6.17495 6.99999C6.04995 7.12499 5.92495 7.29999 5.87495 7.49999L4.94995 10.3C4.87495 10.5 4.92495 10.675 5.02495 10.85C5.09995 10.95 5.24995 11.1 5.52495 11.1H5.62495L8.49995 10.15C8.67495 10.1 8.84995 9.97499 8.97495 9.84999L12.575 6.24999V14ZM13.5 3.72499L12.25 2.49999L13.025 1.72499C13.225 1.92499 14.05 2.74999 14.25 2.97499L13.5 3.72499Z"
-                                                        fill=""></path>
+                                                    <path d="M15.55 2.97499C15.55 2.77499 15.475 2.57499 15.325 2.42499C15.025 2.12499 14.725 1.82499 14.45 1.52499C14.175 1.24999 13.925 0.974987 13.65 0.724987C13.525 0.574987 13.375 0.474986 13.175 0.449986C12.95 0.424986 12.75 0.474986 12.575 0.624987L10.875 2.32499H2.02495C1.17495 2.32499 0.449951 3.02499 0.449951 3.89999V14C0.449951 14.85 1.14995 15.575 2.02495 15.575H12.15C13 15.575 13.725 14.875 13.725 14V5.12499L15.35 3.49999C15.475 3.34999 15.55 3.17499 15.55 2.97499ZM8.19995 8.99999C8.17495 9.02499 8.17495 9.02499 8.14995 9.02499L6.34995 9.62499L6.94995 7.82499C6.94995 7.79999 6.97495 7.79999 6.97495 7.77499L11.475 3.27499L12.725 4.49999L8.19995 8.99999ZM12.575 14C12.575 14.25 12.375 14.45 12.125 14.45H2.02495C1.77495 14.45 1.57495 14.25 1.57495 14V3.87499C1.57495 3.62499 1.77495 3.42499 2.02495 3.42499H9.72495L6.17495 6.99999C6.04995 7.12499 5.92495 7.29999 5.87495 7.49999L4.94995 10.3C4.87495 10.5 4.92495 10.675 5.02495 10.85C5.09995 10.95 5.24995 11.1 5.52495 11.1H5.62495L8.49995 10.15C8.67495 10.1 8.84995 9.97499 8.97495 9.84999L12.575 6.24999V14ZM13.5 3.72499L12.25 2.49999L13.025 1.72499C13.225 1.92499 14.05 2.74999 14.25 2.97499L13.5 3.72499Z" fill=""></path>
                                                 </g>
                                                 <defs>
                                                     <clipPath id="clip0_62_9787">
@@ -151,7 +311,7 @@
                                             </svg>
 
                                         </button>
-                                        <button data-target="DeletePrice" class="hover:text-meta-1 button-icon">
+                                        <button data-target="DeleteShipment" class="hover:text-meta-1 button-icon">
                                             <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -170,20 +330,22 @@
                                         </button>
                                     </div>
                                 </td>
-                                <td>لم يتم الرد</td>
-                                @include('site.Branches.DeliveryPrices.delete')
-                                @include('site.Branches.DeliveryPrices.edit')
+                                <td>جهاد شرع الله</td>
+                                <td>0922502219</td>
+                                <td>نشط</td>
+                                <td>زليتن</td>
+                                <td class="green">maksim45@gmail.com</td>
+                                <td>محلة-السبعة</td>
+                                <?php echo $__env->make('site.Shipments.modal.delete', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                                <?php echo $__env->make('site.Shipments.modal.edit', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                             </tr>
                             <tr data-index="1">
                                 <td class="px-4 py-5">
                                     <div class="text-gray-100 flex items-center gap-1">
-                                        <button data-target="EditPrice" class="hover:text-primary">
-                                            <svg class="fill-current" width="20" height="20" viewBox="0 0 16 16"
-                                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <button data-target="EditShipment" class="hover:text-primary">
+                                            <svg class="fill-current" width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_62_9787)">
-                                                    <path
-                                                        d="M15.55 2.97499C15.55 2.77499 15.475 2.57499 15.325 2.42499C15.025 2.12499 14.725 1.82499 14.45 1.52499C14.175 1.24999 13.925 0.974987 13.65 0.724987C13.525 0.574987 13.375 0.474986 13.175 0.449986C12.95 0.424986 12.75 0.474986 12.575 0.624987L10.875 2.32499H2.02495C1.17495 2.32499 0.449951 3.02499 0.449951 3.89999V14C0.449951 14.85 1.14995 15.575 2.02495 15.575H12.15C13 15.575 13.725 14.875 13.725 14V5.12499L15.35 3.49999C15.475 3.34999 15.55 3.17499 15.55 2.97499ZM8.19995 8.99999C8.17495 9.02499 8.17495 9.02499 8.14995 9.02499L6.34995 9.62499L6.94995 7.82499C6.94995 7.79999 6.97495 7.79999 6.97495 7.77499L11.475 3.27499L12.725 4.49999L8.19995 8.99999ZM12.575 14C12.575 14.25 12.375 14.45 12.125 14.45H2.02495C1.77495 14.45 1.57495 14.25 1.57495 14V3.87499C1.57495 3.62499 1.77495 3.42499 2.02495 3.42499H9.72495L6.17495 6.99999C6.04995 7.12499 5.92495 7.29999 5.87495 7.49999L4.94995 10.3C4.87495 10.5 4.92495 10.675 5.02495 10.85C5.09995 10.95 5.24995 11.1 5.52495 11.1H5.62495L8.49995 10.15C8.67495 10.1 8.84995 9.97499 8.97495 9.84999L12.575 6.24999V14ZM13.5 3.72499L12.25 2.49999L13.025 1.72499C13.225 1.92499 14.05 2.74999 14.25 2.97499L13.5 3.72499Z"
-                                                        fill=""></path>
+                                                    <path d="M15.55 2.97499C15.55 2.77499 15.475 2.57499 15.325 2.42499C15.025 2.12499 14.725 1.82499 14.45 1.52499C14.175 1.24999 13.925 0.974987 13.65 0.724987C13.525 0.574987 13.375 0.474986 13.175 0.449986C12.95 0.424986 12.75 0.474986 12.575 0.624987L10.875 2.32499H2.02495C1.17495 2.32499 0.449951 3.02499 0.449951 3.89999V14C0.449951 14.85 1.14995 15.575 2.02495 15.575H12.15C13 15.575 13.725 14.875 13.725 14V5.12499L15.35 3.49999C15.475 3.34999 15.55 3.17499 15.55 2.97499ZM8.19995 8.99999C8.17495 9.02499 8.17495 9.02499 8.14995 9.02499L6.34995 9.62499L6.94995 7.82499C6.94995 7.79999 6.97495 7.79999 6.97495 7.77499L11.475 3.27499L12.725 4.49999L8.19995 8.99999ZM12.575 14C12.575 14.25 12.375 14.45 12.125 14.45H2.02495C1.77495 14.45 1.57495 14.25 1.57495 14V3.87499C1.57495 3.62499 1.77495 3.42499 2.02495 3.42499H9.72495L6.17495 6.99999C6.04995 7.12499 5.92495 7.29999 5.87495 7.49999L4.94995 10.3C4.87495 10.5 4.92495 10.675 5.02495 10.85C5.09995 10.95 5.24995 11.1 5.52495 11.1H5.62495L8.49995 10.15C8.67495 10.1 8.84995 9.97499 8.97495 9.84999L12.575 6.24999V14ZM13.5 3.72499L12.25 2.49999L13.025 1.72499C13.225 1.92499 14.05 2.74999 14.25 2.97499L13.5 3.72499Z" fill=""></path>
                                                 </g>
                                                 <defs>
                                                     <clipPath id="clip0_62_9787">
@@ -193,7 +355,7 @@
                                             </svg>
 
                                         </button>
-                                        <button data-target="DeletePrice" class="hover:text-meta-1 button-icon">
+                                        <button data-target="DeleteShipment" class="hover:text-meta-1 button-icon">
                                             <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -212,10 +374,17 @@
                                         </button>
                                     </div>
                                 </td>
-                                <td>خطأ في العنوان</td>
-                                @include('site.Branches.DeliveryPrices.delete')
-                                @include('site.Branches.DeliveryPrices.edit')
+                                <td>عبداللطيف عبداللطيف عبداللطيف</td>
+                                <td>0922502219</td>
+                                <td>نشط</td>
+                                <td>زليتن</td>
+                                <td class="green">maksim45@gmail.com</td>
+                                <td>محلة-السبعة</td>
+                                <?php echo $__env->make('site..Shipments.modal.delete', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                                <?php echo $__env->make('site.Shipments.modal.edit', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                             </tr>
+
+
                         </tbody>
                     </table>
                 </div>

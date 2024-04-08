@@ -1,14 +1,13 @@
 @extends('site.layouts.master')
 
 @section('title')
-    اسعار التوصيل للفرع
+    حالات الشحنة
 @endsection
-
 @section('content')
     <!-- Breadcrumb Start -->
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 class="text-title-md2 font-bold text-black dark:text-white">
-            اسعار التوصيل للفرع
+            حالات الشحنة
         </h2>
 
         <nav>
@@ -29,21 +28,6 @@
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center gap-3 font-medium" href="/status">
-                        <svg class="fill-current" width="18" height="7" viewBox="0 0 18 7" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M1.4296 2.58734L3.1773 0.510459C3.3292 0.333165 3.6078 0.307837 3.8104 0.459804C3.9877 0.61177 4.0131 0.890376 3.8611 1.093L2.2148 3.04324H16.2464C16.4997 3.04324 16.7023 3.24586 16.7023 3.49914C16.7023 3.75241 16.4997 3.95504 16.2464 3.95504H2.2148L3.8611 5.90528C4.0131 6.08257 3.9877 6.36118 3.8104 6.53847C3.7345 6.61445 3.6332 6.63978 3.5318 6.63978C3.4052 6.63978 3.2786 6.58913 3.2026 6.48782L1.455 4.41094C1.0009 3.85373 1.0009 3.09389 1.4296 2.58734Z"
-                                fill=""></path>
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M3.8104 0.459804C3.6078 0.307837 3.3292 0.333165 3.1773 0.510459L1.4296 2.58734C1.0009 3.09389 1.0009 3.85373 1.455 4.41094L3.2026 6.48782C3.2786 6.58913 3.4052 6.63978 3.5318 6.63978C3.6332 6.63978 3.7345 6.61445 3.8104 6.53847C3.9877 6.36118 4.0131 6.08257 3.8611 5.90528L2.2148 3.95504H16.2464C16.4997 3.95504 16.7023 3.75241 16.7023 3.49914C16.7023 3.24586 16.4997 3.04324 16.2464 3.04324H2.2148L3.8611 1.093C4.0131 0.890376 3.9877 0.61177 3.8104 0.459804ZM2.9903 2.68302H16.2464C16.6986 2.68302 17.0625 3.04692 17.0625 3.49914C17.0625 3.95136 16.6986 4.31525 16.2464 4.31525H2.9903L4.1346 5.67085C4.1349 5.67123 4.1352 5.67161 4.1356 5.67199C4.4275 6.01385 4.354 6.50432 4.0652 6.79318C3.8978 6.96055 3.6887 7 3.5318 7C3.3205 7 3.0797 6.91713 2.9216 6.71335L1.1793 4.64286L1.1762 4.63904C0.618 3.95682 0.6042 3.00293 1.1545 2.35478C1.1547 2.35453 1.155 2.35429 1.1552 2.35404L2.9016 0.278534L2.9038 0.276033C3.1903 -0.0583053 3.6861 -0.0837548 4.0266 0.17163L4.036 0.17867L4.0449 0.186306C4.3792 0.472882 4.4047 0.968616 4.1493 1.30913L4.143 1.31743L2.9903 2.68302Z"
-                                fill=""></path>
-                        </svg>
-
-                        <span class="hover:text-primary">الفروع</span>
-                    </a>
-                </li>
-                <li>
                     <a class="flex items-center gap-3 font-medium" href="">
                         <svg class="fill-current" width="18" height="7" viewBox="0 0 18 7" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -55,7 +39,7 @@
                                 fill=""></path>
                         </svg>
 
-                        <span class="hover:text-primary">اسعار التوصيل للفرع</span>
+                        <span class="hover:text-primary">حالات الشحنة</span>
                     </a>
                 </li>
             </ol>
@@ -66,16 +50,19 @@
         <div class="data-table-common data-table-one max-w-full overflow-x-auto">
             <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                 <div class="flex items-center gap-1 border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-                    <a href="{{ route('branches.addFormPrices', 1) }}" data-target="AddPrice"
-                        class=" flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
+                    <button data-target="AddState"
+                        class="modal-show flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
                         <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M15 7H9V1C9 0.4 8.6 0 8 0C7.4 0 7 0.4 7 1V7H1C0.4 7 0 7.4 0 8C0 8.6 0.4 9 1 9H7V15C7 15.6 7.4 16 8 16C8.6 16 9 15.6 9 15V9H15C15.6 9 16 8.6 16 8C16 7.4 15.6 7 15 7Z"
                                 fill=""></path>
                         </svg>
-                        إضافة سعر توصيل
-                    </a>
+                        إضافة حالة للحشنة
+                    </button>
+                    @include('site.settings.TypeStatus.modal.add')
+                    @include('site.settings.TypeStatus.modal.save')
+
                 </div>
                 <div class="datatable-top">
                     <div class="datatable-dropdown">
@@ -108,7 +95,7 @@
                                 <th data-sortable="true" style="width: 18.549511854951188%">
                                     <a href="#" class="datatable-sorter">
                                         <div class="flex items-center gap-1.5">
-                                            <p>سعر توصيل</p>
+                                            <p>اسم الحالة</p>
                                             <div class="inline-flex flex-col space-y-[2px]">
                                                 <span class="inline-block">
                                                     <svg class="fill-current" width="10" height="5"
@@ -135,7 +122,7 @@
                             <tr data-index="0">
                                 <td class="px-4 py-5">
                                     <div class="text-gray-100 flex items-center gap-1">
-                                        <button data-target="EditPrice" class="hover:text-primary">
+                                        <button data-target="EditState" class="hover:text-primary">
                                             <svg class="fill-current" width="20" height="20" viewBox="0 0 16 16"
                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_62_9787)">
@@ -151,7 +138,7 @@
                                             </svg>
 
                                         </button>
-                                        <button data-target="DeletePrice" class="hover:text-meta-1 button-icon">
+                                        <button data-target="DeleteState" class="hover:text-meta-1 button-icon">
                                             <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -170,14 +157,14 @@
                                         </button>
                                     </div>
                                 </td>
-                                <td>لم يتم الرد</td>
-                                @include('site.Branches.DeliveryPrices.delete')
-                                @include('site.Branches.DeliveryPrices.edit')
+                                <td>قيد التوصيل</td>
+                                @include('site.settings.TypeStatus.modal.delete')
+                                @include('site..settings.TypeStatus.modal.edit')
                             </tr>
                             <tr data-index="1">
                                 <td class="px-4 py-5">
                                     <div class="text-gray-100 flex items-center gap-1">
-                                        <button data-target="EditPrice" class="hover:text-primary">
+                                        <button data-target="EditState" class="hover:text-primary">
                                             <svg class="fill-current" width="20" height="20" viewBox="0 0 16 16"
                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_62_9787)">
@@ -193,7 +180,7 @@
                                             </svg>
 
                                         </button>
-                                        <button data-target="DeletePrice" class="hover:text-meta-1 button-icon">
+                                        <button data-target="DeleteState" class="hover:text-meta-1 button-icon">
                                             <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -212,9 +199,9 @@
                                         </button>
                                     </div>
                                 </td>
-                                <td>خطأ في العنوان</td>
-                                @include('site.Branches.DeliveryPrices.delete')
-                                @include('site.Branches.DeliveryPrices.edit')
+                                <td>تعذر التوصيل</td>
+                                @include('site.settings.TypeStatus.modal.delete')
+                                @include('site..settings.TypeStatus.modal.edit')
                             </tr>
                         </tbody>
                     </table>

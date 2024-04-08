@@ -6,7 +6,7 @@
             <h2 class="flex-1 text-center text-title-md font-bold text-meta-3 dark:text-white">
                 تعديل على الفرع
             </h2>
-            <button data-target="SaveChangeing"
+            <button data-target="SaveChanging"
                 class="btn-modal-close absolute ltr:right-1 rtl:left-1 top-1 ltr:sm:right-5 rtl:sm:left-5 sm:top-5">
                 <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
