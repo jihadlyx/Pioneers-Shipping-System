@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->integer("id_type_users");
-            $table->integer("pid");
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+        Schema::create('status_shipments', function (Blueprint $table) {
+            $table->integer("id")->unsigned()->primary();
+            $table->integer('id_ship');
+            $table->integer('id_state');
+            $table->integer('id_delegate');
+            $table->integer('id_user');
+            $table->date('date_update');
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('status_shipments');
     }
 };
