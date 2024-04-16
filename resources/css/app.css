@@ -15,6 +15,22 @@
 
 @layer utilities {
     /* Chrome, Safari and Opera */
+    .alert-error {
+        background-color: rgb(254, 226, 226);
+        color: rgb(185, 28, 28);
+    }
+    .alert-success {
+        background-color: rgb(220, 252, 231);
+        color: rgb(21, 128, 61);
+    }
+    .alert-info {
+        background-color: rgb(219, 234, 254 );
+        color: rgb(9, 78, 216);
+    }
+    .alert-warning {
+        background-color: rgb(254, 249, 195 );
+        color: rgb(161, 98, 7);
+    }
     .no-scrollbar::-webkit-scrollbar {
         display: none;
     }
@@ -447,6 +463,7 @@ input[type=number]::-webkit-outer-spin-button {
 .flatpickr-months .flatpickr-next-month {
     @apply !top-7 dark:!fill-white dark:!text-white;
 }
+
 .flatpickr-months .flatpickr-prev-month.flatpickr-prev-month,
 .flatpickr-months .flatpickr-next-month.flatpickr-prev-month {
     @apply !left-7;
@@ -592,6 +609,12 @@ span.flatpickr-weekday,
     --tw-border-opacity: 1;
     border-color: rgb(60 80 224 / var(--tw-border-opacity));
 }
+.datatable-selector {
+    padding: 6px;
+}
+select {
+    text-transform: none;
+}
 .data-table-common .datatable-selector {
     position: relative;
     z-index: 20;
@@ -599,12 +622,20 @@ span.flatpickr-weekday,
     display: -ms-inline-flexbox;
     display: inline-flex;
     background-color: transparent;
-    padding: 0px;
+    padding: 2px;
     font-weight: 500;
     --tw-text-opacity: 1;
     color: rgb(100 116 139 / var(--tw-text-opacity));
     outline: 2px solid transparent;
     outline-offset: 2px;
+    border: none;
+}
+option {
+    font-weight: normal;
+    display: block;
+    min-height: 1.2em;
+    padding: 0 2px 1px;
+    white-space: nowrap;
 }
 :is(.dark .data-table-common .datatable-selector) {
     --tw-text-opacity: 1;

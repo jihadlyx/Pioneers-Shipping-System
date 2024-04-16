@@ -20,8 +20,8 @@ return new class extends Migration
             $table->double("price");
             $table->timestamps();
 
-            $table->foreign('id_from_branch')->references('id_role')->on('roles')->onDelete('cascade');
-            $table->foreign('id_to_branch')->references('id_role')->on('roles')->onDelete('cascade');
+            $table->foreign('id_from_branch')->references('id_branch')->on('branches')->onDelete('cascade');
+            $table->foreign('id_to_branch')->references('id_branch')->on('branches')->onDelete('cascade');
         });
     }
 

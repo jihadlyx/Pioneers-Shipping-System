@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('id_role')->unsigned()->primary();
             $table->string('title', 50);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -62,106 +62,62 @@
     </div>
     <!-- Breadcrumb End -->
     <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <form action="#" class="needs-validation" novalidate>
+        <form action="{{ route('branches.price.store', ['id' => $new_branch->id_branch, 'page_id' => $page_id]) }}" method="POST" class="needs-validation" novalidate>
+            @csrf
             <div class="p-6.5">
-                <div class="mb-4.5 flex gap-6 sm:flex-row">
-                    <div class="mb-4.5 w-full xl:w-1/3">
-                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
-                            من الفرع
-                        </label>
-                        <input type="text" value="فرع بنغازي" disabled placeholder="ادخل اسم الفرع"
-                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
-                    </div>
-                    <div class="mb-4.5 w-full xl:w-1/3">
-                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
-                            الى الفرع
-                        </label>
-                        <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
-                            <select
-                                class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                :class="isOptionSelected && 'text-black dark:text-white'"
-                                @change.once="isOptionSelected = true" required>
-                                <option value="1" disabled selected class="text-body">فرع زليتن</option>
-                            </select>
+                @foreach($branches as $index => $branch)
+                    @if($branch->id_branch != $new_branch->id_branch)
+                        <div class="mb-4.5 flex gap-6 sm:flex-row">
+                            <div class="mb-4.5 w-full xl:w-1/3">
+                                <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                                    من الفرع
+                                </label>
+                                <input type="text" value="{{ $new_branch->title }}" disabled placeholder="ادخل اسم الفرع"
+                                       class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                />
+                            </div>
+                            <div class="mb-4.5 w-full xl:w-1/3">
+                                <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                                    الى الفرع
+                                </label>
+                                <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
+                                    <select name="prices[{{ $index }}][id_to_branch]"
+                                            class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                            :class="isOptionSelected && 'text-black dark:text-white'"
+                                            @change.once="isOptionSelected = true" required>
+                                        <option value="{{ $branch->id_branch != null ? $branch->id_branch : $branch->id_to_branch }}" selected class="text-body"> {{ $branch->title != null ? $branch->title : $branch->toBranch->title }} </option>
+                                    </select>
+                                    <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">
+                        <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <g opacity="0.8">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
+                                      fill=""></path>
+                            </g>
+                        </svg>
+                    </span>
+                                </div>
+                                <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
+                                    الرجاء اختيار فرع
+                                </div>
+                            </div>
+                            <div class="w-full xl:w-1/3">
+                                <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                                    سعر التوصيل للفرع
+                                </label>
+                                <input type="number" name="prices[{{ $index }}][price]" value="{{ $branch->price }}" placeholder="ادخل اسم السعر"
+                                       class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                       required />
+                                <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
+                                    الرجاء ادخل حقل السعر
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
 
-                            <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">
-                                <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <g opacity="0.8">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                                            fill=""></path>
-                                    </g>
-                                </svg>
-                            </span>
-                        </div>
-                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
-                            الرجاء اختيار فرع
-                        </div>
-                    </div>
-                    <div class="w-full xl:w-1/3">
-                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
-                            سعر التوصيل للفرع
-                        </label>
-                        <input type="text" placeholder="ادخل اسم السعر"
-                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
-                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
-                            الرجاء ادخل حقل السعر
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-4.5 flex gap-6 sm:flex-row">
-                    <div class="mb-4.5 w-full xl:w-1/3">
-                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
-                            من الفرع
-                        </label>
-                        <input type="text" value="فرع بنغازي" disabled placeholder="ادخل اسم الفرع"
-                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
-                    </div>
-                    <div class="mb-4.5 w-full xl:w-1/3">
-                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
-                            الى الفرع
-                        </label>
-                        <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
-                            <select
-                                class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                :class="isOptionSelected && 'text-black dark:text-white'"
-                                @change.once="isOptionSelected = true" required>
-                                <option value="1" disabled selected class="text-body">فرع زليتن</option>
-                            </select>
-
-                            <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">
-                                <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <g opacity="0.8">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                                            fill=""></path>
-                                    </g>
-                                </svg>
-                            </span>
-                        </div>
-                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
-                            الرجاء اختيار فرع
-                        </div>
-                    </div>
-                    <div class="w-full xl:w-1/3">
-                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
-                            سعر التوصيل للفرع
-                        </label>
-                        <input type="text" placeholder="ادخل اسم السعر"
-                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
-                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
-                            الرجاء ادخل حقل السعر
-                        </div>
-                    </div>
-                </div>
-
-                <button
+                <button type="submit"
                     class="flex w-fit items-center justify-center gap-2 rounded bg-primary px-4.5 py-2.5 font-medium text-white">
                     إضافة
                 </button>

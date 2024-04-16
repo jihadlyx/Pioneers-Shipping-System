@@ -6,7 +6,7 @@
         @yield('title')
     </title>
     @vite('resources/css/app.css')
-    {{-- <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}"> --}}
+{{--     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">--}}
     <link rel="stylesheet" href="{{ asset('assets/css/satoshi.css') }}">
 
 </head>

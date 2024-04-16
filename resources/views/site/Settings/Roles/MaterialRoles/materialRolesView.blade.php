@@ -44,6 +44,14 @@
     </nav>
 </div>
 <!-- Breadcrumb End -->
+ @if(Session::has('message'))
+     <div class="alert-{{ Session::get('message')["type"] }} flex  rounded-lg p-4 mb-4 text-md " role="alert">
+         <svg class="w-5 h-5 inline ltr:mr-3 rtl:ml-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+         <div>
+             <span class="font-medium">{{ Session::get('message')["title"] }} !</span> {{ Session::get('message')["text"] }}
+         </div>
+     </div>
+ @endif
 <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
     <div class="data-table-common data-table-one max-w-full overflow-x-auto">
         <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
@@ -52,10 +60,7 @@
                     <label>
                         عدد الصفوف
                         <select class="datatable-selector">
-                            <option value="5" selected="">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
-                            <option value="-1">All</option>
+                            <option value="{{ $materialRoles->count() }}"> All</option>
                         </select>
                     </label>
                 </div>
@@ -123,145 +128,83 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <form action="">
-                            <tr data-index="0">
-                                <td>الموظفين</td>
-                                <td>
-                                    <div x-data="{ checkboxToggle: false }">
-                                        <label for="checkboxLabelOne"
-                                            class="flex cursor-pointer select-none items-center text-sm font-medium">
-                                            <div class="relative">
-                                                <input type="checkbox" id="checkboxLabelOne" class="sr-only"
-                                                    @change="checkboxToggle = !checkboxToggle" />
-                                                <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
-                                                    class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
-                                                    <span :class="checkboxToggle && 'bg-primary'"
-                                                        class="h-2.5 w-2.5 rounded-sm"></span>
+                        <form id="UpdateMaterialRoles" action="{{ route('materialRoles.edit', ['id_role' => $id, 'page_id' => 7]) }}" method="POST">
+                            @csrf
+                            @method("PATCH")
+                            @foreach($materialRoles as $index => $role)
+                                <tr data-index="{{ $index }}">
+                                    <td>
+                                        <input type="number" name="column[{{ $index }}][id]" value="{{ $role->id }}" class="hidden" />
+                                        {{ $role->page->title }}
+                                    </td>
+                                    <td>
+                                        <div x-data="{ checkboxToggle: {{ $role->create }} }">
+                                            <label for="checkboxLabelOneCreate{{ $index }}"
+                                                   class="flex cursor-pointer select-none items-center text-sm font-medium">
+                                                <div class="relative">
+                                                    <input type="checkbox" name="column[{{ $index }}][create]" id="checkboxLabelOneCreate{{ $index }}" class="sr-only"
+                                                           @change="checkboxToggle = !checkboxToggle" {{ $role->create ? 'checked' : '' }}  />
+                                                    <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
+                                                         class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
+                                                        <span :class="checkboxToggle && 'bg-primary'"
+                                                              class="h-2.5 w-2.5 rounded-sm"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div x-data="{ checkboxToggle: false }">
-                                        <label for="checkboxLabelOne"
-                                            class="flex cursor-pointer select-none items-center text-sm font-medium">
-                                            <div class="relative">
-                                                <input type="checkbox" id="checkboxLabelOne" class="sr-only"
-                                                    @change="checkboxToggle = !checkboxToggle" />
-                                                <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
-                                                    class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
-                                                    <span :class="checkboxToggle && 'bg-primary'"
-                                                        class="h-2.5 w-2.5 rounded-sm"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div x-data="{ checkboxToggle: {{ $role->update }} }">
+                                            <label for="checkboxLabelOneUpdate{{ $index }}"
+                                                   class="flex cursor-pointer select-none items-center text-sm font-medium">
+                                                <div class="relative">
+                                                    <input type="checkbox" name="column[{{ $index }}][update]" id="checkboxLabelOneUpdate{{ $index }}" class="sr-only"
+                                                           @change="checkboxToggle = !checkboxToggle" {{ $role->update ? 'checked' : '' }} />
+                                                    <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
+                                                         class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
+                                                        <span :class="checkboxToggle && 'bg-primary'"
+                                                              class="h-2.5 w-2.5 rounded-sm"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div x-data="{ checkboxToggle: false }">
-                                        <label for="checkboxLabelOne"
-                                            class="flex cursor-pointer select-none items-center text-sm font-medium">
-                                            <div class="relative">
-                                                <input type="checkbox" id="checkboxLabelOne" class="sr-only"
-                                                    @change="checkboxToggle = !checkboxToggle" />
-                                                <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
-                                                    class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
-                                                    <span :class="checkboxToggle && 'bg-primary'"
-                                                        class="h-2.5 w-2.5 rounded-sm"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div x-data="{ checkboxToggle: {{ $role->delete }} }">
+                                            <label for="checkboxLabelOneDelete{{ $index }}"
+                                                   class="flex cursor-pointer select-none items-center text-sm font-medium">
+                                                <div class="relative">
+                                                    <input type="checkbox" name="column[{{ $index }}][delete]"" id="checkboxLabelOneDelete{{ $index }}" class="sr-only"
+                                                           @change="checkboxToggle = !checkboxToggle" {{ $role->delete ? 'checked' : '' }} />
+                                                    <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
+                                                         class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
+                                                        <span :class="checkboxToggle && 'bg-primary'"
+                                                              class="h-2.5 w-2.5 rounded-sm"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div x-data="{ checkboxToggle: false }">
-                                        <label for="checkboxLabelOne"
-                                            class="flex cursor-pointer select-none items-center text-sm font-medium">
-                                            <div class="relative">
-                                                <input type="checkbox" id="checkboxLabelOne" class="sr-only"
-                                                    @change="checkboxToggle = !checkboxToggle" />
-                                                <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
-                                                    class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
-                                                    <span :class="checkboxToggle && 'bg-primary'"
-                                                        class="h-2.5 w-2.5 rounded-sm"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div x-data="{ checkboxToggle: {{ $role->show }} }">
+                                            <label for="checkboxLabelOneShow{{ $index }}"
+                                                   class="flex cursor-pointer select-none items-center text-sm font-medium">
+                                                <div class="relative">
+                                                    <input type="checkbox" name="column[{{ $index }}][show]" id="checkboxLabelOneShow{{ $index }}" class="sr-only"
+                                                           @change="checkboxToggle = !checkboxToggle" {{ $role->show ? 'checked' : '' }} />
+                                                    <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
+                                                         class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
+                                                        <span :class="checkboxToggle && 'bg-primary'"
+                                                              class="h-2.5 w-2.5 rounded-sm"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </td>
-                                <?php echo $__env->make('site.settings.Permissions.modal.delete', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                                <?php echo $__env->make('site..settings.Permissions.modal.edit', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                            </tr>
-                            <tr data-index="0">
-                                <td>الموظفين</td>
-                                <td>
-                                    <div x-data="{ checkboxToggle: false }">
-                                        <label for="checkboxLabelOne"
-                                            class="flex cursor-pointer select-none items-center text-sm font-medium">
-                                            <div class="relative">
-                                                <input type="checkbox" id="checkboxLabelOne" class="sr-only"
-                                                    @change="checkboxToggle = !checkboxToggle" />
-                                                <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
-                                                    class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
-                                                    <span :class="checkboxToggle && 'bg-primary'"
-                                                        class="h-2.5 w-2.5 rounded-sm"></span>
-                                                </div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div x-data="{ checkboxToggle: false }">
-                                        <label for="checkboxLabelOne"
-                                            class="flex cursor-pointer select-none items-center text-sm font-medium">
-                                            <div class="relative">
-                                                <input type="checkbox" id="checkboxLabelOne" class="sr-only"
-                                                    @change="checkboxToggle = !checkboxToggle" />
-                                                <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
-                                                    class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
-                                                    <span :class="checkboxToggle && 'bg-primary'"
-                                                        class="h-2.5 w-2.5 rounded-sm"></span>
-                                                </div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div x-data="{ checkboxToggle: false }">
-                                        <label for="checkboxLabelOne"
-                                            class="flex cursor-pointer select-none items-center text-sm font-medium">
-                                            <div class="relative">
-                                                <input type="checkbox" id="checkboxLabelOne" class="sr-only"
-                                                    @change="checkboxToggle = !checkboxToggle" />
-                                                <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
-                                                    class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
-                                                    <span :class="checkboxToggle && 'bg-primary'"
-                                                        class="h-2.5 w-2.5 rounded-sm"></span>
-                                                </div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div x-data="{ checkboxToggle: false }">
-                                        <label for="checkboxLabelOne"
-                                            class="flex cursor-pointer select-none items-center text-sm font-medium">
-                                            <div class="relative">
-                                                <input type="checkbox" id="checkboxLabelOne" class="sr-only"
-                                                    @change="checkboxToggle = !checkboxToggle" />
-                                                <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
-                                                    class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
-                                                    <span :class="checkboxToggle && 'bg-primary'"
-                                                        class="h-2.5 w-2.5 rounded-sm"></span>
-                                                </div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </td>
-                                <?php echo $__env->make('site.settings.Permissions.modal.delete', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                                <?php echo $__env->make('site..settings.Permissions.modal.edit', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                            </tr>
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <input id="SaveUpdateMaterialRoles" type="submit"
+                                    class="hidden" />
                         </form>
                     </tbody>
                 </table>
@@ -284,10 +227,10 @@
                         </li>
                     </ul>
                 </nav>
-                <button data-target="AddPermission"
-                        class="modal-show flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
+                <label for="SaveUpdateMaterialRoles"
+                        class=" cursor-pointer flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
                     حفظ
-                </button>
+                </label>
             </div>
         </div>
     </div>
@@ -296,4 +239,23 @@
 
 @section('scripts')
     <script src="{{ asset('assets/js/table.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // العثور على عنصر label
+            let saveLabel = document.querySelector('label[for="SaveUpdateMaterialRoles"]');
+
+            // العثور على الفورم
+            let updateForm = document.getElementById('UpdateMaterialRoles');
+
+            // التأكد من وجود العنصر label والفورم
+            if (saveLabel && updateForm) {
+                // استماع لحدث النقر على العنصر label
+                saveLabel.addEventListener('click', function() {
+                    // إرسال الفورم
+                    updateForm.submit();
+                });
+            }
+        });
+
+    </script>
 @endsection

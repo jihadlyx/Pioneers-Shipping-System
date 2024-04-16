@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'id_type_users',
+        'pid',
     ];
 
     /**
@@ -41,4 +43,29 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function employee()
+    {
+        return $this->hasOne(Employee::class, 'id_emp', 'pid');
+    }
+
+    // العلاقة مع جدول المندوبين
+    public function delegate()
+    {
+//        return $this->hasOne(Delegate::class, 'id_delegate', 'pid');
+    }
+    public function findUserByType($type)
+    {
+        switch ($type) {
+            case 1:
+                return Employee::where('id_emp', $this->pid)->first();
+                break;
+//            case 2:
+//
+//                return Delegate::where('id_delegate', $this->pid)->first();
+                break;
+            default:
+                return null;
+        }
+    }
 }

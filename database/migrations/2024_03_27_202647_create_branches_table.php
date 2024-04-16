@@ -14,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('branches', function (Blueprint $table) {
-            // $table->integer("id_branch")->primary();
             $table->integer('id_branch')->unsigned()->primary();
             $table->string('title', 20);
             $table->string('address', 30);
@@ -22,6 +21,7 @@ return new class extends Migration
             $table->bigInteger('phone_number2')->nullable();
             $table->boolean('state');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

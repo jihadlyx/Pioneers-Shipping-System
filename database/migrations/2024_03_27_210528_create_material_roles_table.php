@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('matirial_roles', function (Blueprint $table) {
+        Schema::create('material_roles', function (Blueprint $table) {
             $table->integer("id")->unsigned()->primary();
             $table->integer('id_role')->unsigned();
             $table->integer('id_page')->unsigned();
@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('delete');
             $table->boolean('show');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('id_role')->references('id_role')->on('roles')->onDelete('cascade');
             $table->foreign('id_page')->references('id_page')->on('pages')->onDelete('cascade');
@@ -36,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('matirial_roles');
+        Schema::dropIfExists('material_roles');
     }
 };

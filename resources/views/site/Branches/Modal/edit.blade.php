@@ -1,4 +1,4 @@
-<div id="EditBranch" x-transition=""
+<div id="EditBranch{{ $branch->id_branch }}" x-transition=""
     class="modal hidden fixed left-0 top-0 z-99999 h-screen w-full justify-center overflow-y-scroll bg-black/80 px-4 py-5">
     <div
         class="relative m-auto w-full max-w-180 sm:max-w-230 rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10">
@@ -16,30 +16,64 @@
                 </svg>
             </button>
         </div>
-        <form action="#" class="needs-validation" novalidate>
+        <form action="{{ route('branches.update', ['page_id' => $id_page, 'id_branch' => $branch->id_branch]) }}" method="POST" class="needs-validation" novalidate>
+            @csrf
+            @method('PATCH')
             <div class="p-6.5">
                 <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
-                    <div class="w-full xl:w-1/2">
+                    <div class="w-full xl:w-1/3">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم الفرع
                         </label>
-                        <input type="text" placeholder="ادخل رقم الفرع"
-                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
+                        <input type="number" name="id_branch" value="{{ $branch->id_branch }}" placeholder="ادخل رقم الفرع"
+                               class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                               required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل رقم الفرع
                         </div>
                     </div>
-                    <div class="w-full xl:w-1/2">
+                    <div class="w-full xl:w-1/3">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             اسم الفرع
                         </label>
-                        <input type="text" placeholder="ادخل اسم الفرع"
-                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
+                        <input type="text" name="title" value="{{ $branch->title }}" placeholder="ادخل اسم الفرع"
+                               class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                               required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل اسم الفرع
                         </div>
+                    </div>
+                    <div class="w-full xl:w-1/3">
+                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                            العنوان
+                        </label>
+                        <input type="text" name="address" value="{{ $branch->address }}" placeholder="ادخل عنوان الفرع"
+                               class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                               required />
+                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
+                            الرجاء ادخل حقل العنوان
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                    <div class="w-full xl:w-1/3">
+                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                            رقم الهاتف
+                        </label>
+                        <input type="number" name="phone_number" value="{{ $branch->phone_number }}"  placeholder="ادخل رقم الفرع"
+                               class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                               required />
+                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
+                            الرجاء ادخل رقم الهاتف
+                        </div>
+                    </div>
+                    <div class="w-full xl:w-1/3">
+                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                            رقم الهاتف 2
+                        </label>
+                        <input type="number" name="phone_number2" value="{{ $branch->phone_number2 }}" placeholder="ادخل رقم الهاتف الاحتياطي"
+                               class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        />
                     </div>
                 </div>
 

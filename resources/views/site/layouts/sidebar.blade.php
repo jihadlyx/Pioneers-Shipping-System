@@ -56,7 +56,7 @@
                     <!-- Menu Item Branches -->
                     <li>
                         <a class=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-                            href="/branches" @click.once="selected = (selected === 'Branches' ? '':'Branches')"
+                           href="/branches/1" @click.once="selected = (selected === 'Branches' ? '':'Branches')"
                             :class="{
                                 'bg-graydark dark:bg-meta-4': (selected === 'Branches') || (page === 'Branches')
                             }">
@@ -120,17 +120,17 @@
                             <ul class="mb-5.5 mt-4 text-xl flex flex-col gap-2.5 ltr:pl-6 rtl:pr-6">
                                 <li>
                                     <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                        href="/employees" :class="page === 'Employees' && '!text-white'">الموظفين
+                                        href="/employees/2" :class="page === 'Employees' && '!text-white'">الموظفين
                                     </a>
                                 </li>
                                 <li>
                                     <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                        href="/delegates" :class="page === 'Delegates' && '!text-white'">المندوبين
+                                        href="/delegates/3" :class="page === 'Delegates' && '!text-white'">المندوبين
                                     </a>
                                 </li>
                                 <li>
                                     <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                        href="/costumers" :class="page === 'Costumers' && '!text-white'">الزبائن
+                                        href="/costumers/4" :class="page === 'Costumers' && '!text-white'">الزبائن
                                     </a>
                                 </li>
                             </ul>
@@ -141,7 +141,7 @@
                     <!-- Menu Item Shipments -->
                     <li>
                         <a class=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-                            href="/shipments" @click.once="selected = (selected === 'Shipments' ? '':'Shipments')"
+                            href="/shipments/5" @click.once="selected = (selected === 'Shipments' ? '':'Shipments')"
                             :class="{
                                 'bg-graydark dark:bg-meta-4': (selected === 'Shipments') || (page === 'Shipments')
                             }">
@@ -173,7 +173,7 @@
                     <!-- Menu Item SubCities -->
                     <li>
                         <a class=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-                            href="/subCities" @click.once="selected = (selected === 'SubCities' ? '':'SubCities')"
+                            href="/subCities/6" @click.once="selected = (selected === 'SubCities' ? '':'SubCities')"
                             :class="{
                                 'bg-graydark dark:bg-meta-4': (selected === 'SubCities') || (page === 'SubCities')
                             }">
@@ -252,13 +252,13 @@
                             <ul class="mb-5.5 mt-4 text-xl flex flex-col gap-2.5 ltr:pl-6 rtl:pr-6">
                                 <li>
                                     <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                        href="/permission" :class="page === 'Permission' && '!text-white'">
+                                        href="/roles/7" :class="page === 'Permission' && '!text-white'">
                                         الصلاحيات
                                     </a>
                                 </li>
                                 <li>
                                     <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                        href="/status" :class="page === 'Delegates' && '!text-white'">
+                                        href="/status/8" :class="page === 'Delegates' && '!text-white'">
                                         انواع حالات الشحنة
                                     </a>
                                 </li>

@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\CheckShowPermission;
 use Illuminate\Http\Request;
 
-class Customers extends Controller
+class CostumersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(CheckShowPermission::class);
+    }
     /**
      * Display a listing of the resource.
      *
