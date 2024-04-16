@@ -25,8 +25,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/', function () {
+    return view('site.auth.Login.login');
+});
+
 Route::middleware('auth')->group(function () {
-    Route::resource('/', DashboardController::class);
+
 
     Route::middleware('CheckShowPermission')->group(function () {
         Route::get('/branches/{page_id}', [BranchesController::class, 'index'])->name('branches.index');
