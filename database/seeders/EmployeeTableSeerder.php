@@ -40,12 +40,12 @@ class EmployeeTableSeerder extends Seeder
         ]);
 
         // إنشاء مستخدم
-//        $user = User::create([
-//            'name' => "jihad",
-//            'email' => "jihad@gmail.com",
-//            'password' => Hash::make("1234"),
-//            'id_type_users' => 1,
-//            'pid' => 1,
-//        ]);
+        $user = User::create([
+            'name' => "jihad",
+            'email' => "jihad@gmail.com",
+            'password' => Hash::make("1234"),
+            'id_type_users' => 1,
+            'pid' => 1,
+        ]);
     }
 }
