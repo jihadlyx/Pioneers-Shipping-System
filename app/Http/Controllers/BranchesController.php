@@ -14,7 +14,7 @@ class BranchesController extends Controller
     protected $page_id = 1;
     public function __construct()
     {
-        $this->middleware(CheckShowPermission::class . ':page_id=1');
+        $this->middleware(CheckShowPermission::class . ":page_id= $this->page_id");
     }
         /**
      * Display a listing of the resource.
@@ -29,10 +29,10 @@ class BranchesController extends Controller
         $isUpdate = $this->checkUpdateRole($this->page_id);
 
         $maxBranchId = Branch::max('id_branch') ? Branch::max('id_branch') + 1 : 1;
-        if(!$isCreate) {
-            $branches = Branch::where("id_branch", auth()->user()->findUserByType(auth()->user()->id_type_users)->id_branch)->get();
-        } else {
+        if($isCreate) {
             $branches = Branch::all();
+        } else {
+            $branches = Branch::where("id_branch", auth()->user()->findUserByType(auth()->user()->id_type_users)->id_branch)->get();
         }
         return view('site.Branches.branchesView', compact('branches', 'maxBranchId', 'isCreate', 'isUpdate', 'isDelete', 'id_page'));
     }

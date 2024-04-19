@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('CheckShowPermission')->group(function () {
         Route::get('/branches/{page_id}', [BranchesController::class, 'index'])->name('branches.index');
-        Route::get('/branches/price/{page_id}/{id_branch}', [PriceBranchesController::class, 'show'])->name('branches.price.show');
+        Route::get('/branches/price/show/{page_id}/{id_branch}', [PriceBranchesController::class, 'show'])->name('branches.price.show');
         Route::get('/branches/price/{page_id}/{id_branch}', [PriceBranchesController::class, 'edit'])->name('branches.price.edit');
         Route::get('/branches/view/{page_id}/{id_branch}', [PriceBranchesController::class, 'index'])->name('branches.view.index');
 
@@ -50,10 +50,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/materialRoles/{page_id}', [MaterialRolesController::class, 'index'])->name('materialRoles.index');
         Route::get('/materialRoles/show/{page_id}', [MaterialRolesController::class, 'show'])->name('materialRoles.show');
     });
+
     Route::middleware('CheckCreatePermission')->group(function () {
         Route::post('/branches/create/{page_id}', [BranchesController::class, 'store'])->name('branches.store');
         Route::post('/branches/price/addPrices/{page_id}/{id}', [PriceBranchesController::class, 'store'])->name('branches.price.store');
-        Route::post('/employees/{page_id}', [EmployeesController::class, 'store'])->name('employees.store');
+        Route::post('/employees/create/{page_id}', [EmployeesController::class, 'store'])->name('employees.store');
         Route::post('/roles/create/{page_id}', [RolesController::class, 'store'])->name('roles.store');
         Route::post('/materialRoles/{page_id}', [MaterialRolesController::class, 'store'])->name('materialRoles.store');
     });
