@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Employee extends Model
+class Delegate extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id_emp'; // تحديد مفتاح رئيسي مخصص
+    protected $primaryKey = 'id_delegate'; // تحديد مفتاح رئيسي مخصص
 
     protected $fillable = [
-        'id_emp',
-        'name_emp',
+        'id_delegate',
+        'name_delegate',
         'phone_number',
         'phone_number2',
         'address',
-        'image',
         'id_number',
         'id_branch',
         'id_role'
@@ -27,8 +26,9 @@ class Employee extends Model
     {
         return $this->belongsTo(Branch::class, 'id_branch');
     }
+
     public function user($pid)
     {
-        return User::where('pid', $pid)->where("id_type_users", 1)->first();
+        return User::where('pid', $pid)->where("id_type_users", 2)->first();
     }
 }

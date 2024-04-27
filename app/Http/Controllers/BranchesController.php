@@ -58,7 +58,7 @@ class BranchesController extends Controller
 
         $validatedData = $request->validate([
             'id_branch' => ['required', 'numeric', 'unique:'.Branch::class],
-            'title' => ['required', 'string', 'max:30'],
+            'title' => ['required', 'string', 'max:5'],
             'address' => ['required', 'string', 'max:30'],
             'phone_number' => 'required|numeric',
             'phone_number2' => 'nullable|numeric',
@@ -76,7 +76,7 @@ class BranchesController extends Controller
 
             return redirect()->route("branches.price.show", ['page_id' => $this->page_id, 'id_branch' => $request->id_branch]);
         }
-        return redirect()->route('Branches.index', ['page_id' => $this->page_id])
+        return redirect()->route('branches.index', ['page_id' => $this->page_id])
             ->with([
                 "message" => [
                     "type" => "error",

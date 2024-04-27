@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('delegate', function (Blueprint $table) {
+        Schema::create('delegates', function (Blueprint $table) {
             $table->integer('id_delegate')->unsigned()->primary();
             $table->string('name_delegate', 50);
             $table->bigInteger('phone_number');

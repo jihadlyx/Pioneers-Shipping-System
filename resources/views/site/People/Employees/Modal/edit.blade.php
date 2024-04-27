@@ -1,4 +1,4 @@
-<div id="EditEmp" x-transition=""
+<div id="EditEmp{{ $employee->id_emp }}" x-transition=""
     class="modal hidden fixed left-0 top-0 z-99999 h-screen w-full justify-center overflow-y-scroll bg-black/80 px-4 py-5">
     <div
         class="relative m-auto w-full max-w-180 sm:max-w-230 rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10">
@@ -16,14 +16,16 @@
                 </svg>
             </button>
         </div>
-        <form action="#" class="needs-validation" novalidate>
+        <form action="{{ route('employees.update', ['page_id' => $id_page, 'id_emp' => $employee->id_emp]) }}" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+            @csrf
+            @method('PATCH')
             <div class="p-6.5">
                 <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
                     <div class="w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             اسم الموظف
                         </label>
-                        <input type="text" placeholder="ادخل اسم الموظف"
+                        <input type="text" name="name" placeholder="ادخل اسم الموظف" value="{{ $employee->name_emp }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -34,7 +36,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم الهاتف
                         </label>
-                        <input type="number" inputmode="numeric" placeholder="ادخل رقم هاتف الموظف"
+                        <input type="number" name="phone_number" inputmode="numeric" placeholder="ادخل رقم هاتف الموظف" value="{{ $employee->phone_number }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -45,7 +47,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم الهاتف احتياطي
                         </label>
-                        <input type="number" step="1" placeholder="ادخل رقم هاتف الموظف"
+                        <input type="number" name="phone_number2" step="1" placeholder="ادخل رقم هاتف الموظف" value="{{ $employee->phone_number2 }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary" />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل رقم الهاتف
@@ -57,7 +59,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             البريد الالكتروني
                         </label>
-                        <input type="email" placeholder="ادخل البريد الالكتروني"
+                        <input type="email" name="email" placeholder="ادخل البريد الالكتروني" value="{{ $employee->user($employee->id_emp)->email }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -68,7 +70,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             كلمة السر
                         </label>
-                        <input type="password" placeholder="ادخل كلمة السر"
+                        <input type="password" name="password" placeholder="ادخل كلمة السر" value="{{ Hash::make($employee->user($employee->id_emp)->password) }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -79,11 +81,20 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             العنوان
                         </label>
-                        <input type="text" placeholder="ادخل العنوان"
+                        <input type="text" name="address" placeholder="ادخل العنوان" value="{{ $employee->address }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل العنوان
+                        </div>
+                    </div>
+                    <div class="mb-4.5 w-full xl:w-1/2">
+                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                            اختيار صورة
+                        </label>
+                        <input type="file" accept="image/gif, image/jpeg, image/png" aria-label="file example" name="photo"  required class="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent font-normal outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:px-5 file:py-3 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary">
+                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
+                            الرجاء اختيار صورة للموظف
                         </div>
                     </div>
                 </div>
