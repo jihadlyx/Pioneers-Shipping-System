@@ -70,7 +70,6 @@
                             إضافة فرع
                         </button>
                         @include('site.Branches.modal.add')
-
                     </div>
                 @endif
                     @include('site.Branches.modal.save')

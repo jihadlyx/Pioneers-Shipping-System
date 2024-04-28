@@ -29,6 +29,7 @@ class BranchesController extends Controller
         $isUpdate = $this->checkUpdateRole($this->page_id);
 
         $maxBranchId = Branch::max('id_branch') ? Branch::max('id_branch') + 1 : 1;
+       //شرط العرض للفروع
         if(!$isCreate) {
             $branches = Branch::where("id_branch", auth()->user()->findUserByType(auth()->user()->id_type_users)->id_branch)->get();
         } else {

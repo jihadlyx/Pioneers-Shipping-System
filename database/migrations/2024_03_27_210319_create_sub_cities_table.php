@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('id_city')->unsigned()->primary();
             $table->string('title', 50);
             $table->double("price");
+            $table->softDeletes();
             $table->timestamps();
         });
     }

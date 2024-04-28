@@ -3,13 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\CheckShowPermission;
+use App\Models\SubCities;
+use App\Models\TypeState;
+use App\Traits\AuthorizationTrait;
 use Illuminate\Http\Request;
 
 class TypeStatusController extends Controller
 {
+    use AuthorizationTrait;
+
+    protected $page_id = 8;
+
     public function __construct()
     {
-        $this->middleware(CheckShowPermission::class);
+        $this->middleware(CheckShowPermission::class . ":page_id= $this->page_id");
     }
     /**
      * Display a listing of the resource.
@@ -18,8 +25,17 @@ class TypeStatusController extends Controller
      */
     public function index()
     {
-        //
-        return view('site.Settings.TypeStatus.typeStatusView');
+        $id_page = $this->page_id;
+        $isDelete = $this->checkDeleteRole($this->page_id);
+        $isCreate = $this->checkCreateRole($this->page_id);
+        $isUpdate = $this->checkUpdateRole($this->page_id);
+
+
+        $maxTypeStateId = TypeState::max('id_state') ? TypeState::max('id_state') + 1 : 1;
+
+        $status = TypeState::all();
+        return view('site.Settings.TypeStatus.typeStatusView', compact('status', 'maxTypeStateId', 'isCreate', 'isUpdate', 'isDelete', 'id_page'));
+
     }
 
     /**
@@ -40,7 +56,32 @@ class TypeStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+//        $validatedData = $request->validate([
+//            'id_city' => ['required', 'numeric', 'unique:'.SubCities::class],
+//            'title' => ['required', 'string', 'max:30'],
+//            'price' => ['required', 'string', 'max:30'],
+//
+//        ]);
+
+//        if($validatedData) {
+
+        TypeState::create([
+            "id_state" => $request->id_state,
+            "title" => $request->title,
+
+
+        ]);
+
+        return redirect()->route('status.index', ['page_id' => $this->page_id])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "نحجت العملية",
+                    "text" => "تمت عملية إضافة المدينة بنجاح"
+                ]]);
+
     }
 
     /**
@@ -72,9 +113,37 @@ class TypeStatusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$page_id, $id)
     {
-        //
+        $state = TypeState::where("id_state", $id)->first();
+
+        if($state) {
+            $state->update([
+
+                "title" => $request->title,
+
+            ]);
+
+
+            return redirect()->route("status.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "success",
+                        "title" => "نحجت العملية",
+                        "text" => "تمت عملية التعديل على المندوب"
+                    ]
+                ]);
+
+        }
+        return redirect()->route('status.index', ['page_id' => $this->page_id])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذا المندوب غير موجود"
+                ]]);
+
+
     }
 
     /**
@@ -83,8 +152,32 @@ class TypeStatusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($page_id,$id)
     {
         //
+        $state = TypeState::where("id_state", $id)->first();
+
+        if($state) {
+            TypeState::destroy("id_state", $id);
+            return redirect()->route("status.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "info",
+                        "title" => "نجحت العملية",
+                        "text" => "تم حذف "
+                    ]
+                ]);
+        } return redirect()->route('status.index', ['page_id' => $this->page_id])
+        ->with([
+            "message" => [
+                "type" => "error",
+                "title" => "فشلت العملية",
+                "text" => "هذا الفرع غير موجود"
+            ]
+        ]);
+
+
+
+
     }
 }
