@@ -173,13 +173,47 @@ class EmployeesController extends Controller
      */
     public function update(Request $request, $page_id, $id)
     {
-        $file = $request->file('photo');
-
-        if ($file) {
-
+        if(isset($request->photo)){
             $file = $request->file('photo');
-            $fileName = time() . '.' . $file->getClientOriginalName();
-            $file->move(public_path('imagesUsers'), $fileName);
+            if ($file) {
+                $file = $request->file('photo');
+                $fileName = time() . '.' . $file->getClientOriginalName();
+                $file->move(public_path('imagesUsers'), $fileName);
+
+                $employee = Employee::where("id_emp", $id)->first();
+
+                if($employee) {
+                    $employee->update([
+                        'id_emp' => $request->id_emp,
+                        'name_emp' => $request->name,
+                        'address' => $request->address,
+                        'phone_number' => $request->phone_number,
+                        'phone_number2' => $request->phone_number2,
+                        'image' => 'imagesUsers/'.$fileName,
+                    ]);
+                    return redirect()->route("employees.index", ['page_id' => $this->page_id])
+                        ->with([
+                            "message" => [
+                                "type" => "success",
+                                "title" => "نحجت العملية",
+                                "text" => "تمت عملية التعديل على الموظف"
+                            ]
+                        ]);
+
+                }
+                else {
+                    return redirect()->route('employees.index', ['page_id' => $this->page_id])
+                        ->with([
+                            "message" => [
+                                "type" => "error",
+                                "title" => "فشلت العملية",
+                                "text" => "هذا الموظف غير موجود"
+                            ]
+                        ]);
+                }
+            }
+        }
+        else {
 
             $employee = Employee::where("id_emp", $id)->first();
 
@@ -190,47 +224,37 @@ class EmployeesController extends Controller
                     'address' => $request->address,
                     'phone_number' => $request->phone_number,
                     'phone_number2' => $request->phone_number2,
-                    'image' => 'imagesUsers/'.$fileName,
                 ]);
-
-                $user = User::where('id_type_users', 1)
-                    ->where('pid', $id)->first();
-                $user->update([
-                    'email' => $request->email,
-                    'password' => Hash::make($request->password),
-                    'id_type_users' => 1,
-                    'pid' => $id,
-                ]);
-
-                return redirect()->route("employees.index", ['page_id' => $this->page_id])
-                    ->with([
-                        "message" => [
-                            "type" => "success",
-                            "title" => "نحجت العملية",
-                            "text" => "تمت عملية التعديل على الموظف"
-                        ]
-                    ]);
-
             }
-            return redirect()->route('employees.index', ['page_id' => $this->page_id])
-                ->with([
-                    "message" => [
-                        "type" => "error",
-                        "title" => "فشلت العملية",
-                        "text" => "هذا الموظف غير موجود"
-                    ]
-                ]);
-        }
-        else {
+            $user = User::where('id_type_users', 1)
+                ->where('pid', $id)->first();
+            $user->update([
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'id_type_users' => 1,
+                'pid' => $id,
+            ]);
+
             return redirect()->route("employees.index", ['page_id' => $this->page_id])
                 ->with([
                     "message" => [
-                        "type" => "error",
-                        "title" => "فشلت العملية",
-                        "text" => "لم يتم التعديل بسبب الصورة"
+                        "type" => "success",
+                        "title" => "نحجت العملية",
+                        "text" => "تمت عملية التعديل على الموظف"
                     ]
                 ]);
         }
+
+//        else {
+//            return redirect()->route("employees.index", ['page_id' => $this->page_id])
+//                ->with([
+//                    "message" => [
+//                        "type" => "error",
+//                        "title" => "فشلت العملية",
+//                        "text" => "لم يتم التعديل بسبب الصورة"
+//                    ]
+//                ]);
+//        }
     }
 
 
@@ -249,7 +273,8 @@ class EmployeesController extends Controller
 
             $user = User::where('id_type_users', 1)
                 ->where('pid', $id)->first();
-            $user->destroy("pid", $id);
+
+            User::destroy("id", $user->id);
 
             return redirect()->route("employees.index", ['page_id' => $this->page_id])
                 ->with([

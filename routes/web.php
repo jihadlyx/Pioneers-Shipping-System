@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/employees/create/{page_id}', [EmployeesController::class, 'store'])->name('employees.store');
         Route::post('/delegates/create/{page_id}', [DelegatesController::class, 'store'])->name('delegates.store');
         Route::post('/customers/create/{page_id}', [CostumersController::class, 'store'])->name('customers.store');
+        Route::post('/shipments/create/{page_id}', [ShipmentsController::class, 'store'])->name('shipments.store');
 
 
         Route::post('/branches/price/addPrices/{page_id}/{id}', [PriceBranchesController::class, 'store'])->name('branches.price.store');
@@ -64,12 +65,14 @@ Route::middleware('auth')->group(function () {
         Route::post('/roles/create/{page_id}', [RolesController::class, 'store'])->name('roles.store');
         Route::post('/materialRoles/{page_id}', [MaterialRolesController::class, 'store'])->name('materialRoles.store');
     });
+
     Route::middleware('CheckUpdatePermission')->group(function () {
         Route::patch('/branches/{page_id}', [BranchesController::class, 'update'])->name('branches.update');
         Route::patch('/branches/{page_id}/{id_branch}', [BranchesController::class, 'update'])->name('branches.update');
 
         Route::patch('/delegates/{page_id}/{id_delegate}', [DelegatesController::class, 'update'])->name('delegates.update');
         Route::patch('/customers/{page_id}/{id_customer}', [CostumersController::class, 'update'])->name('customers.update');
+        Route::patch('/shipments/{page_id}/{id_ship}', [ShipmentsController::class, 'update'])->name('shipments.update');
 
 
         Route::patch('/employees/{page_id}/{id_emp}', [EmployeesController::class, 'update'])->name('employees.update');
@@ -86,6 +89,7 @@ Route::middleware('auth')->group(function () {
 
         Route::delete('/delegates/{page_id}/{id_delegate}', [DelegatesController::class, 'destroy'])->name('delegates.destroy');
         Route::delete('/customers/{page_id}/{id_customer}', [CostumersController::class, 'destroy'])->name('customers.destroy');
+        Route::delete('/shipments/{page_id}/{id_ship}', [ShipmentsController::class, 'destroy'])->name('shipments.destroy');
 
     });
 
