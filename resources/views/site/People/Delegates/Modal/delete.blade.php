@@ -1,4 +1,4 @@
-<div id="DeleteDelegate" x-transition=""
+<div id="DeleteDelegate{{ $delegate->id_delegate }}" x-transition=""
     class="modal fixed left-0 top-0 z-999999 hidden h-full min-h-screen w-full items-center justify-center bg-black/90 px-4 py-5">
     <div  class="w-full max-w-142.5 rounded-lg bg-white px-8 py-12 text-center dark:bg-boxdark md:px-17.5 md:py-15">
         <span class="mx-auto inline-block">
@@ -20,11 +20,14 @@
             </button>
           </div>
           <div class="w-full px-3 2xsm:w-1/2">
-            <form action="">
-              <button class="block w-full rounded border border-meta-1 bg-meta-1 p-3 text-center font-medium text-white transition hover:bg-opacity-90">
-                  نعم
-                </button>
-            </form>
+              <form action="{{ route('delegates.destroy', ['page_id' => $id_page, 'id_delegate' => $delegate->id_delegate]) }}" method="POST">
+                  @csrf
+                  @method("DELETE")
+                  <button type="submit"
+                          class="block w-full rounded border border-meta-1 bg-meta-1 p-3 text-center font-medium text-white transition hover:bg-opacity-90">
+                      نعم
+                  </button>
+              </form>
           </div>
         </div>
       </div>

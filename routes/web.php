@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
 //           العرض
     Route::middleware('CheckShowPermission')->group(function () {
         Route::get('/branches/{page_id}', [BranchesController::class, 'index'])->name('branches.index');
-        Route::get('/branches/price/{page_id}/{id_branch}', [PriceBranchesController::class, 'show'])->name('branches.price.show');
+        Route::get('/branches/price/show/{page_id}/{id_branch}', [PriceBranchesController::class, 'show'])->name('branches.price.show');
         Route::get('/branches/price/{page_id}/{id_branch}', [PriceBranchesController::class, 'edit'])->name('branches.price.edit');
         Route::get('/branches/view/{page_id}/{id_branch}', [PriceBranchesController::class, 'index'])->name('branches.view.index');
 
@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/employees/{page_id}', [EmployeesController::class, 'index'])->name('employees.index');
         Route::get('/dashboard/{page_id}', [DashboardController::class, 'index'])->name('.index');
         Route::get('/delegates/{page_id}', [DelegatesController::class, 'index'])->name('delegates.index');
-        Route::get('/costumers/{page_id}', [CostumersController::class, 'index'])->name('costumers.index');
+        Route::get('/customers/{page_id}', [CostumersController::class, 'index'])->name('customers.index');
         Route::get('/shipments/{page_id}', [ShipmentsController::class, 'index'])->name('shipments.index');
         Route::get('/subCities/{page_id}', [SubCitiesController::class, 'index'])->name('subCities.index');
         Route::get('/status/{page_id}', [TypeStatusController::class, 'index'])->name('status.index');
@@ -55,30 +55,54 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('CheckCreatePermission')->group(function () {
         Route::post('/branches/create/{page_id}', [BranchesController::class, 'store'])->name('branches.store');
+
+        Route::post('/employees/create/{page_id}', [EmployeesController::class, 'store'])->name('employees.store');
+        Route::post('/delegates/create/{page_id}', [DelegatesController::class, 'store'])->name('delegates.store');
+        Route::post('/customers/create/{page_id}', [CostumersController::class, 'store'])->name('customers.store');
+        Route::post('/shipments/create/{page_id}', [ShipmentsController::class, 'store'])->name('shipments.store');
+
+
         Route::post('/branches/price/addPrices/{page_id}/{id}', [PriceBranchesController::class, 'store'])->name('branches.price.store');
-        Route::post('/employees/{page_id}', [EmployeesController::class, 'store'])->name('employees.store');
+        Route::post('/employees/create/{page_id}', [EmployeesController::class, 'store'])->name('employees.store');
         Route::post('/roles/create/{page_id}', [RolesController::class, 'store'])->name('roles.store');
         Route::post('/materialRoles/{page_id}', [MaterialRolesController::class, 'store'])->name('materialRoles.store');
 
         Route::post('/subCities/create/{page_id}', [SubCitiesController::class, 'store'])->name('subCities.store');
         Route::post('/status/create/{page_id}', [TypeStatusController::class, 'store'])->name('status.store');
     });
+
     Route::middleware('CheckUpdatePermission')->group(function () {
         Route::patch('/branches/{page_id}', [BranchesController::class, 'update'])->name('branches.update');
         Route::patch('/branches/{page_id}/{id_branch}', [BranchesController::class, 'update'])->name('branches.update');
+<<<<<<< HEAD
         Route::patch('/status/{page_id}/{id_state}', [TypeStatusController::class, 'update'])->name('status.update');
         Route::patch('//{page_id}/{id_city}', [SubCitiesController::class, 'update'])->name('subCities.update');
         Route::patch('/employees/{page_id}', [EmployeesController::class, 'update'])->name('employees.update');
+=======
+
+        Route::patch('/delegates/{page_id}/{id_delegate}', [DelegatesController::class, 'update'])->name('delegates.update');
+        Route::patch('/customers/{page_id}/{id_customer}', [CostumersController::class, 'update'])->name('customers.update');
+        Route::patch('/shipments/{page_id}/{id_ship}', [ShipmentsController::class, 'update'])->name('shipments.update');
+
+
+        Route::patch('/employees/{page_id}/{id_emp}', [EmployeesController::class, 'update'])->name('employees.update');
+>>>>>>> 7fa2bac28baab8d8ef143079fb1eb5ada2a17bb8
         Route::patch('/roles/update/{page_id}/{id_role}', [RolesController::class, 'update'])->name('roles.update');
         Route::patch('/roles/material/edit/{page_id}/{id_role}', [MaterialRolesController::class, 'edit'])->name('materialRoles.edit');
     });
+
     Route::middleware('CheckDeletePermission')->group(function () {
         Route::delete('/branches/{page_id}', [BranchesController::class, 'destroy'])->name('branches.destroy');
         Route::delete('/branches/{page_id}/{id_branch}', [BranchesController::class, 'destroy'])->name('branches.destroy');
-        Route::delete('/employees/{page_id}', [EmployeesController::class, 'destroy'])->name('employees.destroy');
+        Route::delete('/employees/{page_id}/{id_emp}', [EmployeesController::class, 'destroy'])->name('employees.destroy');
         Route::delete('/roles/destroy/{page_id}/{id_role}', [RolesController::class, 'destroy'])->name('roles.destroy');
         Route::delete('/subCities/{page_id}/{id_city}', [SubCitiesController::class, 'destroy'])->name('subCities.destroy');
         Route::delete('/status/{page_id}/{id_state}', [TypeStatusController::class, 'destroy'])->name('status.destroy');
+
+
+        Route::delete('/delegates/{page_id}/{id_delegate}', [DelegatesController::class, 'destroy'])->name('delegates.destroy');
+        Route::delete('/customers/{page_id}/{id_customer}', [CostumersController::class, 'destroy'])->name('customers.destroy');
+        Route::delete('/shipments/{page_id}/{id_ship}', [ShipmentsController::class, 'destroy'])->name('shipments.destroy');
 
     });
 

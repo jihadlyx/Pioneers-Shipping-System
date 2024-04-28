@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('shipments', function (Blueprint $table) {
             $table->integer('id_ship')->unsigned()->primary();
+            $table->string('name_ship', 50);
             $table->integer('id_customer')->unsigned();
-            $table->integer('id_state')->unsigned();
+            $table->integer('id_status')->unsigned();
             $table->integer('id_city')->unsigned();
             $table->double("ship_value");
             $table->bigInteger('phone_number');
@@ -28,7 +29,7 @@ return new class extends Migration
 
             // Adding foreign key constraint
             $table->foreign('id_customer')->references('id_customer')->on('customers')->onDelete('cascade');
-            $table->foreign('id_state')->references('id_state')->on('type_ship_status')->onDelete('cascade');
+            $table->foreign('id_status')->references('id_status')->on('type_ship_statuses')->onDelete('cascade');
             $table->foreign('id_city')->references('id_city')->on('sub_cities')->onDelete('cascade');
         });
     }

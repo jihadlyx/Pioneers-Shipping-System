@@ -14,7 +14,7 @@ class BranchesController extends Controller
     protected $page_id = 1;
     public function __construct()
     {
-        $this->middleware(CheckShowPermission::class . ':page_id=1');
+        $this->middleware(CheckShowPermission::class . ":page_id= $this->page_id");
     }
         /**
      * Display a listing of the resource.
@@ -29,11 +29,17 @@ class BranchesController extends Controller
         $isUpdate = $this->checkUpdateRole($this->page_id);
 
         $maxBranchId = Branch::max('id_branch') ? Branch::max('id_branch') + 1 : 1;
+<<<<<<< HEAD
        //شرط العرض للفروع
         if(!$isCreate) {
             $branches = Branch::where("id_branch", auth()->user()->findUserByType(auth()->user()->id_type_users)->id_branch)->get();
         } else {
+=======
+        if($isCreate) {
+>>>>>>> 7fa2bac28baab8d8ef143079fb1eb5ada2a17bb8
             $branches = Branch::all();
+        } else {
+            $branches = Branch::where("id_branch", auth()->user()->findUserByType(auth()->user()->id_type_users)->id_branch)->get();
         }
         return view('site.Branches.branchesView', compact('branches', 'maxBranchId', 'isCreate', 'isUpdate', 'isDelete', 'id_page'));
     }
@@ -59,7 +65,7 @@ class BranchesController extends Controller
 
         $validatedData = $request->validate([
             'id_branch' => ['required', 'numeric', 'unique:'.Branch::class],
-            'title' => ['required', 'string', 'max:30'],
+            'title' => ['required', 'string', 'max:5'],
             'address' => ['required', 'string', 'max:30'],
             'phone_number' => 'required|numeric',
             'phone_number2' => 'nullable|numeric',
@@ -77,7 +83,7 @@ class BranchesController extends Controller
 
             return redirect()->route("branches.price.show", ['page_id' => $this->page_id, 'id_branch' => $request->id_branch]);
         }
-        return redirect()->route('Branches.index', ['page_id' => $this->page_id])
+        return redirect()->route('branches.index', ['page_id' => $this->page_id])
             ->with([
                 "message" => [
                     "type" => "error",

@@ -29,7 +29,7 @@
                     <!-- Menu Item Dashboard -->
                     <li>
                         <a class=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-                            href="/" @click.once="selected = (selected === 'Dashboard' ? '':'Dashboard')"
+                            href="/dashboard/9" @click.once="selected = (selected === 'Dashboard' ? '':'Dashboard')"
                             :class="{
                                 'bg-graydark dark:bg-meta-4': (selected === 'Dashboard') || (page === 'Dashboard')
                             }">
@@ -130,7 +130,7 @@
                                 </li>
                                 <li>
                                     <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                        href="/costumers/4" :class="page === 'Costumers' && '!text-white'">الزبائن
+                                        href="/customers/4" :class="page === 'Customers' && '!text-white'">الزبائن
                                     </a>
                                 </li>
                             </ul>

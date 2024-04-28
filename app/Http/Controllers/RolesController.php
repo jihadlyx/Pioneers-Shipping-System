@@ -30,7 +30,7 @@ class RolesController extends Controller
     public function index()
     {
 
-        $maxRoleId = Role::max('id_role') ? Role::max('id_role') + 1 : 1;
+        $maxRoleId = Role::max('id_role')? Role::max('id_role') + 1 : 1;
         $roles = Role::all();
         $isDelete = $this->checkDeleteRole($this->page_id);
         $isCreate = $this->checkCreateRole($this->page_id);

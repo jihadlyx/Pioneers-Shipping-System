@@ -16,14 +16,30 @@
                 </svg>
             </button>
         </div>
-        <form action="#" class="needs-validation" novalidate>
+        <form action="{{ route('customers.store', ['page_id' => 4]) }}" method="POST" class="needs-validation" novalidate>
+            @csrf
             <div class="p-6.5">
                 <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
+
+                    <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                        <div class="w-full xl:w-1/2">
+                            <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                                رقم الزبون
+                            </label>
+                            <input type="number" name="id_customer" value="{{ $maxCustomerId }}" placeholder="ادخل رقم الزبون"
+                                   class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                   required />
+                            <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
+                                الرجاء ادخل حقل رقم الزبون
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             اسم الزبون
                         </label>
-                        <input type="text" placeholder="ادخل اسم الزبون"
+                        <input type="text" name="name" placeholder="ادخل اسم الزبون"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -34,7 +50,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم الهاتف
                         </label>
-                        <input type="number" inputmode="numeric" placeholder="ادخل رقم هاتف الزبون"
+                        <input type="number" name="phone_number" inputmode="numeric" placeholder="ادخل رقم هاتف الزبون"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -45,7 +61,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم الهاتف احتياطي
                         </label>
-                        <input type="number" step="1" placeholder="ادخل رقم هاتف الزبون"
+                        <input type="number" name="phone_number2" step="1" placeholder="ادخل رقم هاتف الزبون"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary" />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل رقم الهاتف
@@ -57,7 +73,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             البريد الالكتروني
                         </label>
-                        <input type="email" placeholder="ادخل البريد الالكتروني"
+                        <input type="email" name="email" placeholder="ادخل البريد الالكتروني"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -68,7 +84,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             كلمة السر
                         </label>
-                        <input type="password" placeholder="ادخل كلمة السر"
+                        <input type="password" name="password" placeholder="ادخل كلمة السر"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -79,7 +95,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             العنوان
                         </label>
-                        <input type="text" placeholder="ادخل العنوان"
+                        <input type="text" name="address" placeholder="ادخل العنوان"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">

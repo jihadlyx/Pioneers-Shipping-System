@@ -1,4 +1,4 @@
-<div id="EditShipment" x-transition=""
+<div id="EditShipment{{ $shipment->id_ship }}" x-transition=""
     class="modal hidden fixed left-0 top-0 z-99999 h-screen w-full justify-center overflow-y-scroll bg-black/80 px-4 py-5">
     <div
         class="relative m-auto w-full max-w-180 sm:max-w-230 rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10">
@@ -16,14 +16,16 @@
                 </svg>
             </button>
         </div>
-        <form action="#" class="needs-validation" novalidate>
+        <form action="{{ route('shipments.update', ['page_id' => $id_page, 'id_ship' => $shipment->id_ship]) }}" method="POST" class="needs-validation" novalidate>
+            @csrf
+            @method('PATCH')
             <div class="p-6.5">
                 <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
                     <div class="w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             اسم الشحنة
                         </label>
-                        <input type="text" placeholder="ادخل اسم الشحنة"
+                        <input type="text" name="name_ship" placeholder="ادخل اسم الشحنة" value="{{ $shipment->name_ship }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -35,16 +37,16 @@
                             الزبون
                         </label>
                         <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
-                            <select
-                                class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                :class="isOptionSelected && 'text-black dark:text-white'"
-                                @change.once="isOptionSelected = true" required>
+                            <select name="id_customer"
+                                    class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    :class="isOptionSelected && 'text-black dark:text-white'"
+                                    @change.once="isOptionSelected = true" required>
                                 <option value="" disabled selected class="text-body">
                                     اختر
                                 </option>
-                                <option value="2" class="text-body">جهاد</option>
-                                <option value="3" class="text-body">محمد</option>
-                                <option value="4" class="text-body">Canada</option>
+                                @foreach($customers as $customer)
+                                    <option value="{{ $customer->id_customer }}" @if($customer->id_customer == $shipment->id_customer) selected @endif class="text-body"> {{ $customer->name_customer }} </option>
+                                @endforeach
                             </select>
                             <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">
                                 <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24"
@@ -65,7 +67,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             سعر الشحنة
                         </label>
-                        <input type="number" inputmode="numeric" placeholder="ادخل رقم هاتف الشحنة"
+                        <input type="number" name="ship_value" inputmode="numeric" placeholder="ادخل سعر الشحنة" value="{{ $shipment->ship_value }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -78,7 +80,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             اسم المستلم
                         </label>
-                        <input type="text" placeholder="ادخل العنوان"
+                        <input type="text" name="recipient_name" placeholder="ادخل العنوان" value="{{ $shipment->recipient_name }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -89,7 +91,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم الهاتف
                         </label>
-                        <input type="number" inputmode="numeric" placeholder="ادخل رقم هاتف الشحنة"
+                        <input type="number" name="phone_number" inputmode="numeric" placeholder="ادخل رقم هاتف الشحنة" value="{{ $shipment->phone_number }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -100,7 +102,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم الهاتف احتياطي
                         </label>
-                        <input type="number" step="1" placeholder="ادخل رقم هاتف الشحنة"
+                        <input type="number" name="phone_number2" step="1" placeholder="ادخل رقم هاتف الشحنة" value="{{ $shipment->phone_number2 }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary" />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل رقم الهاتف
@@ -113,16 +115,16 @@
                             مكان التوصيل
                         </label>
                         <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
-                            <select
+                            <select name="id_city"
                                 class="relative custom-select z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 :class="isOptionSelected && 'text-black dark:text-white'"
                                 @change.once="isOptionSelected = true" required>
                                 <option value="" disabled selected class="text-body">
                                     اختر
                                 </option>
-                                <option value="2" class="text-body">زليتن 10د.ل</option>
-                                <option value="3" class="text-body">مصراته 10د.ل</option>
-                                <option value="4" class="text-body">طرابلس 10د.ل</option>
+                                @foreach($sub_cites as $city)
+                                    <option value="{{ $city->id_city}}"  @if($city->id_city == $shipment->id_city) selected @endif class="text-body" > {{ $city->title }} </option>
+                                @endforeach
                             </select>
                             <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">
                                 <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24"
@@ -143,7 +145,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             العنوان التفصيلي
                         </label>
-                        <input type="text" placeholder="ادخل العنوان"
+                        <input type="text" name="address" placeholder="ادخل العنوان" value="{{ $shipment->address }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -154,7 +156,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             ملاحظة
                         </label>
-                        <input type="text" placeholder="ادخل ملاحظة"
+                        <input type="text" name="notes" placeholder="ادخل ملاحظة" value="{{ $shipment->notes }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary" />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخال ملاحظة
