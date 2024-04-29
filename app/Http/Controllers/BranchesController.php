@@ -6,6 +6,7 @@ use App\Http\Middleware\CheckShowPermission;
 use App\Models\Branch;
 use App\Traits\AuthorizationTrait;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class BranchesController extends Controller
 {
@@ -28,7 +29,7 @@ class BranchesController extends Controller
         $isCreate = $this->checkCreateRole($this->page_id);
         $isUpdate = $this->checkUpdateRole($this->page_id);
 
-        $maxBranchId = Branch::max('id_branch') ? Branch::max('id_branch') + 1 : 1;
+        $maxBranchId = Branch::withTrashed()->max('id_branch') ? Branch::withTrashed()->max('id_branch') + 1 : 1;
         if($isCreate) {
             $branches = Branch::all();
         } else {
@@ -55,16 +56,14 @@ class BranchesController extends Controller
      */
     public function store(Request $request)
     {
-
-        $validatedData = $request->validate([
-            'id_branch' => ['required', 'numeric', 'unique:'.Branch::class],
-            'title' => ['required', 'string', 'max:30'],
-            'address' => ['required', 'string', 'max:30'],
-            'phone_number' => 'required|numeric',
-            'phone_number2' => 'nullable|numeric',
-        ]);
-
-        if($validatedData) {
+        try {
+            $validatedData = $request->validate([
+                'id_branch' => ['required', 'numeric', 'unique:'.Branch::class],
+                'title' => ['required', 'string', 'max:20'],
+                'address' => ['required', 'string', 'max:30'],
+                'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
+                'phone_number2' => ['nullable', 'numeric'] ,
+            ]);
             Branch::create([
                 "id_branch" => $request->id_branch,
                 "title" => $request->title,
@@ -75,15 +74,16 @@ class BranchesController extends Controller
             ]);
 
             return redirect()->route("branches.price.show", ['page_id' => $this->page_id, 'id_branch' => $request->id_branch]);
+        } catch (ValidationException $e) {
+            return redirect()->route('branches.index', ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "فشلت العملية",
+                        "text" => "يوجد خطأ في عملية ادخال البيانات يرجى التأكد البيانات"
+                    ]
+                ]);
         }
-        return redirect()->route('Branches.index', ['page_id' => $this->page_id])
-            ->with([
-                "message" => [
-                    "type" => "error",
-                    "title" => "فشلت العملية",
-                    "text" => "يوجد خطأ في عملية ادخال البيانات يرجى التأكد البيانات"
-                ]
-            ]);
     }
 
     /**
@@ -117,34 +117,53 @@ class BranchesController extends Controller
      */
     public function update(Request $request,$page_id, $id)
     {
-        $branch = Branch::where("id_branch", $id)->first();
-
-        if($branch) {
-            $branch->update([
-                "id_branch" => $request->id_branch,
-                "title" => $request->title,
-                'address' => $request->address,
-                'phone_number' => $request->phone_number,
-                'phone_number2' => $request->phone_number2,
+        try {
+            $validatedData = $request->validate([
+                'id_branch' => ['required', 'numeric'],
+                'title' => ['required', 'string', 'max:20'],
+                'address' => ['required', 'string', 'max:30'],
+                'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
+                'phone_number2' => ['nullable', 'numeric'] ,
             ]);
-            return redirect()->route("branches.index", ['page_id' => $this->page_id])
+            $branch = Branch::where("id_branch", $id)->first();
+
+            if($branch) {
+                $branch->update([
+                    "id_branch" => $request->id_branch,
+                    "title" => $request->title,
+                    'address' => $request->address,
+                    'phone_number' => $request->phone_number,
+                    'phone_number2' => $request->phone_number2,
+                ]);
+                return redirect()->route("branches.index", ['page_id' => $this->page_id])
+                    ->with([
+                        "message" => [
+                            "type" => "success",
+                            "title" => "نحجت العملية",
+                            "text" => "تمت عملية التعديل على الفرع"
+                        ]
+                    ]);
+
+            }
+            return redirect()->route('branches.index', ['page_id' => $this->page_id])
                 ->with([
-                "message" => [
-                    "type" => "success",
-                    "title" => "نحجت العملية",
-                    "text" => "تمت عملية التعديل على الفرع"
-                ]
-            ]);
-
+                    "message" => [
+                        "type" => "error",
+                        "title" => "فشلت العملية",
+                        "text" => "هذا الفرع غير موجود"
+                    ]
+                ]);
+        } catch (ValidationException $e) {
+            return redirect()->route('branches.index', ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "فشلت العملية",
+                        "text" => "يوجد خطأ في عملية ادخال البيانات يرجى التأكد البيانات"
+                    ]
+                ]);
         }
-        return redirect()->route('Branches.index', ['page_id' => $this->page_id])
-            ->with([
-                "message" => [
-                    "type" => "error",
-                    "title" => "فشلت العملية",
-                    "text" => "هذا الفرع غير موجود"
-                ]
-            ]);
+
     }
 
     /**
@@ -162,14 +181,14 @@ class BranchesController extends Controller
             return redirect()->route("branches.index", ['page_id' => $this->page_id])
                 ->with([
                     "message" => [
-                        "type" => "info",
+                        "type" => "error",
                         "title" => "نجحت العملية",
                         "text" => "تم حذف الفرع"
                     ]
                 ]);
         }
 
-        return redirect()->route('Branches.index', ['page_id' => $this->page_id])
+        return redirect()->route('branches.index', ['page_id' => $this->page_id])
             ->with([
                 "message" => [
                     "type" => "error",

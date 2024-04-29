@@ -27,7 +27,7 @@
                         </label>
                         <input type="number" name="id_branch" value="{{ $branch->id_branch }}" placeholder="ادخل رقم الفرع"
                                class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                               required />
+                               required maxlength="10" minlength="1" />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل رقم الفرع
                         </div>
@@ -38,7 +38,7 @@
                         </label>
                         <input type="text" name="title" value="{{ $branch->title }}" placeholder="ادخل اسم الفرع"
                                class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                               required />
+                               required maxlength="20" minlength="5"/>
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل اسم الفرع
                         </div>
@@ -49,7 +49,7 @@
                         </label>
                         <input type="text" name="address" value="{{ $branch->address }}" placeholder="ادخل عنوان الفرع"
                                class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                               required />
+                               required maxlength="30" minlength="5"/>
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل العنوان
                         </div>
@@ -60,9 +60,9 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم الهاتف
                         </label>
-                        <input type="number" name="phone_number" value="{{ $branch->phone_number }}"  placeholder="ادخل رقم الفرع"
+                        <input type="number" name="phone_number" value="0{{ $branch->phone_number }}"  placeholder="ادخل رقم الفرع"
                                class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                               required />
+                               required maxlength="30" minlength="5"/>
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل رقم الهاتف
                         </div>
@@ -71,7 +71,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم الهاتف 2
                         </label>
-                        <input type="number" name="phone_number2" value="{{ $branch->phone_number2 }}" placeholder="ادخل رقم الهاتف الاحتياطي"
+                        <input type="number" name="phone_number2" value="0{{ $branch->phone_number2 }}" placeholder="ادخل رقم الهاتف الاحتياطي"
                                class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                         />
                     </div>

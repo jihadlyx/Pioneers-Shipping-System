@@ -59,8 +59,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/materialRoles/{page_id}', [MaterialRolesController::class, 'store'])->name('materialRoles.store');
     });
     Route::middleware('CheckUpdatePermission')->group(function () {
-        Route::patch('/branches/{page_id}', [BranchesController::class, 'update'])->name('branches.update');
-        Route::patch('/branches/{page_id}/{id_branch}', [BranchesController::class, 'update'])->name('branches.update');
+        Route::patch('/branches/update/{page_id}/{id_branch}', [BranchesController::class, 'update'])->name('branches.update');
 
         Route::patch('/employees/{page_id}', [EmployeesController::class, 'update'])->name('employees.update');
         Route::patch('/roles/update/{page_id}/{id_role}', [RolesController::class, 'update'])->name('roles.update');

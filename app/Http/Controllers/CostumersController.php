@@ -18,7 +18,7 @@ class CostumersController extends Controller
      */
     public function index()
     {
-        //
+        return view('site.People.Customers.customersView');
     }
 
     /**

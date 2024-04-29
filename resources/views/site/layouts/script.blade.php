@@ -13,11 +13,19 @@
         }
         var numberInputs = document.querySelectorAll('input[type="number"]');
         numberInputs.forEach(function(input) {
-            input.addEventListener('keydown', function(event) {
-                if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-                    event.preventDefault();
+            input.addEventListener('input', function(event) {
+                var value = event.target.value.trim();
+                var maxLength = parseInt(event.target.getAttribute('maxlength'));
+                var minLength = parseInt(event.target.getAttribute('minlength'));
+
+                if (maxLength && value.length > maxLength) {
+                    event.target.value = value.slice(0, maxLength); // قص القيمة لتكون بحد أقصى من عدد الخانات المسموح بها
+                } else if (minLength && value.length < minLength) {
+                    // يمكنك إضافة رسالة تنبيه هنا إذا كنت ترغب
                 }
             });
         });
+
+
     });
 </script>
