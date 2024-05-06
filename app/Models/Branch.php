@@ -22,17 +22,25 @@ class Branch extends Model
         'state',
     ];
 
-    // تعريف العلاقة مع جدول employees
+    public function isHasMany() {
+        if ($this->employees()->count() <= 0 && $this->delegates()->count() <= 0 && $this->customers()->count() <= 0) {
+            return true;
+        }
+        return false;
+    }
+
     public function employees()
     {
         return $this->hasMany(Employee::class, 'id_branch');
     }
+
     public function delegates()
     {
-        return $this->hasMany(Employee::class, 'id_branch');
+        return $this->hasMany(Delegate::class, 'id_branch');
     }
+
     public function customers()
     {
-        return $this->hasMany(Employee::class, 'id_branch');
+        return $this->hasMany(Customers::class, 'id_branch');
     }
 }

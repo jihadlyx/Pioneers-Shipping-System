@@ -15,12 +15,18 @@ return new class extends Migration
     {
         Schema::create('status_shipments', function (Blueprint $table) {
             $table->integer("id")->unsigned()->primary();
-            $table->integer('id_ship');
-            $table->integer('id_state');
-            $table->integer('id_delegate');
-            $table->integer('id_user');
+            $table->integer('id_ship')->unsigned();
+            $table->integer('id_status')->unsigned();
+            $table->integer('id_delegate')->unsigned();
+            $table->foreignId('id_user');
             $table->date('date_update');
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('id_status')->references('id_status')->on('type_ship_statuses')->onDelete('cascade');
+            $table->foreign('id_ship')->references('id_ship')->on('shipments')->onDelete('cascade');
+            $table->foreign('id_delegate')->references('id_delegate')->on('delegates')->onDelete('cascade');
+
         });
     }
 

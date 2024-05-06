@@ -70,7 +70,6 @@
                             إضافة فرع
                         </button>
                         @include('site.Branches.modal.add')
-
                     </div>
                 @endif
                     @include('site.Branches.modal.save')
@@ -176,7 +175,7 @@
 
                                                 </button>
                                             @endif
-                                            @if($isDelete && $branch->employees()->count() <= 0)
+                                            @if($isDelete && $branch->isHasMany())
                                                     <button data-target="DeleteBranch{{ $branch->id_branch }}" class="hover:text-meta-1 button-icon">
                                                         <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
                                                              fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -194,11 +193,11 @@
                                                                 fill=""></path>
                                                         </svg>
                                                     </button>
-                                                @endif
+                                             @endif
                                         </div>
                                     </td>
                                     <td>
-                                        {{ $branch->title . $isUpdate}}
+                                        {{ $branch->title}}
                                     </td>
                                     <td class="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                                         <h5 class="font-medium text-black dark:text-white">0{{ $branch->phone_number }}</h5>

@@ -22,9 +22,8 @@ return new class extends Migration
             $table->integer('id_number');
             $table->integer('id_branch')->unsigned();
             $table->integer('id_role');
-            $table->timestamps(); // Adds created_at and updated_at columns
-
-            // Adding foreign key constraint
+            $table->timestamps();
+            $table->softDeletes();
             $table->foreign('id_branch')->references('id_branch')->on('branches')->onDelete('cascade');
         });
     }

@@ -51,7 +51,7 @@ class MaterialRolesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show($id)
+    public function show($page_id, $id)
     {
         $materialRoles = MaterialRole::where('id_role', $id)->get();
         return view('site.settings.Roles.MaterialRoles.materialRolesView', compact('materialRoles', 'id'));

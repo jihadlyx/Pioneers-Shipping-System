@@ -33,81 +33,34 @@
         </ol>
     </nav>
 </div>
-<!-- Breadcrumb End -->
-<div class="rounded-sm mb-5 border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-    <form action="#" class="needs-validation" novalidate>
-        <div class="p-6.5">
-            <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
-                <div class="mb-4.5 w-full xl:w-1/2">
-                    <label class="mb-3 block text-xl font-medium text-black dark:text-white">
-                        البحث عن
-                    </label>
-                    <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
-                        <select
-                            class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                            :class="isOptionSelected && 'text-black dark:text-white'"
-                            @change.once="isOptionSelected = true" required>
-                            <option value="" disabled selected class="text-body">
-                                اختر
-                            </option>
-                            <option value="2" class="text-body">البحث عن الاسم</option>
-                            <option value="3" class="text-body">رقم الهاتف</option>
-                            <option value="4" class="text-body">الفرع</option>
-                        </select>
 
-                        <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">
-                            <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <g opacity="0.8">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                                        fill=""></path>
-                                </g>
-                            </svg>
-                        </span>
-                    </div>
-                    <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
-                        الرجاء اختيار نوع القيمة المراد البحث عنها
-                    </div>
-                </div>
-
-                <div class="w-full xl:w-1/2">
-                    <label class="mb-3 block text-xl font-medium text-black dark:text-white">
-                        القيمة المراد البحث عنها
-                    </label>
-                    <input type="text" placeholder="ادخل القيمة المراد البحث عنها"
-                        class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                        required />
-                    <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
-                        الرجاء ادخل قيمة الحقل
-                    </div>
-                </div>
-
-            </div>
-            <button type="submit"
-                class="flex w-fit justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                بحث
-            </button>
+@if(Session::has('message'))
+    <div class="alert-{{ Session::get('message')["type"] }} flex  rounded-lg p-4 mb-4 text-md " role="alert">
+        <svg class="w-5 h-5 inline ltr:mr-3 rtl:ml-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+        <div>
+            <span class="font-medium">{{ Session::get('message')["title"] }} !</span> {{ Session::get('message')["text"] }}
         </div>
-    </form>
-</div>
+    </div>
+@endif
+<!-- Breadcrumb End -->
 <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
     <div class="data-table-common data-table-one max-w-full overflow-x-auto">
         <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
             <div class="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-                <button data-target="AddCustomer"
-                    class="modal-show flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
-                    <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M15 7H9V1C9 0.4 8.6 0 8 0C7.4 0 7 0.4 7 1V7H1C0.4 7 0 7.4 0 8C0 8.6 0.4 9 1 9H7V15C7 15.6 7.4 16 8 16C8.6 16 9 15.6 9 15V9H15C15.6 9 16 8.6 16 8C16 7.4 15.6 7 15 7Z"
-                            fill=""></path>
-                    </svg>
-                    إضافة زبون
-                </button>
-                @include('site.people.customers.modal.add')
+                @if($isCreate)
+                    <button data-target="AddCustomer"
+                            class="modal-show flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
+                        <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M15 7H9V1C9 0.4 8.6 0 8 0C7.4 0 7 0.4 7 1V7H1C0.4 7 0 7.4 0 8C0 8.6 0.4 9 1 9H7V15C7 15.6 7.4 16 8 16C8.6 16 9 15.6 9 15V9H15C15.6 9 16 8.6 16 8C16 7.4 15.6 7 15 7Z"
+                                fill=""></path>
+                        </svg>
+                        إضافة زبون
+                    </button>
+                    @include('site.people.customers.modal.add')
+                @endif
                 @include('site.people.customers.modal.save')
-
             </div>
             <div class="datatable-top">
                 <div class="datatable-dropdown">
@@ -165,30 +118,6 @@
                                 <a href="#" class="datatable-sorter">
                                     <div class="flex items-center gap-1.5">
                                         <p>رقم الهاتف</p>
-                                        <div class="inline-flex flex-col space-y-[2px]">
-                                            <span class="inline-block">
-                                                <svg class="fill-current" width="10" height="5"
-                                                    viewBox="0 0 10 5" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5 0L0 5H10L5 0Z" fill=""></path>
-                                                </svg>
-                                            </span>
-                                            <span class="inline-block">
-                                                <svg class="fill-current" width="10" height="5"
-                                                    viewBox="0 0 10 5" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
-                                                    </path>
-                                                </svg>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </th>
-                            <th data-sortable="true" style="width: 8.620641562064156%">
-                                <a href="#" class="datatable-sorter">
-                                    <div class="flex items-center gap-1.5">
-                                        <p>الحالة</p>
                                         <div class="inline-flex flex-col space-y-[2px]">
                                             <span class="inline-block">
                                                 <svg class="fill-current" width="10" height="5"
@@ -284,97 +213,74 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-index="0">
+                    @foreach($customers as $index => $customer)
+                        <tr data-index="{{ $index }}">
                             <td class="px-4 py-5">
                                 <div class="text-gray-100 flex items-center gap-1">
-                                    <button data-target="EditCustomer" class="hover:text-primary">
-                                        <svg class="fill-current" width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_62_9787)">
-                                                <path d="M15.55 2.97499C15.55 2.77499 15.475 2.57499 15.325 2.42499C15.025 2.12499 14.725 1.82499 14.45 1.52499C14.175 1.24999 13.925 0.974987 13.65 0.724987C13.525 0.574987 13.375 0.474986 13.175 0.449986C12.95 0.424986 12.75 0.474986 12.575 0.624987L10.875 2.32499H2.02495C1.17495 2.32499 0.449951 3.02499 0.449951 3.89999V14C0.449951 14.85 1.14995 15.575 2.02495 15.575H12.15C13 15.575 13.725 14.875 13.725 14V5.12499L15.35 3.49999C15.475 3.34999 15.55 3.17499 15.55 2.97499ZM8.19995 8.99999C8.17495 9.02499 8.17495 9.02499 8.14995 9.02499L6.34995 9.62499L6.94995 7.82499C6.94995 7.79999 6.97495 7.79999 6.97495 7.77499L11.475 3.27499L12.725 4.49999L8.19995 8.99999ZM12.575 14C12.575 14.25 12.375 14.45 12.125 14.45H2.02495C1.77495 14.45 1.57495 14.25 1.57495 14V3.87499C1.57495 3.62499 1.77495 3.42499 2.02495 3.42499H9.72495L6.17495 6.99999C6.04995 7.12499 5.92495 7.29999 5.87495 7.49999L4.94995 10.3C4.87495 10.5 4.92495 10.675 5.02495 10.85C5.09995 10.95 5.24995 11.1 5.52495 11.1H5.62495L8.49995 10.15C8.67495 10.1 8.84995 9.97499 8.97495 9.84999L12.575 6.24999V14ZM13.5 3.72499L12.25 2.49999L13.025 1.72499C13.225 1.92499 14.05 2.74999 14.25 2.97499L13.5 3.72499Z" fill=""></path>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_62_9787">
-                                                    <rect width="20" height="20" fill="white"></rect>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
+                                    @if($isUpdate)
+                                        <button data-target="EditCustomer{{ $customer->id_customer }}" class="hover:text-primary">
+                                            <svg class="fill-current" width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_62_9787)">
+                                                    <path d="M15.55 2.97499C15.55 2.77499 15.475 2.57499 15.325 2.42499C15.025 2.12499 14.725 1.82499 14.45 1.52499C14.175 1.24999 13.925 0.974987 13.65 0.724987C13.525 0.574987 13.375 0.474986 13.175 0.449986C12.95 0.424986 12.75 0.474986 12.575 0.624987L10.875 2.32499H2.02495C1.17495 2.32499 0.449951 3.02499 0.449951 3.89999V14C0.449951 14.85 1.14995 15.575 2.02495 15.575H12.15C13 15.575 13.725 14.875 13.725 14V5.12499L15.35 3.49999C15.475 3.34999 15.55 3.17499 15.55 2.97499ZM8.19995 8.99999C8.17495 9.02499 8.17495 9.02499 8.14995 9.02499L6.34995 9.62499L6.94995 7.82499C6.94995 7.79999 6.97495 7.79999 6.97495 7.77499L11.475 3.27499L12.725 4.49999L8.19995 8.99999ZM12.575 14C12.575 14.25 12.375 14.45 12.125 14.45H2.02495C1.77495 14.45 1.57495 14.25 1.57495 14V3.87499C1.57495 3.62499 1.77495 3.42499 2.02495 3.42499H9.72495L6.17495 6.99999C6.04995 7.12499 5.92495 7.29999 5.87495 7.49999L4.94995 10.3C4.87495 10.5 4.92495 10.675 5.02495 10.85C5.09995 10.95 5.24995 11.1 5.52495 11.1H5.62495L8.49995 10.15C8.67495 10.1 8.84995 9.97499 8.97495 9.84999L12.575 6.24999V14ZM13.5 3.72499L12.25 2.49999L13.025 1.72499C13.225 1.92499 14.05 2.74999 14.25 2.97499L13.5 3.72499Z" fill=""></path>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_62_9787">
+                                                        <rect width="20" height="20" fill="white"></rect>
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
 
-                                    </button>
-                                    <button data-target="DeleteCustomer" class="hover:text-meta-1 button-icon">
-                                        <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
-                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M13.7535 2.47502H11.5879V1.9969C11.5879 1.15315 10.9129 0.478149 10.0691 0.478149H7.90352C7.05977 0.478149 6.38477 1.15315 6.38477 1.9969V2.47502H4.21914C3.40352 2.47502 2.72852 3.15002 2.72852 3.96565V4.8094C2.72852 5.42815 3.09414 5.9344 3.62852 6.1594L4.07852 15.4688C4.13477 16.6219 5.09102 17.5219 6.24414 17.5219H11.7004C12.8535 17.5219 13.8098 16.6219 13.866 15.4688L14.3441 6.13127C14.8785 5.90627 15.2441 5.3719 15.2441 4.78127V3.93752C15.2441 3.15002 14.5691 2.47502 13.7535 2.47502ZM7.67852 1.9969C7.67852 1.85627 7.79102 1.74377 7.93164 1.74377H10.0973C10.2379 1.74377 10.3504 1.85627 10.3504 1.9969V2.47502H7.70664V1.9969H7.67852ZM4.02227 3.96565C4.02227 3.85315 4.10664 3.74065 4.24727 3.74065H13.7535C13.866 3.74065 13.9785 3.82502 13.9785 3.96565V4.8094C13.9785 4.9219 13.8941 5.0344 13.7535 5.0344H4.24727C4.13477 5.0344 4.02227 4.95002 4.02227 4.8094V3.96565ZM11.7285 16.2563H6.27227C5.79414 16.2563 5.40039 15.8906 5.37227 15.3844L4.95039 6.2719H13.0785L12.6566 15.3844C12.6004 15.8625 12.2066 16.2563 11.7285 16.2563Z"
-                                                fill=""></path>
-                                            <path
-                                                d="M9.00039 9.11255C8.66289 9.11255 8.35352 9.3938 8.35352 9.75942V13.3313C8.35352 13.6688 8.63477 13.9782 9.00039 13.9782C9.33789 13.9782 9.64727 13.6969 9.64727 13.3313V9.75942C9.64727 9.3938 9.33789 9.11255 9.00039 9.11255Z"
-                                                fill=""></path>
-                                            <path
-                                                d="M11.2502 9.67504C10.8846 9.64692 10.6033 9.90004 10.5752 10.2657L10.4064 12.7407C10.3783 13.0782 10.6314 13.3875 10.9971 13.4157C11.0252 13.4157 11.0252 13.4157 11.0533 13.4157C11.3908 13.4157 11.6721 13.1625 11.6721 12.825L11.8408 10.35C11.8408 9.98442 11.5877 9.70317 11.2502 9.67504Z"
-                                                fill=""></path>
-                                            <path
-                                                d="M6.72245 9.67504C6.38495 9.70317 6.1037 10.0125 6.13182 10.35L6.3287 12.825C6.35683 13.1625 6.63808 13.4157 6.94745 13.4157C6.97558 13.4157 6.97558 13.4157 7.0037 13.4157C7.3412 13.3875 7.62245 13.0782 7.59433 12.7407L7.39745 10.2657C7.39745 9.90004 7.08808 9.64692 6.72245 9.67504Z"
-                                                fill=""></path>
-                                        </svg>
-                                    </button>
+                                        </button>
+                                    @endif
+                                    @if($isDelete && $customer->isHasMany())
+                                        <button data-target="DeleteCustomer{{ $customer->id_customer }}" class="hover:text-meta-1 button-icon">
+                                            <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
+                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M13.7535 2.47502H11.5879V1.9969C11.5879 1.15315 10.9129 0.478149 10.0691 0.478149H7.90352C7.05977 0.478149 6.38477 1.15315 6.38477 1.9969V2.47502H4.21914C3.40352 2.47502 2.72852 3.15002 2.72852 3.96565V4.8094C2.72852 5.42815 3.09414 5.9344 3.62852 6.1594L4.07852 15.4688C4.13477 16.6219 5.09102 17.5219 6.24414 17.5219H11.7004C12.8535 17.5219 13.8098 16.6219 13.866 15.4688L14.3441 6.13127C14.8785 5.90627 15.2441 5.3719 15.2441 4.78127V3.93752C15.2441 3.15002 14.5691 2.47502 13.7535 2.47502ZM7.67852 1.9969C7.67852 1.85627 7.79102 1.74377 7.93164 1.74377H10.0973C10.2379 1.74377 10.3504 1.85627 10.3504 1.9969V2.47502H7.70664V1.9969H7.67852ZM4.02227 3.96565C4.02227 3.85315 4.10664 3.74065 4.24727 3.74065H13.7535C13.866 3.74065 13.9785 3.82502 13.9785 3.96565V4.8094C13.9785 4.9219 13.8941 5.0344 13.7535 5.0344H4.24727C4.13477 5.0344 4.02227 4.95002 4.02227 4.8094V3.96565ZM11.7285 16.2563H6.27227C5.79414 16.2563 5.40039 15.8906 5.37227 15.3844L4.95039 6.2719H13.0785L12.6566 15.3844C12.6004 15.8625 12.2066 16.2563 11.7285 16.2563Z"
+                                                    fill=""></path>
+                                                <path
+                                                    d="M9.00039 9.11255C8.66289 9.11255 8.35352 9.3938 8.35352 9.75942V13.3313C8.35352 13.6688 8.63477 13.9782 9.00039 13.9782C9.33789 13.9782 9.64727 13.6969 9.64727 13.3313V9.75942C9.64727 9.3938 9.33789 9.11255 9.00039 9.11255Z"
+                                                    fill=""></path>
+                                                <path
+                                                    d="M11.2502 9.67504C10.8846 9.64692 10.6033 9.90004 10.5752 10.2657L10.4064 12.7407C10.3783 13.0782 10.6314 13.3875 10.9971 13.4157C11.0252 13.4157 11.0252 13.4157 11.0533 13.4157C11.3908 13.4157 11.6721 13.1625 11.6721 12.825L11.8408 10.35C11.8408 9.98442 11.5877 9.70317 11.2502 9.67504Z"
+                                                    fill=""></path>
+                                                <path
+                                                    d="M6.72245 9.67504C6.38495 9.70317 6.1037 10.0125 6.13182 10.35L6.3287 12.825C6.35683 13.1625 6.63808 13.4157 6.94745 13.4157C6.97558 13.4157 6.97558 13.4157 7.0037 13.4157C7.3412 13.3875 7.62245 13.0782 7.59433 12.7407L7.39745 10.2657C7.39745 9.90004 7.08808 9.64692 6.72245 9.67504Z"
+                                                    fill=""></path>
+                                            </svg>
+                                        </button>
+                                    @endif
                                 </div>
                             </td>
-                            <td>جهاد شرع الله</td>
-                            <td>0922502219</td>
-                            <td>نشط</td>
-                            <td>زليتن</td>
-                            <td class="green">maksim45@gmail.com</td>
-                            <td>محلة-السبعة</td>
-                            @include('site.people.customers.modal.delete')
-                            @include('site.people.customers.modal.edit')
-                        </tr>
-                        <tr data-index="1">
-                            <td class="px-4 py-5">
-                                <div class="text-gray-100 flex items-center gap-1">
-                                    <button data-target="EditCustomer" class="hover:text-primary">
-                                        <svg class="fill-current" width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_62_9787)">
-                                                <path d="M15.55 2.97499C15.55 2.77499 15.475 2.57499 15.325 2.42499C15.025 2.12499 14.725 1.82499 14.45 1.52499C14.175 1.24999 13.925 0.974987 13.65 0.724987C13.525 0.574987 13.375 0.474986 13.175 0.449986C12.95 0.424986 12.75 0.474986 12.575 0.624987L10.875 2.32499H2.02495C1.17495 2.32499 0.449951 3.02499 0.449951 3.89999V14C0.449951 14.85 1.14995 15.575 2.02495 15.575H12.15C13 15.575 13.725 14.875 13.725 14V5.12499L15.35 3.49999C15.475 3.34999 15.55 3.17499 15.55 2.97499ZM8.19995 8.99999C8.17495 9.02499 8.17495 9.02499 8.14995 9.02499L6.34995 9.62499L6.94995 7.82499C6.94995 7.79999 6.97495 7.79999 6.97495 7.77499L11.475 3.27499L12.725 4.49999L8.19995 8.99999ZM12.575 14C12.575 14.25 12.375 14.45 12.125 14.45H2.02495C1.77495 14.45 1.57495 14.25 1.57495 14V3.87499C1.57495 3.62499 1.77495 3.42499 2.02495 3.42499H9.72495L6.17495 6.99999C6.04995 7.12499 5.92495 7.29999 5.87495 7.49999L4.94995 10.3C4.87495 10.5 4.92495 10.675 5.02495 10.85C5.09995 10.95 5.24995 11.1 5.52495 11.1H5.62495L8.49995 10.15C8.67495 10.1 8.84995 9.97499 8.97495 9.84999L12.575 6.24999V14ZM13.5 3.72499L12.25 2.49999L13.025 1.72499C13.225 1.92499 14.05 2.74999 14.25 2.97499L13.5 3.72499Z" fill=""></path>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_62_9787">
-                                                    <rect width="20" height="20" fill="white"></rect>
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
 
-                                    </button>
-                                    <button data-target="DeleteCustomer" class="hover:text-meta-1 button-icon">
-                                        <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
-                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M13.7535 2.47502H11.5879V1.9969C11.5879 1.15315 10.9129 0.478149 10.0691 0.478149H7.90352C7.05977 0.478149 6.38477 1.15315 6.38477 1.9969V2.47502H4.21914C3.40352 2.47502 2.72852 3.15002 2.72852 3.96565V4.8094C2.72852 5.42815 3.09414 5.9344 3.62852 6.1594L4.07852 15.4688C4.13477 16.6219 5.09102 17.5219 6.24414 17.5219H11.7004C12.8535 17.5219 13.8098 16.6219 13.866 15.4688L14.3441 6.13127C14.8785 5.90627 15.2441 5.3719 15.2441 4.78127V3.93752C15.2441 3.15002 14.5691 2.47502 13.7535 2.47502ZM7.67852 1.9969C7.67852 1.85627 7.79102 1.74377 7.93164 1.74377H10.0973C10.2379 1.74377 10.3504 1.85627 10.3504 1.9969V2.47502H7.70664V1.9969H7.67852ZM4.02227 3.96565C4.02227 3.85315 4.10664 3.74065 4.24727 3.74065H13.7535C13.866 3.74065 13.9785 3.82502 13.9785 3.96565V4.8094C13.9785 4.9219 13.8941 5.0344 13.7535 5.0344H4.24727C4.13477 5.0344 4.02227 4.95002 4.02227 4.8094V3.96565ZM11.7285 16.2563H6.27227C5.79414 16.2563 5.40039 15.8906 5.37227 15.3844L4.95039 6.2719H13.0785L12.6566 15.3844C12.6004 15.8625 12.2066 16.2563 11.7285 16.2563Z"
-                                                fill=""></path>
-                                            <path
-                                                d="M9.00039 9.11255C8.66289 9.11255 8.35352 9.3938 8.35352 9.75942V13.3313C8.35352 13.6688 8.63477 13.9782 9.00039 13.9782C9.33789 13.9782 9.64727 13.6969 9.64727 13.3313V9.75942C9.64727 9.3938 9.33789 9.11255 9.00039 9.11255Z"
-                                                fill=""></path>
-                                            <path
-                                                d="M11.2502 9.67504C10.8846 9.64692 10.6033 9.90004 10.5752 10.2657L10.4064 12.7407C10.3783 13.0782 10.6314 13.3875 10.9971 13.4157C11.0252 13.4157 11.0252 13.4157 11.0533 13.4157C11.3908 13.4157 11.6721 13.1625 11.6721 12.825L11.8408 10.35C11.8408 9.98442 11.5877 9.70317 11.2502 9.67504Z"
-                                                fill=""></path>
-                                            <path
-                                                d="M6.72245 9.67504C6.38495 9.70317 6.1037 10.0125 6.13182 10.35L6.3287 12.825C6.35683 13.1625 6.63808 13.4157 6.94745 13.4157C6.97558 13.4157 6.97558 13.4157 7.0037 13.4157C7.3412 13.3875 7.62245 13.0782 7.59433 12.7407L7.39745 10.2657C7.39745 9.90004 7.08808 9.64692 6.72245 9.67504Z"
-                                                fill=""></path>
-                                        </svg>
-                                    </button>
-                                </div>
+
+                            <td>
+                                {{ $customer->name_customer }}
                             </td>
-                            <td>عبداللطيف عبداللطيف عبداللطيف</td>
-                            <td>0922502219</td>
-                            <td>نشط</td>
-                            <td>زليتن</td>
-                            <td class="green">maksim45@gmail.com</td>
-                            <td>محلة-السبعة</td>
+
+                            <td class="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+                                <h5 class="font-medium text-black dark:text-white">0{{ $customer->phone_number }}</h5>
+                                <h5 class="font-medium {{ $customer->phone_number2 == null ? "hidden" : ''}} text-black dark:text-white">0{{ $customer->phone_number2 }}</h5>
+                            </td>
+                            <td>
+                                {{ $customer->branch->title }}
+                            </td>
+                            <td class="green">
+                                {{ $customer->user($customer->id_customer)->email }}
+                            </td>
+                            <td>
+                                {{ $customer->address }}
+                            </td>
                             @include('site.people.customers.modal.delete')
                             @include('site.people.customers.modal.edit')
                         </tr>
 
 
+                    @endforeach
                     </tbody>
+
+
                 </table>
             </div>
             <div class="datatable-bottom">

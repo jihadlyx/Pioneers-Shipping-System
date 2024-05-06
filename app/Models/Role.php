@@ -15,6 +15,13 @@ class Role extends Model
     protected $primaryKey = 'id_role';
     protected $fillable = ["id_role", "title"];
 
+    public function isHasMany() {
+        if ($this->employees()->count() <= 0 && $this->delegates()->count() <= 0 && $this->customers()->count() <= 0) {
+            return true;
+        }
+        return false;
+    }
+
     public function employees()
     {
         return $this->hasMany(Employee::class, 'id_role');
@@ -22,6 +29,11 @@ class Role extends Model
 
     public function delegates()
     {
-//        return $this->hasMany(Delegate::class, 'id_role');
+        return $this->hasMany(Delegate::class, 'id_role');
+    }
+
+    public function customers()
+    {
+        return $this->hasMany(Customers::class, 'id_role');
     }
 }

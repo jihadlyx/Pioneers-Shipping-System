@@ -9,7 +9,6 @@
         <h2 class="text-title-md2 font-bold text-black dark:text-white">
             اضافة اسعار التوصيل للفرع
         </h2>
-
         <nav>
             <ol class="flex text-lg font-medium flex-wrap items-center gap-3">
                 <li>
@@ -66,7 +65,6 @@
             @csrf
             <div class="p-6.5">
                 @foreach($branches as $index => $branch)
-                    @if($branch->id_branch != $new_branch->id_branch)
                         <div class="mb-4.5 flex gap-6 sm:flex-row">
                             <div class="mb-4.5 w-full xl:w-1/3">
                                 <label class="mb-3 block text-xl font-medium text-black dark:text-white">
@@ -88,15 +86,15 @@
                                         <option value="{{ $branch->id_branch != null ? $branch->id_branch : $branch->id_to_branch }}" selected class="text-body"> {{ $branch->title != null ? $branch->title : $branch->toBranch->title }} </option>
                                     </select>
                                     <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">
-                        <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <g opacity="0.8">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                      d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                                      fill=""></path>
-                            </g>
-                        </svg>
-                    </span>
+                                        <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <g opacity="0.8">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                      d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
+                                                      fill=""></path>
+                                            </g>
+                                        </svg>
+                                    </span>
                                 </div>
                                 <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                                     الرجاء اختيار فرع
@@ -108,13 +106,12 @@
                                 </label>
                                 <input type="number" name="prices[{{ $index }}][price]" value="{{ $branch->price }}" placeholder="ادخل اسم السعر"
                                        class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                                       required />
+                                       required maxlength="30" minlength="1"/>
                                 <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                                     الرجاء ادخل حقل السعر
                                 </div>
                             </div>
                         </div>
-                    @endif
                 @endforeach
 
                 <button type="submit"

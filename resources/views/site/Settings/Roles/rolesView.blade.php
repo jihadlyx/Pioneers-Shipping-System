@@ -154,7 +154,7 @@
 
                                                 </button>
                                             @endif
-                                            @if($isDelete && $role->employees()->count() <= 0)
+                                            @if($isDelete && $role->isHasMany() )
                                                     <button data-target="DeleteRole{{ $role->id_role }}" class="hover:text-meta-1 button-icon">
                                                         <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
                                                              fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -181,7 +181,7 @@
                                     <td>
                                         <button type="submit"
                                                 class="flex w-fit justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opaRole-90">
-                                            <a href="{{ route('materialRoles.show', $role->id_role) }}">
+                                            <a href="{{ route('materialRoles.show', ['page_id' => $page_id, 'id_role' => $role->id_role]) }}">
                                                 أذونات
                                             </a>
                                         </button>

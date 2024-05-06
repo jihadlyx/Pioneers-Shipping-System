@@ -2,23 +2,55 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Middleware\CheckShowPermission;
+use App\Models\Branch;
+use App\Models\Customers;
+use App\Models\Delegate;
+use App\Traits\AuthorizationTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Illuminate\Validation\ValidationException;
 
 class CostumersController extends Controller
 {
+    use AuthorizationTrait;
+
+    protected $page_id = 4;
+
     public function __construct()
     {
-        $this->middleware(CheckShowPermission::class);
+        $this->middleware(CheckShowPermission::class . ":page_id= $this->page_id");
     }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
-        return view('site.People.Customers.customersView');
+        $id_page = $this->page_id;
+        $isDelete = $this->checkDeleteRole($this->page_id);
+        $isCreate = $this->checkCreateRole($this->page_id);
+        $isUpdate = $this->checkUpdateRole($this->page_id);
+        $user = Auth()->user();
+        if($isCreate) {
+            $customers = Customers::all();
+        }
+        else {
+            $customers = Customers::where('id_customer', $user->id_pid)->get();
+        }
+        if($this->checkCreateRole(1)){
+            $branches = Branch::all();
+        } else {
+            $branches = [$user->findUserByType($user->id_type_users)->branch];
+        }
+
+        $maxCustomerId = Customers::withTrashed()->max('id_customer') ? Customers::withTrashed()->max('id_customer') + 1 : 1;
+
+        return view('site.People.Customers.customersView', compact('customers', 'branches', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'maxCustomerId'));
     }
 
     /**
@@ -35,11 +67,63 @@ class CostumersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $validatedData = $request->validate([
+                'id_customer' => ['required', 'numeric', 'unique:'.Customers::class],
+                'name' => ['required', 'string', 'max:255', 'min:3'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+                'password' => ['required'],
+                'address' => ['required', 'string', 'max:30'],
+                'id_branch' => ['required', 'numeric'],
+                'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
+                'phone_number2' => ['nullable', 'numeric'] ,
+                'photo' => ['nullable'],
+            ]);
+
+            DB::transaction(function () use ($request) {
+                Customers::create([
+                    'id_customer' => $request->id_customer,
+                    'name_customer' => $request->name,
+                    'address' => $request->address,
+                    'phone_number' => $request->phone_number,
+                    'id_number' => 1,
+                    'phone_number2' => $request->phone_number2,
+                    'id_role' => 3,
+                    'id_branch' => $request->id_branch,
+                ]);
+
+                // إنشاء مستخدم
+                User::create([
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'id_type_users' => 3,
+                    'pid' => $request->id_customer,
+                ]);
+
+            });
+            return redirect()->route("customers.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "success",
+                        "title" => "نحجت العملية",
+                        "text" => "تمت عملية الإضافة بنجاح"
+                    ]
+                ]);
+
+        } catch (ValidationException $e) {
+            return redirect()->route('customers.index', ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "فشلت العملية",
+                        "text" => "يوجد خطأ في عملية ادخال البيانات يرجى التأكد البيانات"
+                    ]
+                ]);
+        }
     }
 
     /**
@@ -69,21 +153,105 @@ class CostumersController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$page_id, $id)
     {
-        //
+        try {
+            $validatedData = $request->validate([
+                'id_customer' => ['required', 'numeric'],
+                'name' => ['required', 'string', 'max:255', 'min:3'],
+                'email' => ['required', 'string', 'email'],
+                'password' => ['required'],
+                'address' => ['required', 'string', 'max:30'],
+                'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
+                'phone_number2' => ['nullable', 'numeric'],
+            ]);
+            $customer = Customers::where("id_customer", $id)->first();
+
+            if($customer) {
+                $customer->update([
+                    'id_customer' => $id,
+                    'name_customer' => $request->name,
+                    'address' => $request->address,
+                    'phone_number' => $request->phone_number,
+                    'phone_number2' => $request->phone_number2 == '0' ? null : $request->phone_number2,
+                ]);
+
+                $user = User::where('id_type_users', 3)
+                    ->where('pid', $id)->first();
+                $user->update([
+                    'email' => $request->email,
+                    'pid' => $id,
+                ]);
+                if("$request->password" != "$user->password"){
+//                    $user->password = Hash::make($request->password);
+//                    $user->save();
+                }
+
+                return redirect()->route("customers.index", ['page_id' => $this->page_id])
+                    ->with([
+                        "message" => [
+                            "type" => "success",
+                            "title" => "نحجت العملية",
+                            "text" => "تمت عملية التعديل على الزبون"
+                        ]
+                    ]);
+
+            }
+            return redirect()->route('customers.index', ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "فشلت العملية",
+                        "text" => "هذا الزبون غير موجود"
+                    ]
+                ]);
+        } catch (ValidationException $e) {
+            return redirect()->route('customers.index', ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "فشلت العملية",
+                        "text" => "يوجد خطأ في عملية ادخال البيانات يرجى التأكد البيانات"
+                    ]
+                ]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($page_id, $id)
     {
-        //
+        $customer = Customers::where("id_customer", $id)->first();
+
+        if($customer) {
+            Customers::destroy("id_customer", $id);
+
+            $user = User::where('id_type_users', 3)
+                ->where('pid', $id)->first();
+            User::destroy($user->id);
+
+            return redirect()->route("customers.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "info",
+                        "title" => "نجحت العملية",
+                        "text" => "تم حذف الزبون"
+                    ]
+                ]);
+        }
+        return redirect()->route('customers.index', ['page_id' => $this->page_id])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذا الزبون غير موجود"
+                ]
+            ]);
     }
 }

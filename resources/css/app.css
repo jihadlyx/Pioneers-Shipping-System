@@ -33,6 +33,9 @@
         @apply h-[calc(100vh_-_8.125rem)] lg:h-[calc(100vh_-_5.625rem)];
     }
 }
+select {
+    background-image: none !important;
+}
 .alert-error {
     background-color: rgb(254, 226, 226);
     color: rgb(185, 28, 28);

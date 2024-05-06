@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // قم بتحديد كل زر وأضف حدث النقر إليه
     buttons.forEach((button) => {
         button.addEventListener("click", () => {
-            const target = button.getAttribute("data-target"); // احصل على القيمة الموجودة في data-target
+            const target = button.getAttribute("data-target");
+            // احصل على القيمة الموجودة في data-target
             if (target != "SaveChanging") {
                 const modal = document.getElementById(target); // استهدف العنصر المستهدف بواسطة هذه القيمة
                 idTerget = modal;
@@ -20,6 +21,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    const btnCloses2 = document.querySelectorAll('.btn-close-2');
+    btnCloses2.forEach((close) => {
+        close.addEventListener("click", () => {
+            let modal = close.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+            closeModal(modal);
+
+        });
+    });
     // استهدف كل الأزرار الإغلاق (close)
     const closes = document.querySelectorAll(".btn-modal-close");
 
@@ -113,49 +122,53 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    const form = document.querySelector(".needs-validation");
+    const forms = document.querySelectorAll(".needs-validation");
 
-    form.addEventListener("submit", onSubmitForm);
+    forms.forEach(form => {
+        form.addEventListener("submit", onSubmitForm);
 
-    function onSubmitForm(event) {
-        event.preventDefault();
-        event.stopPropagation();
+        function onSubmitForm(event) {
+            event.preventDefault();
+            event.stopPropagation();
 
-        // استهداف جميع الحقول داخل النموذج
-        const fields = form.querySelectorAll(
-            "input[required], select[required], textarea[required]"
-        );
+            // استهداف جميع الحقول داخل النموذج
+            const fields = form.querySelectorAll(
+                "input[required], select[required], textarea[required]"
+            );
 
 // تحقق مما إذا كانت هناك حقول فارغة
-        let isFormValid = true;
-        fields.forEach(function (field) {
-            if (!field.value.trim()) {
-                isFormValid = false;
-                field.classList.add("is-invalid"); // إضافة كلاس 'is-invalid' إلى الحقل الفارغ
-                field.nextElementSibling.style.display = "block"; // عرض العنصر الذي يحمل الكلاس 'invalid-feedback'
-            } else {
-                // إذا كان هناك قيمة في الحقل، قم بالتحقق من الحد الأقصى والأدنى لعدد الأحرف
-                if (
-                    field.minLength && field.value.trim().length < field.minLength ||
-                    field.maxLength && field.value.trim().length > field.maxLength
-                ) {
+            let isFormValid = true;
+            fields.forEach(function (field) {
+                if (!field.value.trim()) {
                     isFormValid = false;
-                    field.classList.add("is-invalid"); // إضافة كلاس 'is-invalid' إلى الحقل
+                    field.classList.add("is-invalid"); // إضافة كلاس 'is-invalid' إلى الحقل الفارغ
                     field.nextElementSibling.style.display = "block"; // عرض العنصر الذي يحمل الكلاس 'invalid-feedback'
                 } else {
-                    field.classList.remove("is-invalid"); // إزالة كلاس 'is-invalid' إذا كان الحقل غير فارغ
-                    field.nextElementSibling.style.display = "none"; // إخفاء العنصر الذي يحمل الكلاس 'invalid-feedback'
+                    // إذا كان هناك قيمة في الحقل، قم بالتحقق من الحد الأقصى والأدنى لعدد الأحرف
+                    if (
+                        field.minLength && field.value.trim().length < field.minLength ||
+                        field.maxLength && field.value.trim().length > field.maxLength
+                    ) {
+                        isFormValid = false;
+                        field.classList.add("is-invalid"); // إضافة كلاس 'is-invalid' إلى الحقل
+                        field.nextElementSibling.style.display = "block"; // عرض العنصر الذي يحمل الكلاس 'invalid-feedback'
+                    } else {
+                        field.classList.remove("is-invalid"); // إزالة كلاس 'is-invalid' إذا كان الحقل غير فارغ
+                        field.nextElementSibling.style.display = "none"; // إخفاء العنصر الذي يحمل الكلاس 'invalid-feedback'
+                    }
                 }
+            });
+
+
+            // إذا كان النموذج صالحاً، قم بإرساله
+            if (isFormValid) {
+                form.classList.remove("was-validated");
+                form.submit();
+            } else {
+                form.classList.add("was-validated");
             }
-        });
-
-
-        // إذا كان النموذج صالحاً، قم بإرساله
-        if (isFormValid) {
-            form.classList.remove("was-validated");
-            form.submit();
-        } else {
-            form.classList.add("was-validated");
         }
-    }
+    });
+
+
 });

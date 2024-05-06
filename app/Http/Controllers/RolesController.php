@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class RolesController extends Controller
 {
@@ -29,14 +30,14 @@ class RolesController extends Controller
      */
     public function index()
     {
-
-        $maxRoleId = Role::max('id_role')? Role::max('id_role') + 1 : 1;
+        $page_id = $this->page_id;
+        $maxRoleId = Role::withTrashed()->max('id_role')? Role::withTrashed()->max('id_role') + 1 : 1;
         $roles = Role::all();
         $isDelete = $this->checkDeleteRole($this->page_id);
         $isCreate = $this->checkCreateRole($this->page_id);
         $isUpdate = $this->checkUpdateRole($this->page_id);
 
-        return view('site.Settings.Roles.rolesView', compact('roles', 'maxRoleId', 'isDelete', 'isUpdate', 'isCreate'));
+        return view('site.Settings.Roles.rolesView', compact('roles', 'maxRoleId', 'isDelete', 'isUpdate', 'isCreate', 'page_id'));
     }
 
     /**
@@ -57,6 +58,11 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'id_role' => ['required', 'numeric', 'unique:'.Role::class],
+                'title' => ['required', 'string', 'max:50', 'min:3', 'unique:'.Role::class],
+            ]);
         DB::transaction(function () use ($request) {
             $role = Role::create([
                 'id_role'=> $request->id_role,
@@ -68,7 +74,6 @@ class RolesController extends Controller
                 $pages = Page::all();
                 foreach ($pages as $page) {
                     $maxMaterialRoleId = MaterialRole::max('id') ? MaterialRole::max('id') + 1 : 1;
-
                     MaterialRole::create([
                         'id' => $maxMaterialRoleId,
                         'id_role' => $request->id_role,
@@ -82,14 +87,25 @@ class RolesController extends Controller
             }
 
         });
-        return redirect()->route('roles.index', ['page_id' => 7])
-            ->with([
-                "message" => [
-                    "type" => "success",
-                    "title" => "نجحت العملية",
-                    "text" => "تم إضافة صلاحية ال" . $request->title
-                ]
-            ]);
+            return redirect()->route('materialRoles.show', ['page_id' => $this->page_id, 'id_role' => $request->id_role])
+                ->with([
+                    "message" => [
+                        "type" => "success",
+                        "title" => "نجحت العملية",
+                        "text" => "تم إضافة صلاحية ال" . $request->title
+                    ]
+                ]);
+
+        } catch (ValidationException $e) {
+            return redirect()->route('roles.index', ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "فشلت العملية",
+                        "text" => "يوجد خطأ في عملية ادخال البيانات يرجى التأكد البيانات"
+                    ]
+                ]);
+        }
     }
 
     /**
@@ -164,7 +180,7 @@ class RolesController extends Controller
                 return redirect()->route('roles.index', ['page_id' => 7])
                     ->with([
                         "message" => [
-                            "type" => "info",
+                            "type" => "error",
                             "title" => "نجحت العملية",
                             "text" => "تمت عملية حذف الصلاحية"
                         ]

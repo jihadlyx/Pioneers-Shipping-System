@@ -27,10 +27,9 @@ class CheckCreatePermission
 
             $path_page = Page::where('id_page', $page_id)
                 ->first();
-
             if($path_page) {
                 if (str_contains($path, $path_page->path)) {
-                    return abort(403, "$path not acces2222s" );
+                    return abort(403, "$path not path" );
                 }
             }
 

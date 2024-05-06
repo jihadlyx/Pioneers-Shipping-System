@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('id_branch')->unsigned();
             $table->integer('id_role');
             $table->timestamps();
-
+            $table->softDeletes();
             $table->foreign('id_branch')->references('id_branch')->on('branches')->onDelete('cascade');
         });
     }

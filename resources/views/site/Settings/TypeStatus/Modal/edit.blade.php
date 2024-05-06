@@ -1,4 +1,4 @@
-<div id="EditState" x-transition=""
+<div id="EditState{{ $state->id_status }}" x-transition=""
     class="modal hidden fixed left-0 top-0 z-99999 h-screen w-full justify-center overflow-y-scroll bg-black/80 px-4 py-5">
     <div
         class="relative m-auto w-full max-w-180 sm:max-w-230 rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10">
@@ -6,7 +6,7 @@
             <h2 class="flex-1 text-center text-title-md font-bold text-meta-3 dark:text-white">
                 تعديل حالة جديد
             </h2>
-            <button data-target="SaveChangeing"
+            <button data-target="SaveChanging"
                 class="btn-modal-close absolute ltr:right-1 rtl:left-1 top-1 ltr:sm:right-5 rtl:sm:left-5 sm:top-5">
                 <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -16,14 +16,16 @@
                 </svg>
             </button>
         </div>
-        <form action="#" class="needs-validation" novalidate>
+        <form action="{{ route('status.update', ['page_id' => $id_page, 'id_status' => $state->id_status]) }}" method="POST" class="needs-validation" novalidate>
+            @csrf
+            @method('PATCH')
             <div class="p-6.5">
                 <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
                     <div class="w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم الحالة
                         </label>
-                        <input type="text" placeholder="ادخل رقم الحالة"
+                        <input type="text" name="id_status" value="{{ $state->id_status }}" placeholder="ادخل رقم الحالة"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -34,7 +36,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             اسم الحالة
                         </label>
-                        <input type="text" placeholder="ادخل اسم الحالة"
+                        <input type="text" name="title" value="{{ $state->title }}" placeholder="ادخل اسم الحالة"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">

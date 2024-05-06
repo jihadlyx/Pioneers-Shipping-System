@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('id_to_branch')->unsigned();
             $table->double("price");
             $table->timestamps();
-
+            $table->softDeletes();
             $table->foreign('id_from_branch')->references('id_branch')->on('branches')->onDelete('cascade');
             $table->foreign('id_to_branch')->references('id_branch')->on('branches')->onDelete('cascade');
         });

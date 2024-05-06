@@ -17,7 +17,10 @@ return new class extends Migration
             $table->integer('id_city')->unsigned()->primary();
             $table->string('title', 50);
             $table->double("price");
+            $table->integer('id_branch')->unsigned();
             $table->timestamps();
+            $table->softDeletes();
+            $table->foreign('id_branch')->references('id_branch')->on('branches')->onDelete('cascade');
         });
     }
 

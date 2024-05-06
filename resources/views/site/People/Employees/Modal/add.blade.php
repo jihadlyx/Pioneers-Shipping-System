@@ -16,17 +16,28 @@
                 </svg>
             </button>
         </div>
-        <form action="{{ route('employees.store', ['page_id' => 2]) }}" method="POST" class="needs-validation" novalidate>
+        <form action="{{ route('employees.store', ['page_id' => 2]) }}" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
            @csrf
             <div class="p-6.5">
                 <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                    <div class="w-full xl:w-1/2">
+                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                            رقم الموظف
+                        </label>
+                        <input type="number" name="id_emp" value="{{ $maxEmployeeId }}" placeholder="ادخل رقم الموظف"
+                               class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                               required maxlength="10" minlength="1"/>
+                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
+                            الرجاء ادخل حقل رقم الموظف
+                        </div>
+                    </div>
                     <div class="w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             اسم الموظف
                         </label>
                         <input type="text" name="name" placeholder="ادخل اسم الموظف"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
+                            required maxlength="50" minlength="3" />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل الاسم
                         </div>
@@ -37,7 +48,7 @@
                         </label>
                         <input type="number" name="phone_number" inputmode="numeric" placeholder="ادخل رقم هاتف الموظف"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
+                            required maxlength="12" minlength="10" />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل رقم الهاتف
                         </div>
@@ -46,7 +57,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم الهاتف احتياطي
                         </label>
-                        <input type="number" name="phone_number2" step="1" placeholder="ادخل رقم هاتف الموظف"
+                        <input type="number" name="phone_number2" step="1" maxlength="12" minlength="10" placeholder="ادخل رقم هاتف الموظف"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary" />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل رقم الهاتف
@@ -58,9 +69,9 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             البريد الالكتروني
                         </label>
-                        <input type="email" name="email" placeholder="ادخل البريد الالكتروني"
+                        <input type="email" name="email"  placeholder="ادخل البريد الالكتروني"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
+                            required maxlength="255" minlength="13" />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل البريد
                         </div>
@@ -71,7 +82,7 @@
                         </label>
                         <input type="password" name="password" placeholder="ادخل كلمة السر"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
+                            required maxlength="255" minlength="6" />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل كلمة السر
                         </div>
@@ -82,7 +93,7 @@
                         </label>
                         <input type="text" name="address" placeholder="ادخل العنوان"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
+                            required maxlength="30" minlength="5" />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل العنوان
                         </div>
@@ -98,12 +109,18 @@
                                 class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 :class="isOptionSelected && 'text-black dark:text-white'"
                                 @change.once="isOptionSelected = true" required>
-                                <option value="" disabled selected class="text-body">
-                                    اختر
-                                </option>
-                                <option value="2" class="text-body">USA</option>
-                                <option value="3" class="text-body">UK</option>
-                                <option value="4" class="text-body">Canada</option>
+
+                                @if(count($branches) == 1)
+                                    <option value="{{ $branches[0]->id_branch }}" class="text-body"> {{ $branches[0]->title }} </option>
+                                @else
+                                    <option value="" disabled selected class="text-body">
+                                        اختر
+                                    </option>
+                                    @foreach($branches as $branch)
+                                        <option value="{{ $branch->id_branch }}" class="text-body"> {{ $branch->title }} </option>
+                                    @endforeach
+                                @endif
+
                             </select>
                             <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">
                                 <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24"
@@ -132,9 +149,9 @@
                                 <option value="" disabled selected class="text-body">
                                     اختر
                                 </option>
-                                <option value="2" class="text-body">مدير</option>
-                                <option value="3" class="text-body">مسؤول</option>
-                                <option value="4" class="text-body">Canada</option>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id_role }}" class="text-body"> {{ $role->title }} </option>
+                                @endforeach
                             </select>
                             <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">
                                 <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24"
@@ -155,8 +172,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             اختيار صورة
                         </label>
-                        <input type="file" required
-                            class="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent font-normal outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:px-5 file:py-3 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary">
+                        <input type="file" accept="image/gif, image/jpeg, image/png" aria-label="file example" name="photo" class="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent font-normal outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:px-5 file:py-3 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary">
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء اختيار صورة للموظف
                         </div>
@@ -164,7 +180,7 @@
                 </div>
             </div>
             <button type="submit"
-                class="save-data flex w-fit items-center justify-center gap-2 rounded bg-primary px-4.5 py-2.5 font-medium text-white">
+                    class="save-data flex w-fit items-center justify-center gap-2 rounded bg-primary px-4.5 py-2.5 font-medium text-white">
                 إضافة
             </button>
         </form>

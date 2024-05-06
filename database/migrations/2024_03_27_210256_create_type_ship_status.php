@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('type_ship_status', function (Blueprint $table) {
-            $table->integer('id_state')->unsigned()->primary();
+        Schema::create('type_ship_statuses', function (Blueprint $table) {
+            $table->integer('id_status')->unsigned()->primary();
             $table->string('title', 50);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_ship_status');
+        Schema::dropIfExists('type_ship_statuses');
     }
 };

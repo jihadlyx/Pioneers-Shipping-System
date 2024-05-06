@@ -6,7 +6,7 @@
             <h2 class="flex-1 text-center text-title-md font-bold text-meta-5 dark:text-white">
                 إضافة صلاحية جديدة
             </h2>
-            <button data-target="SaveChangeing"
+            <button data-target="SaveChanging"
                 class="btn-modal-close absolute ltr:right-1 rtl:left-1 top-1 ltr:sm:right-5 rtl:sm:left-5 sm:top-5">
                 <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -27,7 +27,7 @@
                         </label>
                         <input type="text" name="id_role" value="{{ $maxRoleId }}" placeholder="ادخل رقم الصلاحية"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
+                            required  maxlength="10" minlength="1"/>
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل رقم الصلاحية
                         </div>
@@ -38,7 +38,7 @@
                         </label>
                         <input type="text" name="title" placeholder="ادخل اسم الصلاحية"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
+                            required maxlength="50" minlength="3"/>
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل اسم الصلاحية
                         </div>

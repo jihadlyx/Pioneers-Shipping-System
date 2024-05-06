@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\MaterialRole;
 use App\Models\Page;
 use App\Models\Role;
+use App\Models\TypeShipStatus;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,9 +18,38 @@ class PageTableSeeder extends Seeder
      */
     public function run()
     {
+        TypeShipStatus::create([
+            'id_status' => 1,
+            'title' => 'قيد الموافقه'
+        ]);
+        TypeShipStatus::create([
+            'id_status' => 2,
+            'title' => 'قيد التوصيل'
+        ]);
+        TypeShipStatus::create([
+            'id_status' => 3,
+            'title' => 'تم التسليم'
+        ]);
+        TypeShipStatus::create([
+            'id_status' => 4,
+            'title' => 'تعذر التوصيل'
+        ]);
         Role::create([
             'id_role'=> 1,
             'title'=> "مدير",
+        ]);
+        Role::create([
+            'id_role'=> 2,
+            'title'=> "مندوب",
+        ]);
+        Role::create([
+            'id_role'=> 3,
+            'title'=> "زبون",
+        ]);
+        Page::create([
+            "id_page" => 9,
+            "title" => 'الرئيسية',
+            "path" => "/dashboard"
         ]);
         Page::create([
             "id_page" => 1,
@@ -63,25 +93,56 @@ class PageTableSeeder extends Seeder
             "title" => 'انواع حالات الشحنة',
             "path" => "/status"
         ]);
+
         Page::create([
-            "id_page" => 9,
-            "title" => 'انواع حالات الشحنة',
-            "path" => "/dashboard"
+            "id_page" => 10,
+            "title" => 'سلة المحذوفات',
+            "path" => "/trash"
+        ]);
+        Page::create([
+            "id_page" => 11,
+            "title" => 'حالات الشحنة',
+            "path" => "/statusShipments"
         ]);
 
         $pages = Page::all();
-        foreach ($pages as $page) {
-            $maxMaterialRoleId = MaterialRole::max('id') ? MaterialRole::max('id') + 1 : 1;
-
-            MaterialRole::create([
-                'id' => $maxMaterialRoleId,
-                'id_role' => 1,
-                'id_page' => $page->id_page,
-                'create' => false,
-                'update' => false,
-                'delete' => false,
-                'show' => true,
-            ]);
+        $roles = Role::all();
+        foreach ($roles as $role) {
+            foreach ($pages as $page) {
+                $maxMaterialRoleId = MaterialRole::max('id') ? MaterialRole::max('id') + 1 : 1;
+                if($role->id_role == 2) {
+                    MaterialRole::create([
+                        'id' => $maxMaterialRoleId,
+                        'id_role' => $role->id_role,
+                        'id_page' => $page->id_page,
+                        'create' => $page->id_page == 5 || $page->id_page == 9? true : false,
+                        'update' => $page->id_page == 5 || $page->id_page == 9? true : false,
+                        'delete' => $page->id_page == 5 || $page->id_page == 9? true : false,
+                        'show' => $page->id_page == 5 || $page->id_page == 9? true : false,
+                    ]);
+                } elseif ($role->id_role == 3) {
+                    MaterialRole::create([
+                        'id' => $maxMaterialRoleId,
+                        'id_role' => $role->id_role,
+                        'id_page' => $page->id_page,
+                        'create' => $page->id_page == 5 || $page->id_page == 9? true : false,
+                        'update' => $page->id_page == 5 || $page->id_page == 9 ? true : false,
+                        'delete' => $page->id_page == 5 || $page->id_page == 9 ? true : false,
+                        'show' => $page->id_page == 5 || $page->id_page == 9 ? true : false,
+                    ]);
+                } else {
+                    MaterialRole::create([
+                        'id' => $maxMaterialRoleId,
+                        'id_role' => $role->id_role,
+                        'id_page' => $page->id_page,
+                        'create' => true,
+                        'update' => true,
+                        'delete' => true,
+                        'show' => true,
+                    ]);
+                }
+            }
         }
+
     }
 }

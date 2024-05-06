@@ -30,6 +30,7 @@ class BranchesController extends Controller
         $isUpdate = $this->checkUpdateRole($this->page_id);
 
         $maxBranchId = Branch::withTrashed()->max('id_branch') ? Branch::withTrashed()->max('id_branch') + 1 : 1;
+
         if($isCreate) {
             $branches = Branch::all();
         } else {
@@ -54,7 +55,7 @@ class BranchesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
         try {
             $validatedData = $request->validate([

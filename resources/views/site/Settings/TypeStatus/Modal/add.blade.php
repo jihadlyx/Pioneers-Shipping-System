@@ -6,7 +6,7 @@
             <h2 class="flex-1 text-center text-title-md font-bold text-meta-5 dark:text-white">
                 إضافة حالة جديد
             </h2>
-            <button data-target="SaveChangeing"
+            <button data-target="SaveChanging"
                 class="btn-modal-close absolute ltr:right-1 rtl:left-1 top-1 ltr:sm:right-5 rtl:sm:left-5 sm:top-5">
                 <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -16,16 +16,17 @@
                 </svg>
             </button>
         </div>
-        <form action="#" class="needs-validation" novalidate>
+        <form action="{{ route('status.store', ['page_id' => $id_page]) }}"  method="POST" class="needs-validation" novalidate>
+            @csrf
             <div class="p-6.5">
                 <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
                     <div class="w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم الحالة
                         </label>
-                        <input type="text" placeholder="ادخل رقم الحالة"
+                        <input type="text" name="id_status" value="{{ $maxTypeStateId }}" placeholder="ادخل رقم الحالة"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
+                            required maxlength="10" minlength="1"/>
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل رقم الحالة
                         </div>
@@ -34,9 +35,9 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             اسم الحالة
                         </label>
-                        <input type="text" placeholder="ادخل اسم الحالة"
+                        <input type="text" name="title" placeholder="ادخل اسم الحالة"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
+                            required maxlength="50" minlength="3"/>
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل اسم الحالة
                         </div>
@@ -44,7 +45,7 @@
                 </div>
 
             </div>
-            <button
+            <button type="submit"
                 class="save-data flex w-fit items-center justify-center gap-2 rounded bg-primary px-4.5 py-2.5 font-medium text-white">
                 إضافة
             </button>

@@ -27,7 +27,8 @@
 
                 <ul class="mb-6 flex flex-col gap-1.5">
                     <!-- Menu Item Dashboard -->
-                    <li>
+                    @if(Auth()->user()->checkShowRole(9))
+                        <li>
                         <a class=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                             href="/dashboard/9" @click.once="selected = (selected === 'Dashboard' ? '':'Dashboard')"
                             :class="{
@@ -51,42 +52,46 @@
                             الرئيسية
                         </a>
                     </li>
+                    @endif
                     <!-- Menu Item Dashboard -->
 
                     <!-- Menu Item Branches -->
-                    <li>
-                        <a class=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-                           href="/branches/1" @click.once="selected = (selected === 'Branches' ? '':'Branches')"
-                            :class="{
+                    @if(Auth()->user()->checkShowRole(1))
+                        <li>
+                            <a class=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
+                               href="/branches/1" @click.once="selected = (selected === 'Branches' ? '':'Branches')"
+                               :class="{
                                 'bg-graydark dark:bg-meta-4': (selected === 'Branches') || (page === 'Branches')
                             }">
-                            <svg class="fill-current" width="18" height="19" viewBox="0 0 18 19" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_130_9807)">
-                                    <path
-                                        d="M15.7501 0.55835H2.2501C1.29385 0.55835 0.506348 1.34585 0.506348 2.3021V7.53335C0.506348 8.4896 1.29385 9.2771 2.2501 9.2771H15.7501C16.7063 9.2771 17.4938 8.4896 17.4938 7.53335V2.3021C17.4938 1.34585 16.7063 0.55835 15.7501 0.55835ZM16.2563 7.53335C16.2563 7.8146 16.0313 8.0396 15.7501 8.0396H2.2501C1.96885 8.0396 1.74385 7.8146 1.74385 7.53335V2.3021C1.74385 2.02085 1.96885 1.79585 2.2501 1.79585H15.7501C16.0313 1.79585 16.2563 2.02085 16.2563 2.3021V7.53335Z"
-                                        fill="" />
-                                    <path
-                                        d="M6.13135 10.9646H2.2501C1.29385 10.9646 0.506348 11.7521 0.506348 12.7083V15.8021C0.506348 16.7583 1.29385 17.5458 2.2501 17.5458H6.13135C7.0876 17.5458 7.8751 16.7583 7.8751 15.8021V12.7083C7.90322 11.7521 7.11572 10.9646 6.13135 10.9646ZM6.6376 15.8021C6.6376 16.0833 6.4126 16.3083 6.13135 16.3083H2.2501C1.96885 16.3083 1.74385 16.0833 1.74385 15.8021V12.7083C1.74385 12.4271 1.96885 12.2021 2.2501 12.2021H6.13135C6.4126 12.2021 6.6376 12.4271 6.6376 12.7083V15.8021Z"
-                                        fill="" />
-                                    <path
-                                        d="M15.75 10.9646H11.8688C10.9125 10.9646 10.125 11.7521 10.125 12.7083V15.8021C10.125 16.7583 10.9125 17.5458 11.8688 17.5458H15.75C16.7063 17.5458 17.4938 16.7583 17.4938 15.8021V12.7083C17.4938 11.7521 16.7063 10.9646 15.75 10.9646ZM16.2562 15.8021C16.2562 16.0833 16.0312 16.3083 15.75 16.3083H11.8688C11.5875 16.3083 11.3625 16.0833 11.3625 15.8021V12.7083C11.3625 12.4271 11.5875 12.2021 11.8688 12.2021H15.75C16.0312 12.2021 16.2562 12.4271 16.2562 12.7083V15.8021Z"
-                                        fill="" />
-                                </g>
-                                <defs>
-                                    <clipPath id="clip0_130_9807">
-                                        <rect width="18" height="18" fill="white"
-                                            transform="translate(0 0.052124)" />
-                                    </clipPath>
-                                </defs>
-                            </svg>
-                            الفروع
-                        </a>
-                    </li>
+                                <svg class="fill-current" width="18" height="19" viewBox="0 0 18 19" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_130_9807)">
+                                        <path
+                                            d="M15.7501 0.55835H2.2501C1.29385 0.55835 0.506348 1.34585 0.506348 2.3021V7.53335C0.506348 8.4896 1.29385 9.2771 2.2501 9.2771H15.7501C16.7063 9.2771 17.4938 8.4896 17.4938 7.53335V2.3021C17.4938 1.34585 16.7063 0.55835 15.7501 0.55835ZM16.2563 7.53335C16.2563 7.8146 16.0313 8.0396 15.7501 8.0396H2.2501C1.96885 8.0396 1.74385 7.8146 1.74385 7.53335V2.3021C1.74385 2.02085 1.96885 1.79585 2.2501 1.79585H15.7501C16.0313 1.79585 16.2563 2.02085 16.2563 2.3021V7.53335Z"
+                                            fill="" />
+                                        <path
+                                            d="M6.13135 10.9646H2.2501C1.29385 10.9646 0.506348 11.7521 0.506348 12.7083V15.8021C0.506348 16.7583 1.29385 17.5458 2.2501 17.5458H6.13135C7.0876 17.5458 7.8751 16.7583 7.8751 15.8021V12.7083C7.90322 11.7521 7.11572 10.9646 6.13135 10.9646ZM6.6376 15.8021C6.6376 16.0833 6.4126 16.3083 6.13135 16.3083H2.2501C1.96885 16.3083 1.74385 16.0833 1.74385 15.8021V12.7083C1.74385 12.4271 1.96885 12.2021 2.2501 12.2021H6.13135C6.4126 12.2021 6.6376 12.4271 6.6376 12.7083V15.8021Z"
+                                            fill="" />
+                                        <path
+                                            d="M15.75 10.9646H11.8688C10.9125 10.9646 10.125 11.7521 10.125 12.7083V15.8021C10.125 16.7583 10.9125 17.5458 11.8688 17.5458H15.75C16.7063 17.5458 17.4938 16.7583 17.4938 15.8021V12.7083C17.4938 11.7521 16.7063 10.9646 15.75 10.9646ZM16.2562 15.8021C16.2562 16.0833 16.0312 16.3083 15.75 16.3083H11.8688C11.5875 16.3083 11.3625 16.0833 11.3625 15.8021V12.7083C11.3625 12.4271 11.5875 12.2021 11.8688 12.2021H15.75C16.0312 12.2021 16.2562 12.4271 16.2562 12.7083V15.8021Z"
+                                            fill="" />
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_130_9807">
+                                            <rect width="18" height="18" fill="white"
+                                                  transform="translate(0 0.052124)" />
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                                الفروع
+                            </a>
+                        </li>
+                    @endif
                     <!-- Menu Item Branches -->
 
                     <!-- Menu Item People -->
-                    <li>
+                    @if(Auth()->user()->checkShowRole(2) || Auth()->user()->checkShowRole(3) || Auth()->user()->checkShowRole(4))
+                        <li>
                         <a class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                             href="employees" @click.prevent="selected = (selected === 'People' ? '':'People')"
                             :class="{
@@ -118,28 +123,37 @@
                         <div class="translate transform overflow-hidden"
                             :class="(selected === 'People') ? 'block' : 'hidden'">
                             <ul class="mb-5.5 mt-4 text-xl flex flex-col gap-2.5 ltr:pl-6 rtl:pr-6">
-                                <li>
-                                    <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                        href="/employees/2" :class="page === 'Employees' && '!text-white'">الموظفين
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                        href="/delegates/3" :class="page === 'Delegates' && '!text-white'">المندوبين
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                        href="/costumers/4" :class="page === 'Costumers' && '!text-white'">الزبائن
-                                    </a>
-                                </li>
+                                @if(Auth()->user()->checkShowRole(2))
+                                    <li>
+                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
+                                           href="/employees/2" :class="page === 'Employees' && '!text-white'">الموظفين
+                                        </a>
+                                    </li>
+                                @endif
+                                @if(Auth()->user()->checkShowRole(3))
+                                    <li>
+                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
+                                           href="/delegates/3" :class="page === 'Delegates' && '!text-white'">المندوبين
+                                        </a>
+                                    </li>
+                                @endif
+                                @if(Auth()->user()->checkShowRole(4))
+                                    <li>
+                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
+                                           href="/customers/4" :class="page === 'Customers' && '!text-white'">الزبائن
+                                        </a>
+                                    </li>
+                                @endif
+
                             </ul>
                         </div>
                         <!-- Dropdown Menu End -->
                     </li>
+                    @endif
                     <!-- Menu Item People -->
                     <!-- Menu Item Shipments -->
-                    <li>
+                    @if(Auth()->user()->checkShowRole(5))
+                        <li>
                         <a class=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                             href="/shipments/5" @click.once="selected = (selected === 'Shipments' ? '':'Shipments')"
                             :class="{
@@ -168,10 +182,46 @@
                             الشحنات
                         </a>
                     </li>
+                    @endif
+                    <!-- Menu Item Shipments -->
+
+                    <!-- Menu Item Shipments -->
+                    @if(Auth()->user()->checkShowRole(11))
+                        <li>
+                            <a class=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
+                               href="/statusShipments/11" @click.once="selected = (selected === 'Shipments' ? '':'Shipments')"
+                               :class="{
+                                'bg-graydark dark:bg-meta-4': (selected === 'Shipments') || (page === 'Shipments')
+                            }">
+                                <svg class="fill-current" width="18" height="19" viewBox="0 0 18 19"
+                                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_130_9807)">
+                                        <path
+                                            d="M15.7501 0.55835H2.2501C1.29385 0.55835 0.506348 1.34585 0.506348 2.3021V7.53335C0.506348 8.4896 1.29385 9.2771 2.2501 9.2771H15.7501C16.7063 9.2771 17.4938 8.4896 17.4938 7.53335V2.3021C17.4938 1.34585 16.7063 0.55835 15.7501 0.55835ZM16.2563 7.53335C16.2563 7.8146 16.0313 8.0396 15.7501 8.0396H2.2501C1.96885 8.0396 1.74385 7.8146 1.74385 7.53335V2.3021C1.74385 2.02085 1.96885 1.79585 2.2501 1.79585H15.7501C16.0313 1.79585 16.2563 2.02085 16.2563 2.3021V7.53335Z"
+                                            fill=""></path>
+                                        <path
+                                            d="M6.13135 10.9646H2.2501C1.29385 10.9646 0.506348 11.7521 0.506348 12.7083V15.8021C0.506348 16.7583 1.29385 17.5458 2.2501 17.5458H6.13135C7.0876 17.5458 7.8751 16.7583 7.8751 15.8021V12.7083C7.90322 11.7521 7.11572 10.9646 6.13135 10.9646ZM6.6376 15.8021C6.6376 16.0833 6.4126 16.3083 6.13135 16.3083H2.2501C1.96885 16.3083 1.74385 16.0833 1.74385 15.8021V12.7083C1.74385 12.4271 1.96885 12.2021 2.2501 12.2021H6.13135C6.4126 12.2021 6.6376 12.4271 6.6376 12.7083V15.8021Z"
+                                            fill=""></path>
+                                        <path
+                                            d="M15.75 10.9646H11.8688C10.9125 10.9646 10.125 11.7521 10.125 12.7083V15.8021C10.125 16.7583 10.9125 17.5458 11.8688 17.5458H15.75C16.7063 17.5458 17.4938 16.7583 17.4938 15.8021V12.7083C17.4938 11.7521 16.7063 10.9646 15.75 10.9646ZM16.2562 15.8021C16.2562 16.0833 16.0312 16.3083 15.75 16.3083H11.8688C11.5875 16.3083 11.3625 16.0833 11.3625 15.8021V12.7083C11.3625 12.4271 11.5875 12.2021 11.8688 12.2021H15.75C16.0312 12.2021 16.2562 12.4271 16.2562 12.7083V15.8021Z"
+                                            fill=""></path>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_130_9807">
+                                            <rect width="18" height="18" fill="white"
+                                                  transform="translate(0 0.052124)"></rect>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                                تفاصيل الشحنات
+                            </a>
+                        </li>
+                    @endif
                     <!-- Menu Item Shipments -->
 
                     <!-- Menu Item SubCities -->
-                    <li>
+                    @if(Auth()->user()->checkShowRole(6))
+                        <li>
                         <a class=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                             href="/subCities/6" @click.once="selected = (selected === 'SubCities' ? '':'SubCities')"
                             :class="{
@@ -208,9 +258,11 @@
                             المدن او المناطق
                         </a>
                     </li>
+                    @endif
                     <!-- Menu Item SubCities -->
                     <!-- Menu Item Settings -->
-                    <li>
+                    @if(Auth()->user()->checkShowRole(7) || Auth()->user()->checkShowRole(8))
+                        <li>
                         <a class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                             href="Settings" @click.prevent="selected = (selected === 'Settings' ? '':'Settings')"
                             :class="{
@@ -250,27 +302,27 @@
                         <div class="translate transform overflow-hidden"
                             :class="(selected === 'Settings') ? 'block' : 'hidden'">
                             <ul class="mb-5.5 mt-4 text-xl flex flex-col gap-2.5 ltr:pl-6 rtl:pr-6">
-                                <li>
-                                    <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                        href="/roles/7" :class="page === 'Permission' && '!text-white'">
-                                        الصلاحيات
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                        href="/status/8" :class="page === 'Delegates' && '!text-white'">
-                                        انواع حالات الشحنة
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                        href="trash" :class="page === 'Employees' && '!text-white'">سلة المحذوفات
-                                    </a>
-                                </li>
+                                @if(Auth()->user()->checkShowRole(7))
+                                    <li>
+                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
+                                            href="/roles/7" :class="page === 'Permission' && '!text-white'">
+                                            الصلاحيات
+                                        </a>
+                                    </li>
+                                @endif
+                                @if(Auth()->user()->checkShowRole(8))
+                                    <li>
+                                <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
+                                    href="/status/8" :class="page === 'Delegates' && '!text-white'">
+                                    انواع حالات الشحنة
+                                </a>
+                            </li>
+                                @endif
                             </ul>
                         </div>
                         <!-- Dropdown Menu End -->
                     </li>
+                    @endif
                     <!-- Menu Item Settings -->
                 </ul>
             </div>

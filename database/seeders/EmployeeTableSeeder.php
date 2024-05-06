@@ -9,7 +9,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class EmployeeTableSeerder extends Seeder
+class EmployeeTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -41,7 +41,6 @@ class EmployeeTableSeerder extends Seeder
 
         // إنشاء مستخدم
         $user = User::create([
-            'name' => "jihad",
             'email' => "jihad@gmail.com",
             'password' => Hash::make("1234"),
             'id_type_users' => 1,
