@@ -72,7 +72,6 @@
                         @include('site.Shipments.modal.add')
                     @endif
                     @include('site.Shipments.modal.save')
-
                 </div>
                 <div class="datatable-top">
                     <div class="datatable-dropdown">

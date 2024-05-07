@@ -30,7 +30,7 @@ class ShipmentsController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index($id_page, $id_status)
     {
         $id_page = $this->page_id;
         $isDelete = $this->checkDeleteRole($this->page_id);
@@ -41,7 +41,7 @@ class ShipmentsController extends Controller
         $id_branch = $user->findUserByType($user->id_type_users)->id_branch;
         if($user->id_type_users == 1) {
             $isEmployee = true;
-            $shipments = Shipments::where('id_status', 1)
+            $shipments = Shipments::where('id_status', $id_status)
                 ->join('customers', 'shipments.id_customer', '=', 'customers.id_customer')
                 ->where('customers.id_branch', $id_branch)
                 ->get();
@@ -49,11 +49,11 @@ class ShipmentsController extends Controller
             $delegates = Delegate::where('id_branch', $id_branch)->get();
             $customers = Customers::where('id_branch', $id_branch)->get();
         } elseif ($user->id_type_users == 2) {
-            $shipments = StatusShipments::where('id_status', 2)->get();
+            $shipments = StatusShipments::where('id_status', $id_status)->get();
             $customers = [];
             $delegates = [];
         } else {
-            $shipments = Shipments::where('shipments.id_status', 1)
+            $shipments = Shipments::where('shipments.id_status', $id_status)
                 ->where('shipments.id_customer', $user->pid)
                 ->join('customers', 'shipments.id_customer', '=', 'customers.id_customer')
                 ->where('customers.id_branch', $id_branch)
@@ -118,7 +118,7 @@ class ShipmentsController extends Controller
                 'notes' => $request->notes,
                 'recipient_name' => $request->recipient_name,
             ]);
-            return redirect()->route("shipments.index", ['page_id' => $this->page_id])
+            return redirect()->route("shipments.index", ['page_id' => $this->page_id, 'id_status' => 1])
                 ->with([
                     "message" => [
                         "type" => "success",
@@ -127,7 +127,7 @@ class ShipmentsController extends Controller
                     ]
                 ]);
         } catch (ValidationException $e) {
-            return redirect()->route('shipments.index', ['page_id' => $this->page_id])
+            return redirect()->route('shipments.index', ['page_id' => $this->page_id, 'id_status' => 1])
                 ->with([
                     "message" => [
                         "type" => "error",
@@ -197,7 +197,7 @@ class ShipmentsController extends Controller
                 'notes' => $request->notes,
                 'recipient_name' => $request->recipient_name,
             ]);
-            return redirect()->route("shipments.index", ['page_id' => $this->page_id])
+            return redirect()->route("shipments.index", ['page_id' => $this->page_id, 'id_status' => 1])
                 ->with([
                     "message" => [
                         "type" => "success",
@@ -207,7 +207,7 @@ class ShipmentsController extends Controller
                 ]);
 
         }
-        return redirect()->route('shipments.index', ['page_id' => $this->page_id])
+        return redirect()->route('shipments.index', ['page_id' => $this->page_id, 'id_status' => 1])
             ->with([
                 "message" => [
                     "type" => "error",
@@ -216,7 +216,7 @@ class ShipmentsController extends Controller
                 ]
             ]);
         } catch (ValidationException $e) {
-            return redirect()->route('shipments.index', ['page_id' => $this->page_id])
+            return redirect()->route('shipments.index', ['page_id' => $this->page_id, 'id_status' => 1])
                 ->with([
                     "message" => [
                         "type" => "error",
@@ -240,7 +240,7 @@ class ShipmentsController extends Controller
         if($shipment) {
             Shipments::destroy("id_ship", $id);
 
-            return redirect()->route("shipments.index", ['page_id' => $this->page_id])
+            return redirect()->route("shipments.index", ['page_id' => $this->page_id, 'id_status' => 1])
                 ->with([
                     "message" => [
                         "type" => "error",
@@ -249,7 +249,7 @@ class ShipmentsController extends Controller
                     ]
                 ]);
         }
-        return redirect()->route('shipments.index', ['page_id' => $this->page_id])
+        return redirect()->route('shipments.index', ['page_id' => $this->page_id, 'id_status' => 1])
             ->with([
                 "message" => [
                     "type" => "error",
@@ -267,14 +267,6 @@ class ShipmentsController extends Controller
         if (!$shipment) {
             abort(404); // يمكنك تعديل هذا بحسب احتياجاتك
         }
-        $pdf = new Dompdf();
-        // استخدام view() لتحميل صفحة HTML المعينة
-//        $html = view('site.shipments.modal.print', compact('shipment'))->render();
-//        $pdf->loadHTML('');
-//        $pdf->render();
-//        return $pdf->stream('shipment_' . $shipment->id_ship . '.pdf');
-        // استخدام مكتبة Snappy PDF لتحويل الصفحة HTML إلى PDF وتنزيلها
-//        return PDF::loadHTML($html)->download('shipment_' . $shipment->id_ship . '.pdf');
         return view('site.shipments.modal.print', compact('shipment'));
     }
 }

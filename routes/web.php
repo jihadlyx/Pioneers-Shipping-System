@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/shipments/{page_id}/{id_status}', [DashboardController::class, 'show'])->name('dashboard.show');
         Route::get('/delegates/{page_id}', [DelegatesController::class, 'index'])->name('delegates.index');
         Route::get('/customers/{page_id}', [CostumersController::class, 'index'])->name('customers.index');
-        Route::get('/shipments/{page_id}', [ShipmentsController::class, 'index'])->name('shipments.index');
+        Route::get('/shipments/{page_id}/{id_status}', [ShipmentsController::class, 'index'])->name('shipments.index');
         Route::get('/shipments/download/{page_id}/{id_ship}', [ShipmentsController::class, 'downloadShipmentData'])->name('shipments.downloadShipmentData');
         Route::get('/statusShipments/{page_id}', [StatusShipmentsController::class, 'index'])->name('statuses.index');
 
