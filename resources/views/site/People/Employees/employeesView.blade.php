@@ -232,7 +232,6 @@
 
                             <td class="px-4 py-5">
                                 <div class="text-gray-100 flex items-center gap-1">
-
                                     @if($isUpdate)
                                         <button data-target="EditEmp{{ $employee->id_emp }}" class="hover:text-primary">
                                             <svg class="fill-current" width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
