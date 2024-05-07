@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BranchesController;
 use App\Http\Controllers\CostumersController;
 use App\Http\Controllers\DashboardController;
@@ -29,12 +30,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('site.auth.Login.login');
 });
-//Route::get('/dashboard/9', function () {
-//    return redirect()->route('dashboard.index', ['page_id' => 9]);
-//});
 
 Route::middleware('auth')->group(function () {
+    Route::get('/profile', function () {
 
+    });
 //           العرض
     Route::middleware('CheckShowPermission')->group(function () {
         Route::get('/branches/{page_id}', [BranchesController::class, 'index'])->name('branches.index');
@@ -46,9 +46,11 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/employees/{page_id}', [EmployeesController::class, 'index'])->name('employees.index');
         Route::get('/dashboard/{page_id}', [DashboardController::class, 'index'])->name('dashboard.index');
+        Route::get('/dashboard/shipments/{page_id}/{id_status}', [DashboardController::class, 'show'])->name('dashboard.show');
         Route::get('/delegates/{page_id}', [DelegatesController::class, 'index'])->name('delegates.index');
         Route::get('/customers/{page_id}', [CostumersController::class, 'index'])->name('customers.index');
         Route::get('/shipments/{page_id}', [ShipmentsController::class, 'index'])->name('shipments.index');
+        Route::get('/shipments/download/{page_id}/{id_ship}', [ShipmentsController::class, 'downloadShipmentData'])->name('shipments.downloadShipmentData');
         Route::get('/statusShipments/{page_id}', [StatusShipmentsController::class, 'index'])->name('statuses.index');
 
         Route::get('/subCities/{page_id}', [SubCitiesController::class, 'index'])->name('subCities.index');

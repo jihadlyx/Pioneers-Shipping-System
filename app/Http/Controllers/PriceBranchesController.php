@@ -66,6 +66,14 @@ class PriceBranchesController extends Controller
                     'id_to_branch' => $price['id_to_branch'],
                     'price' => $price['price'],
                 ]);
+                if($price['id_to_branch'] != $id) {
+                    PriceBranch::create([
+                        'id' => $maxBranchId + 1,
+                        'id_from_branch' => $price['id_to_branch'], // Assuming authenticated user has a branch
+                        'id_to_branch' => $id,
+                        'price' => $price['price'],
+                    ]);
+                }
                 $msg_title = "تمت عملية اضافة الفرع بنجاح";
             }
 

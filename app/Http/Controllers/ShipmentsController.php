@@ -8,14 +8,12 @@ use App\Models\Delegate;
 use App\Models\PriceBranch;
 use App\Models\Shipments;
 use App\Models\StatusShipments;
-use App\Models\sub_cities;
 use App\Models\SubCities;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use App\Traits\AuthorizationTrait;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 use Illuminate\Validation\ValidationException;
+
 
 class ShipmentsController extends Controller
 {
@@ -259,5 +257,24 @@ class ShipmentsController extends Controller
                     "text" => "هذه الشحنة غير موجودة"
                 ]
             ]);
+    }
+
+    public function downloadShipmentData($id_page,$id)
+    {
+        // العثور على الشحنة باستخدام المعرف
+        $shipment = Shipments::where('id_ship', $id)->first();
+
+        if (!$shipment) {
+            abort(404); // يمكنك تعديل هذا بحسب احتياجاتك
+        }
+        $pdf = new Dompdf();
+        // استخدام view() لتحميل صفحة HTML المعينة
+//        $html = view('site.shipments.modal.print', compact('shipment'))->render();
+//        $pdf->loadHTML('');
+//        $pdf->render();
+//        return $pdf->stream('shipment_' . $shipment->id_ship . '.pdf');
+        // استخدام مكتبة Snappy PDF لتحويل الصفحة HTML إلى PDF وتنزيلها
+//        return PDF::loadHTML($html)->download('shipment_' . $shipment->id_ship . '.pdf');
+        return view('site.shipments.modal.print', compact('shipment'));
     }
 }

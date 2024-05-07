@@ -127,6 +127,7 @@ class EmployeesController extends Controller
                         "text" => "تمت عملية الإضافة بنجاح"
                     ]
                 ]);
+
         } catch (ValidationException $e) {
             return redirect()->route('employees.index', ['page_id' => $this->page_id])
                 ->with([
@@ -176,10 +177,9 @@ class EmployeesController extends Controller
                 'id_emp' => ['required', 'numeric'],
                 'name' => ['required', 'string', 'max:255', 'min:3'],
                 'email' => ['required', 'string', 'email', 'max:255'],
-                'password' => ['required'],
+                'password' => ['nullable'],
                 'address' => ['required', 'string', 'max:30'],
                 'id_role' => ['required', 'numeric'],
-                'id_branch' => ['required', 'numeric'],
                 'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
                 'phone_number2' => ['nullable', 'numeric'] ,
                 'photo' => ['nullable'],
@@ -190,41 +190,11 @@ class EmployeesController extends Controller
                         $file = $request->file('photo');
                         $fileName = time() . '.' . $file->getClientOriginalName();
                         $file->move(public_path('imagesUsers'), $fileName);
-
-                        $employee = Employee::where("id_emp", $id)->first();
-
-                        if($employee) {
-                            $employee->update([
-                                'id_emp' => $request->id_emp,
-                                'name_emp' => $request->name,
-                                'address' => $request->address,
-                                'phone_number' => $request->phone_number,
-                                'phone_number2' => $request->phone_number2,
-                                'image' => 'imagesUsers/'.$fileName,
-                            ]);
-                            return redirect()->route("employees.index", ['page_id' => $this->page_id])
-                                ->with([
-                                    "message" => [
-                                        "type" => "success",
-                                        "title" => "نحجت العملية",
-                                        "text" => "تمت عملية التعديل على الموظف"
-                                    ]
-                                ]);
-
-                        }
-                        else {
-                            return redirect()->route('employees.index', ['page_id' => $this->page_id])
-                                ->with([
-                                    "message" => [
-                                        "type" => "error",
-                                        "title" => "فشلت العملية",
-                                        "text" => "هذا الموظف غير موجود"
-                                    ]
-                                ]);
-                        }
                     }
                 }
                 else {
+                    $fileName = null;
+                }
 
                     $employee = Employee::where("id_emp", $id)->first();
 
@@ -235,6 +205,7 @@ class EmployeesController extends Controller
                             'address' => $request->address,
                             'phone_number' => $request->phone_number,
                             'phone_number2' => $request->phone_number2,
+                            'image' => $fileName != null ? 'imagesUsers/' . $fileName : null,
                         ]);
                     }
                     $user = User::where('id_type_users', 1)
@@ -256,7 +227,6 @@ class EmployeesController extends Controller
                                 "text" => "تمت عملية التعديل على الموظف"
                             ]
                         ]);
-                }
         } catch (ValidationException $e) {
             return redirect()->route('employees.index', ['page_id' => $this->page_id])
                 ->with([

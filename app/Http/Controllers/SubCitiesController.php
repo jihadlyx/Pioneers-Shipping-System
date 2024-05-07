@@ -126,7 +126,6 @@ class SubCitiesController extends Controller
         if($city) {
             $city->update([
                 "title" => $request->title,
-                'id_branch' => $request->id_branch,
                 'price' => $request->price
             ]);
 

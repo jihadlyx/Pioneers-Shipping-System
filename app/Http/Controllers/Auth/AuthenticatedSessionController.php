@@ -18,6 +18,7 @@ class AuthenticatedSessionController extends Controller
     public function create(): View
     {
         return view('site.auth.Login.login');
+//        return view('auth.login');
     }
 
     /**
@@ -29,7 +30,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+//        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->route('dashboard.index', ['page_id' => 9]);
     }
 
     /**
@@ -43,6 +45,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/branches/1');
+        return redirect()->route('/login');
     }
 }

@@ -278,7 +278,7 @@
 
                             <td class="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                                 <h5 class="font-medium text-black dark:text-white">0{{ $employee->phone_number }}</h5>
-                                <h5 class="font-medium text-black dark:text-white">0{{ $employee->phone_number2 }}</h5>
+                                <h5 class="font-medium {{ $employee->phone_number2 ? '' : 'hidden' }} text-black dark:text-white">0{{ $employee->phone_number2 }}</h5>
                             </td>
                             <td>
                                 {{ $employee->branch->title }}
@@ -325,4 +325,22 @@
 
 @section('scripts')
     <script src="{{ asset('assets/js/table.js') }}"></script>
+    <script>
+        let boxes = document.querySelectorAll(".check-box");
+        boxes.forEach(check => {
+            check.addEventListener('change', (e) => {
+                let targetId = check.getAttribute('data-set');
+                let box = document.getElementById(targetId);
+                if(check.checked) {
+                    // alert(box.getAttribute('id'))
+                    box.classList.add('hidden');
+
+                } else {
+                    box.classList.remove('hidden');
+                    box.setAttribute('required', 'required');
+                }
+            });
+        })
+
+    </script>
 @endsection

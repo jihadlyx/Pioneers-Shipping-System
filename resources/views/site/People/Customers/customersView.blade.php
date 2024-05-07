@@ -309,4 +309,22 @@
 
 @section('scripts')
     <script src="{{ asset('assets/js/table.js') }}"></script>
+    <script>
+        let boxes = document.querySelectorAll(".check-box");
+        boxes.forEach(check => {
+            check.addEventListener('change', (e) => {
+                let targetId = check.getAttribute('data-set');
+                let box = document.getElementById(targetId);
+                if(check.checked) {
+                    // alert(box.getAttribute('id'))
+                    box.classList.add('hidden');
+
+                } else {
+                    box.classList.remove('hidden');
+                    box.setAttribute('required', 'required');
+                }
+            });
+        })
+
+    </script>
 @endsection

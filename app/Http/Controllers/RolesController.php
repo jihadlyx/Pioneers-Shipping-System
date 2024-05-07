@@ -32,7 +32,9 @@ class RolesController extends Controller
     {
         $page_id = $this->page_id;
         $maxRoleId = Role::withTrashed()->max('id_role')? Role::withTrashed()->max('id_role') + 1 : 1;
-        $roles = Role::all();
+        $user = Auth()->user()->findUserByType(Auth()->user()->id_type_users);
+        $roles = Role::whereNot('id_role', $user->id_role)->get();
+
         $isDelete = $this->checkDeleteRole($this->page_id);
         $isCreate = $this->checkCreateRole($this->page_id);
         $isUpdate = $this->checkUpdateRole($this->page_id);

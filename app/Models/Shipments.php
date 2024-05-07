@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -41,4 +42,45 @@ class Shipments extends Model
     {
         return $this->belongsTo(Customers::class, 'id_customer');
     }
+
+    public function statusShipment($id_statue)
+    {
+        return StatusShipments::where('id_ship', $this->id_ship)
+            ->where('id_status', $id_statue)
+            ->first();
+    }
+
+    public function getPrice()
+    {
+        $branch = $this->city->id_branch;
+        $price = PriceBranch::where('id_from_branch', $this->customer->id_branch)
+            ->where('id_to_branch', $branch)
+            ->first()->price;
+        $price = $price + $this->city->price;
+        return $price;
+    }
+
+    public function generateQrCode()
+    {
+        $data = "المعرّف: {$this->id_ship},"
+            . "الاسم: {$this->name_ship},"
+            . "اسم العميل: {$this->customer->name_customer},"
+            . "الحالة: {$this->state->title},"
+            . "اسم المدينة: {$this->city->title},"
+            . "السعر: {$this->ship_value},"
+            . "اسم المستلم: {$this->recipient_name},"
+            . "رقم المستلم: 0{$this->phone_number},"
+            . "العنوان: {$this->address},"
+            . "ملاحظة: {$this->notes},";
+
+        $dataString = json_encode($data, JSON_UNESCAPED_UNICODE);
+        $qrCode = QrCode::generate($dataString);
+        return $qrCode;
+
+    }
+
+
+
+
+
 }

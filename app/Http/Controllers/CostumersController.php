@@ -162,7 +162,7 @@ class CostumersController extends Controller
                 'id_customer' => ['required', 'numeric'],
                 'name' => ['required', 'string', 'max:255', 'min:3'],
                 'email' => ['required', 'string', 'email'],
-                'password' => ['required'],
+                'password' => ['nullable'],
                 'address' => ['required', 'string', 'max:30'],
                 'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
                 'phone_number2' => ['nullable', 'numeric'],
@@ -184,9 +184,9 @@ class CostumersController extends Controller
                     'email' => $request->email,
                     'pid' => $id,
                 ]);
-                if("$request->password" != "$user->password"){
-//                    $user->password = Hash::make($request->password);
-//                    $user->save();
+                if($request->password){
+                    $user->password = Hash::make($request->password);
+                    $user->save();
                 }
 
                 return redirect()->route("customers.index", ['page_id' => $this->page_id])

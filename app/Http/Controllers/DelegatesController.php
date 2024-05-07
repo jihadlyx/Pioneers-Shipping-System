@@ -158,7 +158,7 @@ class DelegatesController extends Controller
                 'id_delegate' => ['required', 'numeric'],
                 'name' => ['required', 'string', 'max:255', 'min:3'],
                 'email' => ['required', 'string', 'email', 'max:255'],
-                'password' => ['required'],
+                'password' => ['nullable'],
                 'address' => ['required', 'string', 'max:30'],
                 'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
                 'phone_number2' => ['nullable', 'numeric'] ,
@@ -181,8 +181,10 @@ class DelegatesController extends Controller
                     'email' => $request->email,
                     'pid' => $request->id_delegate,
                 ]);
-                $user->password = Hash::make($request->password);
-                $user->save();
+                if($request->password){
+                    $user->password = Hash::make($request->password);
+                    $user->save();
+                }
 
                 return redirect()->route("delegates.index", ['page_id' => $this->page_id])
                     ->with([

@@ -201,7 +201,7 @@
                                     </td>
                                     <td class="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                                         <h5 class="font-medium text-black dark:text-white">0{{ $branch->phone_number }}</h5>
-                                        <h5 class="font-medium text-black dark:text-white">0{{ $branch->phone_number2 }}</h5>
+                                        <h5 class="font-medium {{ $branch->phone_number2 ? '' : 'hidden' }} text-black dark:text-white">0{{ $branch->phone_number2 }}</h5>
                                     </td>
                                     <td>
                                         {{ $branch->address }}

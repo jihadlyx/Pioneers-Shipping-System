@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // تابع لفحص التغييرات
     function checkChanges(modal) {
         // استهدف كل الحقول داخل النافذة المنبثقة
-        const fields = modal.querySelectorAll("input, textarea");
+        const fields = modal.querySelectorAll("input:not([type='checkbox']), textarea");
 
         // قم بتحديد كل حقل وأضف حدث input إليه
         fields.forEach((field) => {

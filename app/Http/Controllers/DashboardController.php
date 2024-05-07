@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\CheckShowPermission;
+use App\Models\Customers;
+use App\Models\Delegate;
+use App\Models\PriceBranch;
 use App\Models\Shipments;
 use App\Models\StatusShipments;
+use App\Models\SubCities;
+use App\Traits\AuthorizationTrait;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    use AuthorizationTrait;
+    protected $id_page = 9;
     public function __construct()
     {
         $this->middleware(CheckShowPermission::class);
@@ -75,7 +82,12 @@ class DashboardController extends Controller
             ->where('customers.id_branch', $branchId)
             ->get();
     }
-
+    function getShipmentsByStatusID($status, $branchId) {
+        return Shipments::where('shipments.id_status', $status)
+            ->join('customers', 'shipments.id_customer', '=', 'customers.id_customer')
+            ->where('customers.id_branch', $branchId)
+            ->get();
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -102,11 +114,57 @@ class DashboardController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show($id)
+    public function show($id_page, $id)
     {
-        //
+        $user = Auth()->user();
+        $id_page = $this->id_page;
+        $prices_branches = PriceBranch::with('id_from_branch', $user->findUserByType($user->id_type_users)->id_branch);
+        $sub_cites = SubCities::all();
+        $isDelete = $this->checkDeleteRole($this->id_page);
+        $isUpdate = $this->checkUpdateRole($this->id_page);
+        $isEmployee = false;
+
+        $id_branch = $user->findUserByType($user->id_type_users)->id_branch;
+        if($user->id_type_users == 1) {
+            $isEmployee = true;
+            $shipments = Shipments::where('id_status', $id)
+                ->join('customers', 'shipments.id_customer', '=', 'customers.id_customer')
+                ->where('customers.id_branch', $id_branch)
+                ->get();
+
+            $delegates = Delegate::where('id_branch', $id_branch)->get();
+            $customers = Customers::where('id_branch', $id_branch)->get();
+        } elseif ($user->id_type_users == 2) {
+            $shipments = StatusShipments::where('id_status', $id)
+                    ->where('id_delegate', $user->pid)
+                    ->get();
+            $customers = [];
+            $delegates = [];
+        } else {
+            $shipments = Shipments::where('shipments.id_status', $id)
+                ->where('shipments.id_customer', $user->pid)
+                ->join('customers', 'shipments.id_customer', '=', 'customers.id_customer')
+                ->where('customers.id_branch', $id_branch)
+                ->get();
+            $customers = [Customers::where('id_customer', $user->pid)->first()];
+            $delegates = [];
+        }
+
+        if($id == 1) {
+            $text = 'الشحنات التي قيد الموافقه';
+        } elseif ($id == 2) {
+            $text = 'الشحنات التي قيد التوصيل';
+        }
+        elseif ($id == 3) {
+            $text = 'الشحنات التي تم تسليمها';
+        }
+        else {
+            $text = 'الشحنات التي تعذر توصيلها';
+        }
+        return view('site.Dashboard.Type Status Ship.typeShipmentView', compact('shipments', 'delegates', 'isEmployee', 'isUpdate', 'isDelete', "id_page", 'sub_cites', 'text', 'id', 'prices_branches', 'customers'));
+
     }
 
     /**

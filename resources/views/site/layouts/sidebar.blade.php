@@ -3,8 +3,8 @@
     @click.outside="sidebarToggle = false">
     <!-- SIDEBAR HEADER -->
     <div class="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <a href="index.html">
-            <img src="{{ asset('assets/images/logo/logo.svg') }}" alt="Logo" />
+        <a href="/dashboard/9">
+            <img src="{{ asset('assets/images/logo/logo2.svg') }}" alt="Logo" />
         </a>
 
         <button class="block lg:hidden rtl:rotate-180" @click.stop="sidebarToggle = !sidebarToggle">

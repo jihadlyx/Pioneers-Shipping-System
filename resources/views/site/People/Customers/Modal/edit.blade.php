@@ -77,17 +77,18 @@
                             الرجاء ادخل حقل البريد
                         </div>
                     </div>
-                    <div class="w-full xl:w-1/2">
+                    <div class="w-full xl:w-1/2 hidden" id="reset-{{ $customer->id_customer }}">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             كلمة السر
                         </label>
-                        <input type="password" name="password" placeholder="ادخل كلمة السر" value="{{ Hash::make($customer->user($customer->id_customer)->password) }}"
-                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
+                        <input type="password" name="password" placeholder="ادخل كلمة السر الجديدة"
+                               class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                               maxlength="255" minlength="6" required/>
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل كلمة السر
                         </div>
                     </div>
+
                     <div class="mb-4.5 w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             العنوان
@@ -102,10 +103,28 @@
                 </div>
 
             </div>
-            <button type="submit"
-                class="save-data flex w-fit items-center justify-center gap-2 rounded bg-meta-3 px-4.5 py-2.5 font-medium text-white">
-                حفظ
-            </button>
+            <div class="mb-4.5 flex items-center gap-6 ">
+                <button type="submit"
+                        class="save-data flex w-fit items-center justify-center gap-2 rounded bg-meta-3 px-4.5 py-2.5 font-medium text-white">
+                    حفظ
+                </button>
+                <div x-data="{ checkboxToggle: false }">
+                    <label for="checkboxLabel{{ $customer->id_customer }}" class="flex gap-2 cursor-pointer select-none items-center text-sm font-medium" @click="checkboxToggle = !checkboxToggle">
+                        <div class="relative ">
+                            <input type="checkbox" data-set="reset-{{ $customer->id_customer }}" id="checkboxLabel{{ $customer->id_customer }}"
+                                   @change="checkboxToggle = !checkboxToggle" class="check-box sr-only" x-model="checkboxToggle" />
+                            <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
+                                 class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
+                                <span :class="checkboxToggle && 'bg-primary'"
+                                      class="h-2.5 w-2.5 rounded-sm"></span>
+                            </div>
+                        </div>
+                        تغيير كلمة المرور
+                    </label>
+                </div>
+            </div>
         </form>
     </div>
 </div>
+
+
