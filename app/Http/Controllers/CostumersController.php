@@ -35,6 +35,7 @@ class CostumersController extends Controller
         $isDelete = $this->checkDeleteRole($this->page_id);
         $isCreate = $this->checkCreateRole($this->page_id);
         $isUpdate = $this->checkUpdateRole($this->page_id);
+        $isShowTrash = $this->checkShowRole(10);
         $user = Auth()->user();
         if($isCreate) {
             $customers = Customers::all();
@@ -50,7 +51,7 @@ class CostumersController extends Controller
 
         $maxCustomerId = Customers::withTrashed()->max('id_customer') ? Customers::withTrashed()->max('id_customer') + 1 : 1;
 
-        return view('site.People.Customers.customersView', compact('customers', 'branches', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'maxCustomerId'));
+        return view('site.People.Customers.customersView', compact('customers','isShowTrash','branches', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'maxCustomerId'));
     }
 
     /**
@@ -239,12 +240,78 @@ class CostumersController extends Controller
             return redirect()->route("customers.index", ['page_id' => $this->page_id])
                 ->with([
                     "message" => [
-                        "type" => "info",
+                        "type" => "error",
                         "title" => "نجحت العملية",
                         "text" => "تم حذف الزبون"
                     ]
                 ]);
         }
+        return redirect()->route('customers.index', ['page_id' => $this->page_id])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذا الزبون غير موجود"
+                ]
+            ]);
+    }
+
+    public function getTrash() {
+        $id_page = 10;
+        $isUpdate = $this->checkUpdateRole(10);
+        $customers = Customers::onlyTrashed()->get();
+        return view('site.People.Customers.trashView', compact('customers', 'isUpdate', 'id_page'));
+    }
+
+    public function restore($id_page, $id) {
+        $customer = Customers::onlyTrashed()->find($id);
+        if ($customer) {
+            $customer->restore();
+            $user = User::onlyTrashed()
+                ->where('pid', $id)
+                ->where('id_type_users', 3)
+                ->first();
+            $user->restore();
+            return redirect()->route("customers.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "success",
+                        "title" => "نجحت العملية",
+                        "text" => "تم استعادة الزبون بنجاح"
+                    ]
+                ]);
+        }
+        return redirect()->route('customers.getTrash', ['page_id' => 10])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذا الزبون غير موجود"
+                ]
+            ]);
+    }
+
+    public function delete($page_id, $id)
+    {
+        $customer = Customers::onlyTrashed()->find($id);
+
+        if($customer) {
+            $customer->forceDelete();
+            $user = User::onlyTrashed()
+                ->where('pid', $id)
+                ->where('id_type_users', 3)
+                ->first();
+            $user->forceDelete();
+            return redirect()->route("customers.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "نجحت العملية",
+                        "text" => "تم حذف الزبون"
+                    ]
+                ]);
+        }
+
         return redirect()->route('customers.index', ['page_id' => $this->page_id])
             ->with([
                 "message" => [

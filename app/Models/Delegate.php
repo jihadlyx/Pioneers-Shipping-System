@@ -37,4 +37,16 @@ class Delegate extends Model
     {
         return User::where('pid', $pid)->where("id_type_users", 2)->first();
     }
+
+    public function isHasMany() {
+        if ($this->statusShip()->count() <= 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function statusShip()
+    {
+        return $this->hasMany(StatusShipments::class, 'id_delegate');
+    }
 }

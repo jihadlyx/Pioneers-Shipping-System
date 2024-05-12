@@ -33,6 +33,7 @@ class DelegatesController extends Controller
         $isDelete = $this->checkDeleteRole($this->page_id);
         $isCreate = $this->checkCreateRole($this->page_id);
         $isUpdate = $this->checkUpdateRole($this->page_id);
+        $isShowTrash = $this->checkShowRole(10);
         $user = Auth()->user();
         if($isCreate) {
             $delegates = Delegate::all();
@@ -47,7 +48,7 @@ class DelegatesController extends Controller
         }
         $maxDelegateId = Delegate::withTrashed()->max('id_delegate') ? Delegate::withTrashed()->max('id_delegate') + 1 : 1;
 
-        return view('site.People.Delegates.delegatesView', compact('delegates', 'branches', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'maxDelegateId'));
+        return view('site.People.Delegates.delegatesView', compact('delegates', 'branches', 'isShowTrash', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'maxDelegateId'));
     }
 
     /**
@@ -239,12 +240,78 @@ class DelegatesController extends Controller
             return redirect()->route("delegates.index", ['page_id' => $this->page_id])
                 ->with([
                     "message" => [
-                        "type" => "info",
+                        "type" => "error",
                         "title" => "نجحت العملية",
                         "text" => "تم حذف المندوب"
                     ]
                 ]);
         }
+        return redirect()->route('delegates.index', ['page_id' => $this->page_id])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذا المندوب غير موجود"
+                ]
+            ]);
+    }
+
+    public function getTrash() {
+        $id_page = 10;
+        $isUpdate = $this->checkUpdateRole(10);
+        $delegates = Delegate::onlyTrashed()->get();
+        return view('site.People.Delegates.trashView', compact('delegates', 'isUpdate', 'id_page'));
+    }
+
+    public function restore($id_page, $id) {
+        $delegate = Delegate::onlyTrashed()->find($id);
+        if ($delegate) {
+            $delegate->restore();
+            $user = User::onlyTrashed()
+                ->where('pid', $id)
+                ->where('id_type_users', 2)
+                ->first();
+            $user->restore();
+            return redirect()->route("delegates.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "success",
+                        "title" => "نجحت العملية",
+                        "text" => "تم استعادة المندوب بنجاح"
+                    ]
+                ]);
+        }
+        return redirect()->route('delegates.getTrash', ['page_id' => 10])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذا المندوب غير موجود"
+                ]
+            ]);
+    }
+
+    public function delete($page_id, $id)
+    {
+        $delegate = Delegate::onlyTrashed()->find($id);
+
+        if($delegate) {
+            $delegate->forceDelete();
+            $user = User::onlyTrashed()
+                ->where('pid', $id)
+                ->where('id_type_users', 3)
+                ->first();
+            $user->forceDelete();
+            return redirect()->route("delegates.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "نجحت العملية",
+                        "text" => "تم حذف المندوب"
+                    ]
+                ]);
+        }
+
         return redirect()->route('delegates.index', ['page_id' => $this->page_id])
             ->with([
                 "message" => [

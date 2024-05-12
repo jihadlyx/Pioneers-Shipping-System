@@ -36,6 +36,7 @@ class EmployeesController extends Controller
         $isDelete = $this->checkDeleteRole($this->page_id);
         $isCreate = $this->checkCreateRole($this->page_id);
         $isUpdate = $this->checkUpdateRole($this->page_id);
+        $isShowTrash = $this->checkShowRole(10);
         $user = Auth()->user();
         if($isCreate) {
             $employees = Employee::whereNotIn('id_emp', [$user->pid])->get();
@@ -52,7 +53,7 @@ class EmployeesController extends Controller
         $roles = Role::all();
         $maxEmployeeId = Employee::withTrashed()->max('id_emp') ? Employee::withTrashed()->max('id_emp') + 1 : 1;
 
-        return view('site.People.Employees.employeesView', compact('employees', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'roles', 'branches', 'maxEmployeeId'));
+        return view('site.People.Employees.employeesView', compact('employees','isShowTrash', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'roles', 'branches', 'maxEmployeeId'));
 
     }
 
@@ -268,6 +269,72 @@ class EmployeesController extends Controller
                     ]
                 ]);
         }
+        return redirect()->route('employees.index', ['page_id' => $this->page_id])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذا الموظف غير موجود"
+                ]
+            ]);
+    }
+
+    public function getTrash() {
+        $id_page = 10;
+        $isUpdate = $this->checkUpdateRole(10);
+        $employees = Employee::onlyTrashed()->get();
+        return view('site.People.employees.trashView', compact('employees', 'isUpdate', 'id_page'));
+    }
+
+    public function restore($id_page, $id) {
+        $employee = Employee::onlyTrashed()->find($id);
+        if ($employee) {
+            $employee->restore();
+            $user = User::onlyTrashed()
+                ->where('pid', $id)
+                ->where('id_type_users', 1)
+                ->first();
+            $user->restore();
+            return redirect()->route("employees.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "success",
+                        "title" => "نجحت العملية",
+                        "text" => "تم استعادة الموظف بنجاح"
+                    ]
+                ]);
+        }
+        return redirect()->route('employees.trash.getTrash', ['page_id' => 10])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذا الموظف غير موجود"
+                ]
+            ]);
+    }
+
+    public function delete($page_id, $id)
+    {
+        $employee = Employee::onlyTrashed()->find($id);
+
+        if($employee) {
+            $employee->forceDelete();
+            $user = User::onlyTrashed()
+                ->where('pid', $id)
+                ->where('id_type_users', 1)
+                ->first();
+            $user->forceDelete();
+            return redirect()->route("employees.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "نجحت العملية",
+                        "text" => "تم حذف الموظف"
+                    ]
+                ]);
+        }
+
         return redirect()->route('employees.index', ['page_id' => $this->page_id])
             ->with([
                 "message" => [

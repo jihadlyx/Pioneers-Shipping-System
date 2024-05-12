@@ -12,12 +12,15 @@ class PriceBranchesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index($page_id, $id)
     {
         $this->id_page = $page_id;
         $branches = PriceBranch::where("id_from_branch", $id)->get();
+        if (!$branches) {
+
+        }
         $new_branch = Branch::where("id_branch", $id)->first();
 
         return view('site.Branches.DeliveryPrices.pricesView', compact('branches', 'new_branch', 'page_id'));

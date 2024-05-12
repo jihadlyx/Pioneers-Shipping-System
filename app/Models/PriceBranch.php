@@ -30,4 +30,6 @@ class PriceBranch extends Model
     {
         return $this->belongsTo(Branch::class, 'id_to_branch');
     }
+
+
 }

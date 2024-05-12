@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\CheckShowPermission;
 use App\Models\Branch;
+use App\Models\PriceBranch;
 use App\Traits\AuthorizationTrait;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -28,6 +29,7 @@ class BranchesController extends Controller
         $isDelete = $this->checkDeleteRole($this->page_id);
         $isCreate = $this->checkCreateRole($this->page_id);
         $isUpdate = $this->checkUpdateRole($this->page_id);
+        $isShowTrash = $this->checkShowRole(10);
 
         $maxBranchId = Branch::withTrashed()->max('id_branch') ? Branch::withTrashed()->max('id_branch') + 1 : 1;
 
@@ -36,7 +38,7 @@ class BranchesController extends Controller
         } else {
             $branches = Branch::where("id_branch", auth()->user()->findUserByType(auth()->user()->id_type_users)->id_branch)->get();
         }
-        return view('site.Branches.branchesView', compact('branches', 'maxBranchId', 'isCreate', 'isUpdate', 'isDelete', 'id_page'));
+        return view('site.Branches.branchesView', compact('branches', 'maxBranchId', 'isCreate', 'isUpdate', 'isDelete', 'isShowTrash', 'id_page'));
     }
 
     /**
@@ -65,14 +67,33 @@ class BranchesController extends Controller
                 'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
                 'phone_number2' => ['nullable', 'numeric'] ,
             ]);
+            $idBranch = $request->id_branch;
             Branch::create([
-                "id_branch" => $request->id_branch,
+                "id_branch" => $idBranch,
                 "title" => $request->title,
                 'address' => $request->address,
                 'phone_number' => $request->phone_number,
                 'state' => 0,
                 'phone_number2' => $request->phone_number2,
             ]);
+            $branches = Branch::all();
+            foreach ($branches as $branch) {
+                $maxId = PriceBranch::withTrashed()->max('id') ? PriceBranch::withTrashed()->max('id') + 1 : 1;
+                PriceBranch::create([
+                    'id' => $maxId,
+                    'id_from_branch' => $idBranch,
+                    'id_to_branch' => $branch->id_branch,
+                    'price' => 0,
+                ]);
+                if($branch->id_branch != $idBranch) {
+                    PriceBranch::create([
+                        'id' => $maxId + 1,
+                        'id_from_branch' => $branch->id_branch, // Assuming authenticated user has a branch
+                        'id_to_branch' => $idBranch,
+                        'price' => 0,
+                    ]);
+                }
+            }
 
             return redirect()->route("branches.price.show", ['page_id' => $this->page_id, 'id_branch' => $request->id_branch]);
         } catch (ValidationException $e) {
@@ -178,6 +199,9 @@ class BranchesController extends Controller
         $branch = Branch::where("id_branch", $id)->first();
 
         if($branch) {
+            $branch->update([
+                'state' => 0,
+            ]);
             Branch::destroy("id_branch", $id);
             return redirect()->route("branches.index", ['page_id' => $this->page_id])
                 ->with([
@@ -199,9 +223,69 @@ class BranchesController extends Controller
             ]);
     }
 
+    public function getTrash() {
+        $id_page = 10;
+        $isUpdate = $this->checkUpdateRole(10);
+        $branches = Branch::onlyTrashed()->get();
+        return view('site.branches.trashView', compact('branches', 'isUpdate', 'id_page'));
+    }
+
+    public function restore($id_page, $id) {
+        $branch = Branch::onlyTrashed()->find($id);
+        if ($branch) {
+            $branch->update([
+                'state' => 1,
+            ]);
+            $branch->restore();
+            return redirect()->route("branches.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "success",
+                        "title" => "نجحت العملية",
+                        "text" => "تم استعادة الفرع بنجاح"
+                    ]
+                ]);
+        }
+        return redirect()->route('branches.trash.getTrash', ['page_id' => 10])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذا الفرع غير موجود"
+                ]
+            ]);
+    }
+
+    public function delete($page_id, $id)
+    {
+        $branch = Branch::onlyTrashed()->find($id);
+
+        if($branch) {
+            $branch->forceDelete();
+            return redirect()->route("branches.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "نجحت العملية",
+                        "text" => "تم حذف الفرع"
+                    ]
+                ]);
+        }
+
+        return redirect()->route('branches.index', ['page_id' => $this->page_id])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذا الفرع غير موجود"
+                ]
+            ]);
+    }
     public function pricesView($id) {
         return view('site.Branches.DeliveryPrices.pricesView');
     }
+
+
 
 
 }

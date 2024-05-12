@@ -35,20 +35,28 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', function () {
 
     });
-//           العرض
     Route::middleware('CheckShowPermission')->group(function () {
+//      Branches
         Route::get('/branches/{page_id}', [BranchesController::class, 'index'])->name('branches.index');
+        Route::get('/trash/branches/{page_id}', [BranchesController::class, 'getTrash'])->name('branches.trash.getTrash');
         Route::get('/branches/price/show/{page_id}/{id_branch}', [PriceBranchesController::class, 'show'])->name('branches.price.show');
         Route::get('/branches/price/{page_id}/{id_branch}', [PriceBranchesController::class, 'edit'])->name('branches.price.edit');
         Route::get('/branches/view/{page_id}/{id_branch}', [PriceBranchesController::class, 'index'])->name('branches.view.index');
+//      Employees
+        Route::get('/employees/{page_id}', [EmployeesController::class, 'index'])->name('employees.index');
+        Route::get('/trash/employees/{page_id}', [EmployeesController::class, 'getTrash'])->name('employees.getTrash');
+//      Delegates
+        Route::get('/delegates/{page_id}', [DelegatesController::class, 'index'])->name('delegates.index');
+        Route::get('/trash/delegates/{page_id}', [DelegatesController::class, 'getTrash'])->name('delegates.getTrash');
+//      Customers
+        Route::get('/customers/{page_id}', [CostumersController::class, 'index'])->name('customers.index');
+        Route::get('/trash/customers/{page_id}', [CostumersController::class, 'getTrash'])->name('customers.getTrash');
 
         Route::get('/subCities/{page_id}/{id_city}', [PriceBranchesController::class, 'show'])->name('subCities.show');
 
-        Route::get('/employees/{page_id}', [EmployeesController::class, 'index'])->name('employees.index');
         Route::get('/dashboard/{page_id}', [DashboardController::class, 'index'])->name('dashboard.index');
         Route::get('/dashboard/shipments/{page_id}/{id_status}', [DashboardController::class, 'show'])->name('dashboard.show');
-        Route::get('/delegates/{page_id}', [DelegatesController::class, 'index'])->name('delegates.index');
-        Route::get('/customers/{page_id}', [CostumersController::class, 'index'])->name('customers.index');
+
         Route::get('/shipments/{page_id}/{id_status}', [ShipmentsController::class, 'index'])->name('shipments.index');
         Route::get('/shipments/download/{page_id}/{id_ship}', [ShipmentsController::class, 'downloadShipmentData'])->name('shipments.downloadShipmentData');
         Route::get('/statusShipments/{page_id}', [StatusShipmentsController::class, 'index'])->name('statuses.index');
@@ -62,51 +70,69 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('CheckCreatePermission')->group(function () {
         Route::post('/branches/create/{page_id}', [BranchesController::class, 'store'])->name('branches.store');
+        Route::post('/branches/price/addPrices/{page_id}/{id}', [PriceBranchesController::class, 'store'])->name('branches.price.store');
 
         Route::post('/employees/create/{page_id}', [EmployeesController::class, 'store'])->name('employees.store');
+
         Route::post('/delegates/create/{page_id}', [DelegatesController::class, 'store'])->name('delegates.store');
+
         Route::post('/customers/create/{page_id}', [CostumersController::class, 'store'])->name('customers.store');
+
         Route::post('/shipments/create/{page_id}', [ShipmentsController::class, 'store'])->name('shipments.store');
         Route::post('/shipments/status/create/{page_id}', [StatusShipmentsController::class, 'store'])->name('status.shipments.store');
 
-
-        Route::post('/branches/price/addPrices/{page_id}/{id}', [PriceBranchesController::class, 'store'])->name('branches.price.store');
-        Route::post('/employees/create/{page_id}', [EmployeesController::class, 'store'])->name('employees.store');
         Route::post('/roles/create/{page_id}', [RolesController::class, 'store'])->name('roles.store');
         Route::post('/materialRoles/{page_id}', [MaterialRolesController::class, 'store'])->name('materialRoles.store');
 
         Route::post('/subCities/create/{page_id}', [SubCitiesController::class, 'store'])->name('subCities.store');
+
         Route::post('/status/create/{page_id}', [TypeStatusController::class, 'store'])->name('status.store');
     });
 
     Route::middleware('CheckUpdatePermission')->group(function () {
+//      Branches
         Route::patch('/branches/update/{page_id}/{id_branch}', [BranchesController::class, 'update'])->name('branches.update');
+        Route::patch('/trash/branches/restore/{page_id}/{id_branch}', [BranchesController::class, 'restore'])->name('branches.trash.restore');
+//      Employees
+        Route::patch('/employees/{page_id}/{id_emp}', [EmployeesController::class, 'update'])->name('employees.update');
+        Route::patch('/trash/employees/restore/{page_id}/{id_emp}', [EmployeesController::class, 'restore'])->name('employees.restore');
+//      Delegates
+        Route::patch('/delegates/{page_id}/{id_delegate}', [DelegatesController::class, 'update'])->name('delegates.update');
+        Route::patch('/trash/delegates/restore/{page_id}/{id_delegate}', [DelegatesController::class, 'restore'])->name('delegates.restore');
+//      Customers
+        Route::patch('/customers/{page_id}/{id_customer}', [CostumersController::class, 'update'])->name('customers.update');
+        Route::patch('/trash/customers/restore/{page_id}/{id_customer}', [CostumersController::class, 'restore'])->name('customers.restore');
 
         Route::patch('/status/{page_id}/{id_status}', [TypeStatusController::class, 'update'])->name('status.update');
         Route::patch('//{page_id}/{id_city}', [SubCitiesController::class, 'update'])->name('subCities.update');
-        Route::patch('/employees/{page_id}', [EmployeesController::class, 'update'])->name('employees.update');
 
-        Route::patch('/delegates/{page_id}/{id_delegate}', [DelegatesController::class, 'update'])->name('delegates.update');
-        Route::patch('/customers/{page_id}/{id_customer}', [CostumersController::class, 'update'])->name('customers.update');
         Route::patch('/shipments/{page_id}/{id_ship}', [ShipmentsController::class, 'update'])->name('shipments.update');
         Route::patch('/shipments/status/update/{page_id}/{id_status_ship}', [StatusShipmentsController::class, 'update'])->name('status.shipments.update');
 
-        Route::patch('/employees/{page_id}/{id_emp}', [EmployeesController::class, 'update'])->name('employees.update');
         Route::patch('/roles/update/{page_id}/{id_role}', [RolesController::class, 'update'])->name('roles.update');
         Route::patch('/roles/material/edit/{page_id}/{id_role}', [MaterialRolesController::class, 'edit'])->name('materialRoles.edit');
     });
 
     Route::middleware('CheckDeletePermission')->group(function () {
-        Route::delete('/branches/{page_id}', [BranchesController::class, 'destroy'])->name('branches.destroy');
-        Route::delete('/branches/{page_id}/{id_branch}', [BranchesController::class, 'destroy'])->name('branches.destroy');
+//      Branches
+        Route::delete('/branches/delete/{page_id}/{id_branch}', [BranchesController::class, 'destroy'])->name('branches.destroy');
+        Route::delete('/trash/branches/delete/{page_id}/{id_branch}', [BranchesController::class, 'delete'])->name('branches.delete');
+//      Employees
         Route::delete('/employees/{page_id}/{id_emp}', [EmployeesController::class, 'destroy'])->name('employees.destroy');
+        Route::delete('/trash/employees/delete/{page_id}/{id_emp}', [EmployeesController::class, 'delete'])->name('employees.delete');
+//      Delegates
+        Route::delete('/delegates/delete/{page_id}/{id_delegate}', [DelegatesController::class, 'destroy'])->name('delegates.destroy');
+        Route::delete('/trash/delegates/delete/{page_id}/{id_delegate}', [DelegatesController::class, 'delete'])->name('delegates.delete');
+//      Customers
+        Route::delete('/customers/{page_id}/{id_customer}', [CostumersController::class, 'destroy'])->name('customers.destroy');
+        Route::delete('/trash/customers/{page_id}/{id_customer}', [CostumersController::class, 'delete'])->name('customers.delete');
+
         Route::delete('/roles/destroy/{page_id}/{id_role}', [RolesController::class, 'destroy'])->name('roles.destroy');
         Route::delete('/subCities/{page_id}/{id_city}', [SubCitiesController::class, 'destroy'])->name('subCities.destroy');
         Route::delete('/status/{page_id}/{id_status}', [TypeStatusController::class, 'destroy'])->name('status.destroy');
 
 
-        Route::delete('/delegates/delete/{page_id}/{id_delegate}', [DelegatesController::class, 'destroy'])->name('delegates.destroy');
-        Route::delete('/customers/{page_id}/{id_customer}', [CostumersController::class, 'destroy'])->name('customers.destroy');
+
         Route::delete('/shipments/{page_id}/{id_ship}', [ShipmentsController::class, 'destroy'])->name('shipments.destroy');
 
     });
