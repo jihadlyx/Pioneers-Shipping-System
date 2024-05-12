@@ -22,7 +22,7 @@ class SubCitiesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -31,7 +31,7 @@ class SubCitiesController extends Controller
         $isDelete = $this->checkDeleteRole($this->page_id);
         $isCreate = $this->checkCreateRole($this->page_id);
         $isUpdate = $this->checkUpdateRole($this->page_id);
-
+        $isShowTrash = $this->checkShowRole(10);
         $maxcityId = SubCities::withTrashed()->max('id_city') ? SubCities::withTrashed()->max('id_city') + 1 : 1;
 
         $cities = SubCities::all();
@@ -40,7 +40,7 @@ class SubCitiesController extends Controller
         } else {
             $branches = [Auth()->user()->findUserByType(Auth()->user()->id_type_users)->branch];
         }
-        return view('site.SubCities.subCitiesView', compact('cities', 'branches', 'maxcityId', 'isCreate', 'isUpdate', 'isDelete', 'id_page'));
+        return view('site.SubCities.subCitiesView', compact('cities','isShowTrash', 'branches', 'maxcityId', 'isCreate', 'isUpdate', 'isDelete', 'id_page'));
     }
 
     /**
@@ -57,7 +57,7 @@ class SubCitiesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -116,7 +116,7 @@ class SubCitiesController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request,$page_id, $id)
     {
@@ -156,7 +156,7 @@ class SubCitiesController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($page_id,$id)
     {
@@ -167,7 +167,7 @@ class SubCitiesController extends Controller
             return redirect()->route("subCities.index", ['page_id' => $this->page_id])
                 ->with([
                     "message" => [
-                        "type" => "info",
+                        "type" => "error",
                         "title" => "نجحت العملية",
                         "text" => "تم حذف "
                      ]
@@ -181,5 +181,61 @@ class SubCitiesController extends Controller
                     ]
                 ]);
         }
+
+    public function getTrash() {
+        $id_page = 10;
+        $isUpdate = $this->checkUpdateRole(10);
+        $cities = SubCities::onlyTrashed()->get();
+        return view('site.SubCities.trashView', compact('cities', 'isUpdate', 'id_page'));
+    }
+
+    public function restore($id_page, $id) {
+        $city = SubCities::onlyTrashed()->find($id);
+        if ($city) {
+            $city->restore();
+            return redirect()->route("subCities.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "success",
+                        "title" => "نجحت العملية",
+                        "text" => "تم استعادة المنطقة بنجاح"
+                    ]
+                ]);
+        }
+        return redirect()->route('subCities.getTrash', ['page_id' => 10])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذه المنطقة غير موجود"
+                ]
+            ]);
+    }
+
+    public function delete($page_id, $id)
+    {
+        $city = SubCities::onlyTrashed()->find($id);
+
+        if($city) {
+            $city->forceDelete();
+            return redirect()->route("subCities.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "نجحت العملية",
+                        "text" => "تم حذف المنطقة"
+                    ]
+                ]);
+        }
+
+        return redirect()->route('subCities.index', ['page_id' => $this->page_id])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذه المنطقة غير موجود"
+                ]
+            ]);
+    }
 
 }

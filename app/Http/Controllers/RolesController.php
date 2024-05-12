@@ -38,8 +38,9 @@ class RolesController extends Controller
         $isDelete = $this->checkDeleteRole($this->page_id);
         $isCreate = $this->checkCreateRole($this->page_id);
         $isUpdate = $this->checkUpdateRole($this->page_id);
+        $isShowTrash = $this->checkShowRole(10);
 
-        return view('site.Settings.Roles.rolesView', compact('roles', 'maxRoleId', 'isDelete', 'isUpdate', 'isCreate', 'page_id'));
+        return view('site.Settings.Roles.rolesView', compact('roles','isShowTrash', 'maxRoleId', 'isDelete', 'isUpdate', 'isCreate', 'page_id'));
     }
 
     /**
@@ -208,9 +209,62 @@ class RolesController extends Controller
                     "text" => "لم يتم العثور على الصلاحية"
                 ]
             ]);
-
     }
 
+    public function getTrash() {
+        $id_page = 10;
+        $isUpdate = $this->checkUpdateRole(10);
+        $roles = Role::onlyTrashed()->get();
+        return view('site.Settings.Roles.trashView', compact('roles', 'isUpdate', 'id_page'));
+    }
 
+    public function restore($id_page, $id) {
+        $city = Role::onlyTrashed()->find($id);
+        if ($city) {
+            $city->restore();
+            return redirect()->route("roles.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "success",
+                        "title" => "نجحت العملية",
+                        "text" => "تم استعادة المنطقة بنجاح"
+                    ]
+                ]);
+        }
+        return redirect()->route('roles.getTrash', ['page_id' => 10])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذه المنطقة غير موجود"
+                ]
+            ]);
+    }
+
+    public function delete($page_id, $id)
+    {
+        $city = Role::onlyTrashed()->find($id);
+
+        if($city) {
+            $city->forceDelete();
+            return redirect()->route("roles.index", ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "نجحت العملية",
+                        "text" => "تم حذف المنطقة"
+                    ]
+                ]);
+        }
+
+        return redirect()->route('roles.index', ['page_id' => $this->page_id])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذه المنطقة غير موجود"
+                ]
+            ]);
+    }
 
 }

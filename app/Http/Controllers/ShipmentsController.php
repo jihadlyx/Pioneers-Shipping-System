@@ -36,6 +36,7 @@ class ShipmentsController extends Controller
         $isDelete = $this->checkDeleteRole($this->page_id);
         $isCreate = $this->checkCreateRole($this->page_id);
         $isUpdate = $this->checkUpdateRole($this->page_id);
+        $isShowTrash = $this->checkShowRole(10);
         $isEmployee = false;
         $user = Auth()->user();
         $id_branch = $user->findUserByType($user->id_type_users)->id_branch;
@@ -62,15 +63,13 @@ class ShipmentsController extends Controller
             $delegates = [];
         }
 
-
-
         $prices_branches = PriceBranch::with('id_from_branch', $user->findUserByType($user->id_type_users)->id_branch);
         $sub_cites = SubCities::all();
 
 
         $maxShipmentId = Shipments::withTrashed()->max('id_ship') ? Shipments::withTrashed()->max('id_ship') + 1 : 1;
 
-        return view('site.shipments.shipmentsView', compact('shipments', 'prices_branches', 'delegates', 'isEmployee', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'maxShipmentId', 'customers', 'sub_cites'));
+        return view('site.shipments.shipmentsView', compact('shipments', 'isShowTrash', 'prices_branches', 'delegates', 'isEmployee', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'maxShipmentId', 'customers', 'sub_cites'));
     }
 
 
@@ -268,5 +267,61 @@ class ShipmentsController extends Controller
             abort(404); // يمكنك تعديل هذا بحسب احتياجاتك
         }
         return view('site.shipments.modal.print', compact('shipment'));
+    }
+
+    public function getTrash() {
+        $id_page = 10;
+        $isUpdate = $this->checkUpdateRole(10);
+        $shipments = Shipments::onlyTrashed()->get();
+        return view('site.Shipments.trashView', compact('shipments', 'isUpdate', 'id_page'));
+    }
+
+    public function restore($id_page, $id) {
+        $shipment = Shipments::onlyTrashed()->find($id);
+        if ($shipment) {
+            $shipment->restore();
+            return redirect()->route("shipments.index", ['page_id' => $this->page_id, 'id_status' => $shipment->id_status])
+                ->with([
+                    "message" => [
+                        "type" => "success",
+                        "title" => "نجحت العملية",
+                        "text" => "تم استعادة الشحنة بنجاح"
+                    ]
+                ]);
+        }
+        return redirect()->route('shipments.getTrash', ['page_id' => 10])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذا الشحنة غير موجود"
+                ]
+            ]);
+    }
+
+    public function delete($page_id, $id)
+    {
+        $shipment = Shipments::onlyTrashed()->find($id);
+
+        if($shipment) {
+            $shipment->forceDelete();
+            return redirect()->route("shipments.index", ['page_id' => $this->page_id, 'id_status' => $shipment->id_status])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "نجحت العملية",
+                        "text" => "تم حذف الشحنة"
+                    ]
+                ]);
+        }
+
+        return redirect()->route('shipments.index', ['page_id' => $this->page_id, 'id_status' => $shipment->id_status])
+            ->with([
+                "message" => [
+                    "type" => "error",
+                    "title" => "فشلت العملية",
+                    "text" => "هذه الشحنة غير موجود"
+                ]
+            ]);
     }
 }

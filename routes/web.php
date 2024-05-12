@@ -51,21 +51,26 @@ Route::middleware('auth')->group(function () {
 //      Customers
         Route::get('/customers/{page_id}', [CostumersController::class, 'index'])->name('customers.index');
         Route::get('/trash/customers/{page_id}', [CostumersController::class, 'getTrash'])->name('customers.getTrash');
-
-        Route::get('/subCities/{page_id}/{id_city}', [PriceBranchesController::class, 'show'])->name('subCities.show');
-
-        Route::get('/dashboard/{page_id}', [DashboardController::class, 'index'])->name('dashboard.index');
-        Route::get('/dashboard/shipments/{page_id}/{id_status}', [DashboardController::class, 'show'])->name('dashboard.show');
-
+//      Shipments
         Route::get('/shipments/{page_id}/{id_status}', [ShipmentsController::class, 'index'])->name('shipments.index');
+        Route::get('/trash/shipments/{page_id}', [ShipmentsController::class, 'getTrash'])->name('shipments.getTrash');
         Route::get('/shipments/download/{page_id}/{id_ship}', [ShipmentsController::class, 'downloadShipmentData'])->name('shipments.downloadShipmentData');
         Route::get('/statusShipments/{page_id}', [StatusShipmentsController::class, 'index'])->name('statuses.index');
-
+//      SubCities
         Route::get('/subCities/{page_id}', [SubCitiesController::class, 'index'])->name('subCities.index');
-        Route::get('/status/{page_id}', [TypeStatusController::class, 'index'])->name('status.index');
+        Route::get('/trash/subCities/{page_id}', [SubCitiesController::class, 'getTrash'])->name('subCities.getTrash');
+        Route::get('/subCities/{page_id}/{id_city}', [PriceBranchesController::class, 'show'])->name('subCities.show');
+//      Roles
         Route::get('/roles/{page_id}', [RolesController::class, 'index'])->name('roles.index');
+        Route::get('/trash/roles/{page_id}', [RolesController::class, 'getTrash'])->name('roles.getTrash');
         Route::get('/materialRoles/{page_id}', [MaterialRolesController::class, 'index'])->name('materialRoles.index');
         Route::get('/materialRoles/show/{page_id}/{id_role}', [MaterialRolesController::class, 'show'])->name('materialRoles.show');
+//      Dashboard
+        Route::get('/dashboard/{page_id}', [DashboardController::class, 'index'])->name('dashboard.index');
+        Route::get('/dashboard/shipments/{page_id}/{id_status}', [DashboardController::class, 'show'])->name('dashboard.show');
+//      Status
+        Route::get('/status/{page_id}', [TypeStatusController::class, 'index'])->name('status.index');
+
     });
 
     Route::middleware('CheckCreatePermission')->group(function () {
@@ -102,14 +107,18 @@ Route::middleware('auth')->group(function () {
 //      Customers
         Route::patch('/customers/{page_id}/{id_customer}', [CostumersController::class, 'update'])->name('customers.update');
         Route::patch('/trash/customers/restore/{page_id}/{id_customer}', [CostumersController::class, 'restore'])->name('customers.restore');
-
-        Route::patch('/status/{page_id}/{id_status}', [TypeStatusController::class, 'update'])->name('status.update');
-        Route::patch('//{page_id}/{id_city}', [SubCitiesController::class, 'update'])->name('subCities.update');
-
+//      Shipments
         Route::patch('/shipments/{page_id}/{id_ship}', [ShipmentsController::class, 'update'])->name('shipments.update');
+        Route::patch('/trash/shipments/restore/{page_id}/{id_ship}', [ShipmentsController::class, 'restore'])->name('shipments.restore');
         Route::patch('/shipments/status/update/{page_id}/{id_status_ship}', [StatusShipmentsController::class, 'update'])->name('status.shipments.update');
-
+//      SubCities
+        Route::patch('/subCities/{page_id}/{id_city}', [SubCitiesController::class, 'update'])->name('subCities.update');
+        Route::patch('/trash/subCities/{page_id}/{id_city}', [SubCitiesController::class, 'restore'])->name('subCities.restore');
+//      Status
+        Route::patch('/status/{page_id}/{id_status}', [TypeStatusController::class, 'update'])->name('status.update');
+//      Roles
         Route::patch('/roles/update/{page_id}/{id_role}', [RolesController::class, 'update'])->name('roles.update');
+        Route::patch('/trash/roles/update/{page_id}/{id_role}', [RolesController::class, 'restore'])->name('roles.restore');
         Route::patch('/roles/material/edit/{page_id}/{id_role}', [MaterialRolesController::class, 'edit'])->name('materialRoles.edit');
     });
 
@@ -126,14 +135,17 @@ Route::middleware('auth')->group(function () {
 //      Customers
         Route::delete('/customers/{page_id}/{id_customer}', [CostumersController::class, 'destroy'])->name('customers.destroy');
         Route::delete('/trash/customers/{page_id}/{id_customer}', [CostumersController::class, 'delete'])->name('customers.delete');
-
-        Route::delete('/roles/destroy/{page_id}/{id_role}', [RolesController::class, 'destroy'])->name('roles.destroy');
-        Route::delete('/subCities/{page_id}/{id_city}', [SubCitiesController::class, 'destroy'])->name('subCities.destroy');
-        Route::delete('/status/{page_id}/{id_status}', [TypeStatusController::class, 'destroy'])->name('status.destroy');
-
-
-
+//      Shipments
         Route::delete('/shipments/{page_id}/{id_ship}', [ShipmentsController::class, 'destroy'])->name('shipments.destroy');
+        Route::delete('/trash/shipments/{page_id}/{id_ship}', [ShipmentsController::class, 'delete'])->name('shipments.delete');
+//      SubCities
+        Route::delete('/subCities/{page_id}/{id_city}', [SubCitiesController::class, 'destroy'])->name('subCities.destroy');
+        Route::delete('/trash/subCities/{page_id}/{id_city}', [SubCitiesController::class, 'delete'])->name('subCities.delete');
+//      Status
+        Route::delete('/status/{page_id}/{id_status}', [TypeStatusController::class, 'destroy'])->name('status.destroy');
+//      Roles
+        Route::delete('/roles/destroy/{page_id}/{id_role}', [RolesController::class, 'destroy'])->name('roles.destroy');
+        Route::delete('/trash/roles/destroy/{page_id}/{id_role}', [RolesController::class, 'delete'])->name('roles.delete');
 
     });
 
@@ -142,10 +154,6 @@ Route::middleware('auth')->group(function () {
 
 
 });
-
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

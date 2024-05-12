@@ -58,8 +58,8 @@
     <div class="data-table-common data-table-one max-w-full overflow-x-auto">
         <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
             <div class="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-                <div class="flex items-center gap-1 border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-                    @if($isCreate || $isShowTrash)
+                @if($isCreate || $isShowTrash)
+                    <div class="flex items-center gap-1 border-b border-stroke px-6.5 py-4 dark:border-strokedark">
                         @if($isCreate)
                             <button data-target="AddEmp"
                                     class="modal-show flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
@@ -94,8 +94,8 @@
                                 سلة المحذوفات
                             </a>
                         @endif
-                    @endif
-                </div>
+                    </div>
+                @endif
                 @include('site.People.Employees.modal.save')
 
             </div>
