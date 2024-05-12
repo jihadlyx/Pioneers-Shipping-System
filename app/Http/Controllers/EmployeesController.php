@@ -215,9 +215,11 @@ class EmployeesController extends Controller
                         'email' => $request->email,
                         'pid' => $id,
                     ]);
-                    if($request->password != $user->password){
-                        $user->password = Hash::make($request->password);
-                        $user->save();
+                    if($request->password){
+                        if(Hash::make($request->password) != $user->password){
+                            $user->password = Hash::make($request->password);
+                            $user->save();
+                        }
                     }
 
                     return redirect()->route("employees.index", ['page_id' => $this->page_id])

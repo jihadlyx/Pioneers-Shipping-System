@@ -183,8 +183,10 @@ class DelegatesController extends Controller
                     'pid' => $request->id_delegate,
                 ]);
                 if($request->password){
-                    $user->password = Hash::make($request->password);
-                    $user->save();
+                    if(Hash::make($request->password) != $user->password){
+                        $user->password = Hash::make($request->password);
+                        $user->save();
+                    }
                 }
 
                 return redirect()->route("delegates.index", ['page_id' => $this->page_id])

@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/branches/price/show/{page_id}/{id_branch}', [PriceBranchesController::class, 'show'])->name('branches.price.show');
         Route::get('/branches/price/{page_id}/{id_branch}', [PriceBranchesController::class, 'edit'])->name('branches.price.edit');
         Route::get('/branches/view/{page_id}/{id_branch}', [PriceBranchesController::class, 'index'])->name('branches.view.index');
+        Route::get('/branches/pricesView/{id}', [BranchesController::class, 'pricesView'])->name('branches.pricesView');
+        Route::get('/branches/addFormPrices/{id}', [BranchesController::class, 'addFormPrices'])->name('branches.addFormPrices');
 //      Employees
         Route::get('/employees/{page_id}', [EmployeesController::class, 'index'])->name('employees.index');
         Route::get('/trash/employees/{page_id}', [EmployeesController::class, 'getTrash'])->name('employees.getTrash');
@@ -148,15 +150,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('/trash/roles/destroy/{page_id}/{id_role}', [RolesController::class, 'delete'])->name('roles.delete');
 
     });
-
-    Route::get('/branches/pricesView/{id}', [BranchesController::class, 'pricesView'])->name('branches.pricesView');
-    Route::get('/branches/addFormPrices/{id}', [BranchesController::class, 'addFormPrices'])->name('branches.addFormPrices');
-
-
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });

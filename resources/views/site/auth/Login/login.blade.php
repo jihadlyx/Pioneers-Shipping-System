@@ -19,13 +19,12 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                 <div class="hidden w-full xl:block xl:w-1/2">
                     <div class="px-26 py-17.5 text-center">
                         <a class="mb-5.5 inline-block" href="index.html">
-                            <img class="hidden dark:block" src="{{ asset('assets/images/logo/logo.svg') }}" alt="Logo">
-                            <img class="dark:hidden" src="{{ asset('assets/images/logo/logo-dark.svg') }}" alt="Logo">
+{{--                            <img class="" src="{{ asset('assets/images/logo/logo2.svg') }}" alt="Logo">--}}
+{{--                            <img class="dark:hidden" src="{{ asset('assets/images/logo/logo-dark.svg') }}" alt="Logo">--}}
                         </a>
 
                         <p class="font-medium 2xl:px-20">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                            suspendisse.
+
                         </p>
 
                         <span class="mt-15 inline-block">
