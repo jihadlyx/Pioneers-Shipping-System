@@ -53,9 +53,14 @@ class Shipments extends Model
     public function getPrice()
     {
         $branch = $this->city->id_branch;
-        $price = PriceBranch::where('id_from_branch', $this->customer->id_branch)
+        $price_branch = PriceBranch::where('id_from_branch', $this->customer->id_branch)
             ->where('id_to_branch', $branch)
-            ->first()->price;
+            ->first();
+        if($price_branch){
+            $price = $price_branch->price;
+        } else {
+            $price = 0;
+        }
         $price = $price + $this->city->price;
         return $price;
     }

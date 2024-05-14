@@ -80,7 +80,7 @@ class CostumersController extends Controller
                 'password' => ['required'],
                 'address' => ['required', 'string', 'max:30'],
                 'id_branch' => ['required', 'numeric'],
-                'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
+                'phone_number' => ['required', 'numeric', 'digits_between:10,12', 'unique:'.Customers::class],
                 'phone_number2' => ['nullable', 'numeric'] ,
                 'photo' => ['nullable'],
             ]);

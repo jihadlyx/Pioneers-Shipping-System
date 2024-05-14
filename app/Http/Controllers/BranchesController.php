@@ -62,9 +62,9 @@ class BranchesController extends Controller
         try {
             $validatedData = $request->validate([
                 'id_branch' => ['required', 'numeric', 'unique:'.Branch::class],
-                'title' => ['required', 'string', 'max:20'],
+                'title' => ['required', 'string', 'max:20', 'unique:'.Branch::class],
                 'address' => ['required', 'string', 'max:30'],
-                'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
+                'phone_number' => ['required', 'numeric', 'digits_between:10,12', 'unique:'.Branch::class],
                 'phone_number2' => ['nullable', 'numeric'] ,
             ]);
             $idBranch = $request->id_branch;

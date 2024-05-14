@@ -194,7 +194,7 @@
                                     @if(Auth()->user()->checkShowRole(11))
                                         <li>
                                             <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                               href="{{ route('shipments.index', ['page_id' => 11, 'id_status' => 2]) }}" :class="page === 'Delegates' && '!text-white'">الشحنات قيد التوصيل
+                                               href="{{ route('statuses.index', ['page_id' => 11]) }}" :class="page === 'Delegates' && '!text-white'">الشحنات قيد التوصيل
                                             </a>
                                         </li>
                                     @endif

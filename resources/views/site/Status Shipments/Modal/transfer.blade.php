@@ -30,15 +30,15 @@
                             @csrf
                             @method('PATCH')
                             <div class="">
-                                <input type="radio" class="hidden" id="state4" name="state" value="4" />
                                 <input type="radio" class="hidden" id="state3" name="state" value="3" />
+                                <input type="radio" class="hidden" id="state4" name="state" value="4" />
                                 <button type="submit" class="w-full">
-                                    <label  for="state4" class="save-data cursor-pointer w-full mb-2 py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-meta-3 text-white focus:outline-none focus:ring-2 focus:ring-meta-3 focus:ring-offset-2 transition-all text-sm">
+                                    <label  for="state3" class="save-data cursor-pointer w-full mb-2 py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-meta-3 text-white focus:outline-none focus:ring-2 focus:ring-meta-3 focus:ring-offset-2 transition-all text-sm">
                                         تم التسليم
                                     </label>
                                 </button>
                                 <button type="submit" class="w-full ">
-                                    <label for="state3"  class="save-data cursor-pointer w-full py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-meta-5 text-white focus:outline-none focus:ring-2 focus:ring-meta-5 focus:ring-offset-2 transition-all text-sm">
+                                    <label for="state4"  class="save-data cursor-pointer w-full py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-meta-5 text-white focus:outline-none focus:ring-2 focus:ring-meta-5 focus:ring-offset-2 transition-all text-sm">
                                         تعذر التسليم
                                     </label>
                                 </button>

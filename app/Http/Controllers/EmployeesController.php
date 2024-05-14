@@ -84,7 +84,7 @@ class EmployeesController extends Controller
                 'address' => ['required', 'string', 'max:30'],
                 'id_role' => ['required', 'numeric'],
                 'id_branch' => ['required', 'numeric'],
-                'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
+                'phone_number' => ['required', 'numeric', 'digits_between:10,12', 'unique:'.Employee::class],
                 'phone_number2' => ['nullable', 'numeric'] ,
                 'photo' => ['nullable'],
             ]);

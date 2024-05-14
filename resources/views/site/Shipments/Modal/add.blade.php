@@ -4,7 +4,7 @@
         class="relative m-auto w-full max-w-180 sm:max-w-230 rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10">
         <div class=" flex items-center justify-between">
             <h2 class="flex-1 text-center text-title-md font-bold text-meta-5 dark:text-white">
-                إضافة شحنة جديد
+                شحنة جديدة
             </h2>
             <button data-target="SaveChanging"
                 class="btn-modal-close absolute ltr:right-1 rtl:left-1 top-1 ltr:sm:right-5 rtl:sm:left-5 sm:top-5">
@@ -42,7 +42,7 @@
                             الرجاء ادخل حقل الاسم
                         </div>
                     </div>
-                    <div class="mb-4.5 w-full xl:w-1/2">
+                    <div class="mb-4.5 {{ Auth()->user()->id_type_users == 3 ? 'hidden' : '' }} w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             الزبون
                         </label>
@@ -55,7 +55,7 @@
                                     اختر
                                 </option>
                                 @foreach($customers as $customer)
-                                    <option value="{{ $customer->id_customer }}" class="text-body"> {{ $customer->name_customer }} </option>
+                                    <option value="{{ $customer->id_customer }}" @if(Auth()->user()->id_type_users == 3) selected @endif class="text-body"> {{ $customer->name_customer }} </option>
                                 @endforeach
                             </select>
                             <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">
@@ -179,7 +179,7 @@
             </div>
             <button type="submit"
                 class="save-data flex w-fit items-center justify-center gap-2 rounded bg-primary px-4.5 py-2.5 font-medium text-white">
-                إضافة
+                إضافة شحنة
             </button>
         </form>
     </div>

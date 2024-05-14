@@ -41,8 +41,15 @@ class StatusShipmentsController extends Controller
 
         }
         elseif($user->id_type_users == 2) {
-            $shipments = StatusShipments::where('id_status', 2)
+            $shipments = StatusShipments::where('status_shipments.id_status', 2)
+                ->join('shipments', 'status_shipments.id_ship', '=', 'shipments.id_ship')
                 ->where('id_delegate', $user->pid)
+                ->whereNotExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('status_shipments as ss2')
+                        ->whereRaw('ss2.id_ship = shipments.id_ship')
+                        ->whereRaw('ss2.id_status != 2');
+                })
                 ->get();
         }
         else {

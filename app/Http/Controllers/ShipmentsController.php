@@ -37,8 +37,8 @@ class ShipmentsController extends Controller
         $isCreate = $this->checkCreateRole($this->page_id);
         $isUpdate = $this->checkUpdateRole($this->page_id);
         $isShowTrash = $this->checkShowRole(10);
-        $isEmployee = false;
         $user = Auth()->user();
+        $isEmployee = $user->id_type_users == 1 ? true : false;
         $id_branch = $user->findUserByType($user->id_type_users)->id_branch;
         if($user->id_type_users == 1) {
             $isEmployee = true;

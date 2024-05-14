@@ -11,6 +11,7 @@ use App\Models\StatusShipments;
 use App\Models\SubCities;
 use App\Traits\AuthorizationTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -55,8 +56,15 @@ class DashboardController extends Controller
             $ship1 = StatusShipments::where('id_status', 1)
                 ->where('id_delegate', $user->pid)
                 ->get();
-            $ship2 = StatusShipments::where('id_status', 2)
+            $ship2 = StatusShipments::where('status_shipments.id_status', 2)
+                ->join('shipments', 'status_shipments.id_ship', '=', 'shipments.id_ship')
                 ->where('id_delegate', $user->pid)
+                ->whereNotExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('status_shipments as ss2')
+                        ->whereRaw('ss2.id_ship = shipments.id_ship')
+                        ->whereRaw('ss2.id_status != 2');
+                })
                 ->get();
             $ship3 = StatusShipments::where('id_status', 3)
                 ->where('id_delegate', $user->pid)

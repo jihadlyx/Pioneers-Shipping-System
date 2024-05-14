@@ -121,6 +121,16 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+    const fieldsAll = document.querySelectorAll(
+        "input[required], select[required], textarea[required]"
+    );
+    fieldsAll.forEach(filed => {
+        // if (filed == 'select') {
+        //     let ele = filed.parentElement.previousElementSibling;
+        // } else
+            let ele = filed.previousElementSibling;
+        ele.innerHTML += '<span class="text-meta-1">*</span>';
+    })
 
     const forms = document.querySelectorAll(".needs-validation");
 
@@ -139,6 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // تحقق مما إذا كانت هناك حقول فارغة
             let isFormValid = true;
             fields.forEach(function (field) {
+
                 if (!field.value.trim()) {
                     isFormValid = false;
                     field.classList.add("is-invalid"); // إضافة كلاس 'is-invalid' إلى الحقل الفارغ

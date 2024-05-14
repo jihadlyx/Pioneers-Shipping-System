@@ -83,7 +83,7 @@ class SubCitiesController extends Controller
             return redirect()->route('subCities.index', ['page_id' => $this->page_id])
                 ->with([
                     "message" => [
-                        "type" => "error",
+                        "type" => "success",
                         "title" => "نحجت العملية",
                         "text" => "تمت عملية إضافة المدينة بنجاح"
                     ]]);

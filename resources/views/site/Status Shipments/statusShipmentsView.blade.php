@@ -121,7 +121,7 @@
                                     </div>
                                 </a>
                             </th>
-                            <th data-sortable="true" style="width: 12.086471408647142%">
+                            <th data-sortable="true" class="{{ Auth()->user()->id_type_users == 3 ? 'hidden' : '' }}" style="width: 12.086471408647142%">
                                 <a href="#" class="datatable-sorter">
                                     <div class="flex items-center gap-1.5">
                                         <p>الزبون</p>
@@ -196,7 +196,7 @@
                             <th data-sortable="true" style="width: 10.715481171548117%">
                                 <a href="#" class="datatable-sorter">
                                     <div class="flex items-center gap-1.5">
-                                        <p>رقم الهاتف</p>
+                                        <p>رقم المستلم</p>
                                         <div class="inline-flex flex-col space-y-[2px]">
                                                     <span class="inline-block">
                                                         <svg class="fill-current" width="10" height="5"
@@ -296,29 +296,16 @@
                     <tr data-index="{{ $index }}">
                         @if($isUpdate)
                             <td class="px-4 py-5">
-                            <div class="relative text-gray-100 flex items-center gap-1">
-                                <div class="absolute right-4 top-2">
-                                    <div x-data="{openDropDown: false}" class="relative">
-                                        <button @click="openDropDown = !openDropDown">
-                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M2.25 11.25C3.49264 11.25 4.5 10.2426 4.5 9C4.5 7.75736 3.49264 6.75 2.25 6.75C1.00736 6.75 0 7.75736 0 9C0 10.2426 1.00736 11.25 2.25 11.25Z" fill="#98A6AD"></path>
-                                                <path d="M9 11.25C10.2426 11.25 11.25 10.2426 11.25 9C11.25 7.75736 10.2426 6.75 9 6.75C7.75736 6.75 6.75 7.75736 6.75 9C6.75 10.2426 7.75736 11.25 9 11.25Z" fill="#98A6AD"></path>
-                                                <path d="M15.75 11.25C16.9926 11.25 18 10.2426 18 9C18 7.75736 16.9926 6.75 15.75 6.75C14.5074 6.75 13.5 7.75736 13.5 9C13.5 10.2426 14.5074 11.25 15.75 11.25Z" fill="#98A6AD"></path>
+                                <div class="text-gray-100 flex items-center gap-1">
+                                    @if($isUpdate)
+                                        <button data-target="translate{{ $shipment->id_ship }}" title="تسليم" class="hover:text-primary">
+                                            <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M18.625 9.28125C18.5 9.0625 18.3125 8.90625 18.0937 8.78125L3.68747 0.718748C3.43747 0.593748 3.15622 0.531248 2.87497 0.562498C2.59372 0.593748 2.34372 0.687498 2.12497 0.874998C1.90622 1.0625 1.74997 1.3125 1.68747 1.5625C1.59372 1.84375 1.62497 2.125 1.71872 2.40625L4.40622 10L1.71872 17.5937C1.62497 17.875 1.62497 18.1562 1.68747 18.4062C1.74997 18.6875 1.90622 18.9062 2.12497 19.0937C2.34372 19.2812 2.59372 19.375 2.87497 19.4062C2.90622 19.4062 2.96872 19.4062 2.99997 19.4062C3.21872 19.4062 3.46872 19.3437 3.68747 19.2187L18.0937 11.1562C18.3125 11.0312 18.5 10.875 18.625 10.6562C18.75 10.4375 18.8125 10.1875 18.8125 9.96875C18.8125 9.75 18.75 9.5 18.625 9.28125ZM3.06247 1.96875L16.125 9.28125H5.65622L3.06247 1.96875ZM3.06247 18.0312L5.68747 10.7187H16.1562L3.06247 18.0312Z" fill=""></path>
                                             </svg>
                                         </button>
-                                        <div x-show="openDropDown" @click.outside="openDropDown = false" class="absolute right-5 top-3 z-40 w-40 space-y-1 rounded-sm border border-stroke bg-white p-1.5 shadow-default dark:border-strokedark dark:bg-boxdark">
-                                                <button data-target="translate{{ $shipment->id_ship }}" class="flex hover:text-meta-3 w-full items-center gap-2 rounded-sm px-4 py-1.5 text-left text-sm hover:bg-gray dark:hover:bg-meta-4">
-                                                    <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M18.625 9.28125C18.5 9.0625 18.3125 8.90625 18.0937 8.78125L3.68747 0.718748C3.43747 0.593748 3.15622 0.531248 2.87497 0.562498C2.59372 0.593748 2.34372 0.687498 2.12497 0.874998C1.90622 1.0625 1.74997 1.3125 1.68747 1.5625C1.59372 1.84375 1.62497 2.125 1.71872 2.40625L4.40622 10L1.71872 17.5937C1.62497 17.875 1.62497 18.1562 1.68747 18.4062C1.74997 18.6875 1.90622 18.9062 2.12497 19.0937C2.34372 19.2812 2.59372 19.375 2.87497 19.4062C2.90622 19.4062 2.96872 19.4062 2.99997 19.4062C3.21872 19.4062 3.46872 19.3437 3.68747 19.2187L18.0937 11.1562C18.3125 11.0312 18.5 10.875 18.625 10.6562C18.75 10.4375 18.8125 10.1875 18.8125 9.96875C18.8125 9.75 18.75 9.5 18.625 9.28125ZM3.06247 1.96875L16.125 9.28125H5.65622L3.06247 1.96875ZM3.06247 18.0312L5.68747 10.7187H16.1562L3.06247 18.0312Z" fill=""></path>
-                                                    </svg>
-                                                    تسليم
-                                                </button>
-                                        </div>
-                                    </div>
+                                    @endif
                                 </div>
-
-                            </div>
-                        </td>
+                            </td>
                         @endif
                         <td>
                             {{ $shipment->id_ship }}
@@ -326,7 +313,7 @@
                         <td>
                             {{ $shipment->shipment->name_ship }}
                         </td>
-                        <td>
+                        <td class="{{ Auth()->user()->id_type_users == 3 ? 'hidden' : '' }}">
                             {{ $shipment->shipment->customer->name_customer }}
                         </td>
                         <td>
@@ -339,7 +326,7 @@
                         </td>
                         <td class="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                             <h5 class="font-medium text-black dark:text-white">0{{ $shipment->shipment->phone_number }}</h5>
-                            <h5 class="font-medium {{ $shipment->shipment->phone_number2 == null ? 'hidden' : '' }} text-black dark:text-white">0{{ $shipment->phone_number2 }}</h5>
+                            <h5 class="font-medium {{ $shipment->shipment->phone_number2 == null ? 'hidden' : '' }} text-black dark:text-white">0{{ $shipment->shipment->phone_number2 }}</h5>
                         </td>
                         <td>
                             {{ $shipment->shipment->city->title }}

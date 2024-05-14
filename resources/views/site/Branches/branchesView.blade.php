@@ -200,7 +200,7 @@
                                                 </button>
                                             @endif
                                             @if($isDelete && $branch->isHasMany())
-                                                    <button data-target="DeleteBranch{{ $branch->id_branch }}" class="hover:text-meta-1 button-icon">
+                                                    <button data-target="DeleteBranch{{ $branch->id_branch }}" title="حذف" class="hover:text-meta-1 button-icon">
                                                         <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
                                                              fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <path

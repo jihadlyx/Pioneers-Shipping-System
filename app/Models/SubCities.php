@@ -39,10 +39,15 @@ class SubCities extends Model
     public function getPrice()
     {
         $branch = Auth()->user()->findUserByType(Auth()->user()->id_type_users)->branch;
-        $price = PriceBranch::where('id_from_branch', $branch->id_branch)
+        $price_branch = PriceBranch::where('id_from_branch', $branch->id_branch)
                             ->where('id_to_branch', $this->id_branch)
-                            ->first()->price;
-        $price = $price + $this->price;
+                            ->first();
+        if($price_branch){
+            $price = $price_branch->price;
+        } else {
+            $price = 0;
+        }
+        $price = $price + $this-> price;
         return $price;
     }
 }

@@ -77,7 +77,7 @@ class DelegatesController extends Controller
                 'password' => ['required'],
                 'address' => ['required', 'string', 'max:30'],
                 'id_branch' => ['required', 'numeric'],
-                'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
+                'phone_number' => ['required', 'numeric', 'digits_between:10,12', 'unique:'.Delegate::class],
                 'phone_number2' => ['nullable', 'numeric'] ,
             ]);
             DB::transaction(function () use ($request) {

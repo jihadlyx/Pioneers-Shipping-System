@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Branch;
 use App\Models\Employee;
+use App\Models\PriceBranch;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,20 +21,26 @@ class EmployeeTableSeeder extends Seeder
     {
         Branch::create([
             "id_branch" => 1,
-            "title" => "zliten",
-            'address' => 'x=zlire',
-            'phone_number' => 4343343,
+            "title" => "فرع زليتن",
+            'address' => 'وسط المدينة',
+            'phone_number' => 911089052,
             'state' => 1,
-            'phone_number2' => 34353543,
+            'phone_number2' => null,
+        ]);
+        PriceBranch::create([
+            'id' => 1,
+            'id_from_branch' => 1,
+            'id_to_branch' => 1,
+            'price' => 0,
         ]);
 
         $emp = Employee::create([
             'id_emp' => 1,
-            'name_emp' => "jihad",
-            'address' => 'x=zlire',
-            'phone_number' => 4343343,
+            'name_emp' => "جهاد شرع الله",
+            'address' => 'السبعة',
+            'phone_number' => 911089052,
             'id_number' => 1,
-            'phone_number2' => 34353543,
+            'phone_number2' => null,
             'id_role' => 1,
             'id_branch' => 1,
             'image' => null
