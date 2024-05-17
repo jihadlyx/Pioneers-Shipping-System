@@ -4,7 +4,7 @@
         class="relative m-auto w-full max-w-180 sm:max-w-230 rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10">
         <div class=" flex items-center justify-between">
             <h2 class="flex-1 text-center text-title-md font-bold text-meta-5 dark:text-white">
-                زبون جديد
+                الزبائن
             </h2>
             <button data-target="SaveChanging"
                 class="btn-modal-close absolute ltr:right-1 rtl:left-1 top-1 ltr:sm:right-5 rtl:sm:left-5 sm:top-5">
@@ -141,7 +141,7 @@
             </div>
             <button type="submit"
                 class="save-data flex w-fit items-center justify-center gap-2 rounded bg-primary px-4.5 py-2.5 font-medium text-white">
-                إضافة زبون
+                إضافة زبون جديد
             </button>
         </form>
     </div>

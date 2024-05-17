@@ -37,6 +37,7 @@ class StatusShipmentsController extends Controller
                         ->whereRaw('ss2.id_ship = shipments.id_ship')
                         ->whereRaw('ss2.id_status != 2');
                 })
+                ->distinct() // استخدام DISTINCT لتفادي التكرار
                 ->get();
 
         }

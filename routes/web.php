@@ -99,6 +99,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('CheckUpdatePermission')->group(function () {
 //      Branches
         Route::patch('/branches/update/{page_id}/{id_branch}', [BranchesController::class, 'update'])->name('branches.update');
+        Route::patch('/branches/translate/{page_id}/{id_branch}', [BranchesController::class, 'translate'])->name('branches.translate');
         Route::patch('/trash/branches/restore/{page_id}/{id_branch}', [BranchesController::class, 'restore'])->name('branches.trash.restore');
 //      Employees
         Route::patch('/employees/{page_id}/{id_emp}', [EmployeesController::class, 'update'])->name('employees.update');

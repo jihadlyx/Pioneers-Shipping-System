@@ -28,7 +28,7 @@
         setTimeout(function(){
             let alert = document.querySelector("div[role='alert']")
                 if(alert){
-                    alert.style.display = "none";
+                    alert.style.visibility = "hidden";
                 }
         }, 5000);
 

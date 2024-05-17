@@ -394,7 +394,7 @@
                                     @if(Auth()->user()->id_type_users == 2)
                                         {{ $shipment->shipment->getPrice() + $shipment->shipment->ship_value }}
                                     @else
-                                        {{ $shipment->getPrice() + $shipment->ship_value }}
+                                        {{ $shipment->getPrice() + $shipment->ship_value }} دينار
                                     @endif
 
                                 </td>

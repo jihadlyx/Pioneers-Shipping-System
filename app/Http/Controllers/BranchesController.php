@@ -137,6 +137,47 @@ class BranchesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
+    public function translate(Request $request, $id_page, $id) {
+        try {
+            $validatedData = $request->validate([
+                'id_branch' => ['required', 'numeric'],
+                'state' => ['required', 'numeric'],
+            ]);
+            $branch = Branch::where("id_branch", $id)->first();
+
+            if($branch) {
+                $branch->update([
+                    "state" => $request->state,
+                ]);
+                return redirect()->route("branches.index", ['page_id' => $this->page_id])
+                    ->with([
+                        "message" => [
+                            "type" => "success",
+                            "title" => "نحجت العملية",
+                            "text" => "تمت عملية التعديل على الفرع"
+                        ]
+                    ]);
+
+            }
+            return redirect()->route('branches.index', ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "فشلت العملية",
+                        "text" => "هذا الفرع غير موجود"
+                    ]
+                ]);
+        } catch (ValidationException $e) {
+            return redirect()->route('branches.index', ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "فشلت العملية",
+                        "text" => "يوجد خطأ في عملية ادخال البيانات يرجى التأكد البيانات"
+                    ]
+                ]);
+        }
+    }
     public function update(Request $request,$page_id, $id)
     {
         try {

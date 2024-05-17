@@ -69,7 +69,7 @@ class ShipmentsController extends Controller
 
         $maxShipmentId = Shipments::withTrashed()->max('id_ship') ? Shipments::withTrashed()->max('id_ship') + 1 : 1;
 
-        return view('site.shipments.shipmentsView', compact('shipments', 'isShowTrash', 'prices_branches', 'delegates', 'isEmployee', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'maxShipmentId', 'customers', 'sub_cites'));
+        return view('site.shipments.shipmentsView', compact('shipments', 'isShowTrash', 'id_status', 'prices_branches', 'delegates', 'isEmployee', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'maxShipmentId', 'customers', 'sub_cites'));
     }
 
 

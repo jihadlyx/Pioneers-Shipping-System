@@ -53,7 +53,10 @@ class MaterialRolesController extends Controller
      */
     public function show($page_id, $id)
     {
-        $materialRoles = MaterialRole::where('id_role', $id)->get();
+        $materialRoles = MaterialRole::where('id_role', $id)
+            ->where('id_page', '!=', 8)
+            ->get();
+
         return view('site.settings.Roles.MaterialRoles.materialRolesView', compact('materialRoles', 'id'));
     }
 

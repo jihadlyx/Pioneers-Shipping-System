@@ -292,56 +292,60 @@
                         </tr>
                     </thead>
                     <tbody>
+                    <span class="hidden"> {{ $id_row = 0 }} </span>
                     @foreach($shipments as $index => $shipment)
-                    <tr data-index="{{ $index }}">
-                        @if($isUpdate)
-                            <td class="px-4 py-5">
-                                <div class="text-gray-100 flex items-center gap-1">
-                                    @if($isUpdate)
-                                        <button data-target="translate{{ $shipment->id_ship }}" title="تسليم" class="hover:text-primary">
-                                            <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M18.625 9.28125C18.5 9.0625 18.3125 8.90625 18.0937 8.78125L3.68747 0.718748C3.43747 0.593748 3.15622 0.531248 2.87497 0.562498C2.59372 0.593748 2.34372 0.687498 2.12497 0.874998C1.90622 1.0625 1.74997 1.3125 1.68747 1.5625C1.59372 1.84375 1.62497 2.125 1.71872 2.40625L4.40622 10L1.71872 17.5937C1.62497 17.875 1.62497 18.1562 1.68747 18.4062C1.74997 18.6875 1.90622 18.9062 2.12497 19.0937C2.34372 19.2812 2.59372 19.375 2.87497 19.4062C2.90622 19.4062 2.96872 19.4062 2.99997 19.4062C3.21872 19.4062 3.46872 19.3437 3.68747 19.2187L18.0937 11.1562C18.3125 11.0312 18.5 10.875 18.625 10.6562C18.75 10.4375 18.8125 10.1875 18.8125 9.96875C18.8125 9.75 18.75 9.5 18.625 9.28125ZM3.06247 1.96875L16.125 9.28125H5.65622L3.06247 1.96875ZM3.06247 18.0312L5.68747 10.7187H16.1562L3.06247 18.0312Z" fill=""></path>
-                                            </svg>
-                                        </button>
-                                    @endif
-                                </div>
-                            </td>
+                        @if($id_row != $shipment->id_ship)
+                            <span class="hidden"> {{ $id_row =  $shipment->id_ship }} </span>
+                            <tr data-index="{{ $index }}">
+                                @if($isUpdate)
+                                    <td class="px-4 py-5">
+                                        <div class="text-gray-100 flex items-center gap-1">
+                                            @if($isUpdate)
+                                                <button data-target="translate{{ $shipment->id_ship }}" title="تسليم" class="hover:text-primary">
+                                                    <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M18.625 9.28125C18.5 9.0625 18.3125 8.90625 18.0937 8.78125L3.68747 0.718748C3.43747 0.593748 3.15622 0.531248 2.87497 0.562498C2.59372 0.593748 2.34372 0.687498 2.12497 0.874998C1.90622 1.0625 1.74997 1.3125 1.68747 1.5625C1.59372 1.84375 1.62497 2.125 1.71872 2.40625L4.40622 10L1.71872 17.5937C1.62497 17.875 1.62497 18.1562 1.68747 18.4062C1.74997 18.6875 1.90622 18.9062 2.12497 19.0937C2.34372 19.2812 2.59372 19.375 2.87497 19.4062C2.90622 19.4062 2.96872 19.4062 2.99997 19.4062C3.21872 19.4062 3.46872 19.3437 3.68747 19.2187L18.0937 11.1562C18.3125 11.0312 18.5 10.875 18.625 10.6562C18.75 10.4375 18.8125 10.1875 18.8125 9.96875C18.8125 9.75 18.75 9.5 18.625 9.28125ZM3.06247 1.96875L16.125 9.28125H5.65622L3.06247 1.96875ZM3.06247 18.0312L5.68747 10.7187H16.1562L3.06247 18.0312Z" fill=""></path>
+                                                    </svg>
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </td>
+                                @endif
+                                <td>
+                                    {{ $shipment->id_ship }}
+                                </td>
+                                <td>
+                                    {{ $shipment->shipment->name_ship }}
+                                </td>
+                                <td class="{{ Auth()->user()->id_type_users == 3 ? 'hidden' : '' }}">
+                                    {{ $shipment->shipment->customer->name_customer }}
+                                </td>
+                                <td>
+                                    {{ $shipment->shipment->recipient_name }}
+                                </td>
+                                <td>
+                                    <p class="inline-flex rounded-full @if($shipment->id_status == 3) bg-success text-success @elseif($shipment->id_status == 4) bg-danger text-danger @else bg-warning text-warning @endif  bg-opacity-10 px-3 py-1 text-md font-medium">
+                                        {{ $shipment->state->title }}
+                                    </p>
+                                </td>
+                                <td class="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+                                    <h5 class="font-medium text-black dark:text-white">0{{ $shipment->shipment->phone_number }}</h5>
+                                    <h5 class="font-medium {{ $shipment->shipment->phone_number2 == null ? 'hidden' : '' }} text-black dark:text-white">0{{ $shipment->shipment->phone_number2 }}</h5>
+                                </td>
+                                <td>
+                                    {{ $shipment->shipment->city->title }}
+                                </td>
+                                <td class="green">
+                                    {{ $shipment->shipment->address }}
+                                </td>
+                                <td class="text-center">
+                                    {{ $shipment->delegate->name_delegate }}
+                                    <h6 class="font-medium text-black dark:text-white">0{{ $shipment->delegate->phone_number }}</h6>
+                                </td>
+                                {{--                        @include('site.Shipments.modal.edit')--}}
+                                {{--                        @include('site..Shipments.modal.delete')--}}
+                                @include('site.Status Shipments.modal.transfer')
+                            </tr>
                         @endif
-                        <td>
-                            {{ $shipment->id_ship }}
-                        </td>
-                        <td>
-                            {{ $shipment->shipment->name_ship }}
-                        </td>
-                        <td class="{{ Auth()->user()->id_type_users == 3 ? 'hidden' : '' }}">
-                            {{ $shipment->shipment->customer->name_customer }}
-                        </td>
-                        <td>
-                            {{ $shipment->shipment->recipient_name }}
-                        </td>
-                        <td>
-                            <p class="inline-flex rounded-full @if($shipment->id_status == 3) bg-success text-success @elseif($shipment->id_status == 4) bg-danger text-danger @else bg-warning text-warning @endif  bg-opacity-10 px-3 py-1 text-md font-medium">
-                                {{ $shipment->state->title }}
-                            </p>
-                        </td>
-                        <td class="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
-                            <h5 class="font-medium text-black dark:text-white">0{{ $shipment->shipment->phone_number }}</h5>
-                            <h5 class="font-medium {{ $shipment->shipment->phone_number2 == null ? 'hidden' : '' }} text-black dark:text-white">0{{ $shipment->shipment->phone_number2 }}</h5>
-                        </td>
-                        <td>
-                            {{ $shipment->shipment->city->title }}
-                        </td>
-                        <td class="green">
-                            {{ $shipment->shipment->address }}
-                        </td>
-                        <td class="text-center">
-                            {{ $shipment->delegate->name_delegate }}
-                            <h6 class="font-medium text-black dark:text-white">0{{ $shipment->delegate->phone_number }}</h6>
-                        </td>
-{{--                        @include('site.Shipments.modal.edit')--}}
-{{--                        @include('site..Shipments.modal.delete')--}}
-                        @include('site.Status Shipments.modal.transfer')
-                    </tr>
                     @endforeach
                     </tbody>
                 </table>

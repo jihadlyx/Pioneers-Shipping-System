@@ -145,13 +145,6 @@
                                     </div>
                                 </a>
                             </th>
-                            <th data-sortable="true" style="width: 2.549511854951188%">
-                                <a href="#" class="datatable-sorter">
-                                    <div class="flex items-center gap-1.5">
-                                        <p> الحالة </p>
-                                    </div>
-                                </a>
-                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -186,12 +179,6 @@
                                 </td>
                                 <td>
                                     {{ $branch->address }}
-                                </td>
-                                <td>
-                                    <p class="inline-flex rounded-full {{ $branch->state == 1 ? 'bg-success text-success' : 'bg-danger text-danger' }} bg-opacity-10 px-3 py-1 text-md font-medium">
-                                        {{ $branch->state == 1 ? 'نشط' : 'غير نشط'}}
-                                    </p>
-
                                 </td>
                                 @include('site.branches.modal.restore')
                                 @include('site.branches.modal.deleteTrash')
