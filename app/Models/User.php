@@ -110,4 +110,13 @@ class User extends Authenticatable
         $user = $this->findUserByType($type);
         return $user->role->title;
     }
+
+    public function getToken() {
+        $user = PasswordResets::where('email', $this->email)->first();
+        return $user->token;
+    }
+    public function getExpires() {
+        $user = PasswordResets::where('email', $this->email)->first();
+        return $user->expires_at;
+    }
 }

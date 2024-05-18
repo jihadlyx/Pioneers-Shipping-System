@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
+use App\Models\Customers;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
@@ -20,7 +24,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $branches = Branch::where('state', 1)->get();
+        return view('site.auth.Register.registerView', compact('branches'));
     }
 
     /**
@@ -30,22 +35,51 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+        try {
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255', 'min:3'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required'],
+            'address' => ['required', 'string', 'max:30'],
+            'id_branch' => ['required', 'numeric'],
+            'phone_number' => ['required', 'numeric', 'digits_between:10,12', 'unique:'.Customers::class],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        DB::transaction(function () use ($request) {
+            $maxCustomerId = Customers::withTrashed()->max('id_customer') ? Customers::withTrashed()->max('id_customer') + 1 : 1;
+            Customers::create([
+                'id_customer' => $maxCustomerId,
+                'name_customer' => $request->name,
+                'address' => $request->address,
+                'phone_number' => $request->phone_number,
+                'id_number' => 1,
+                'phone_number2' => $request->phone_number2,
+                'id_role' => 3,
+                'id_branch' => $request->id_branch,
+            ]);
 
-        event(new Registered($user));
+            // إنشاء مستخدم
+            User::create([
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'id_type_users' => 3,
+                'pid' => $maxCustomerId,
+            ]);
+            $user = User::where('id_type_users', 3)
+                ->where('pid', $maxCustomerId)
+                ->first();
 
-        Auth::login($user);
+            event(new Registered($user));
 
+            Auth::login($user);
+        });
         return redirect(RouteServiceProvider::HOME);
+
+    } catch (ValidationException $e) {
+        return redirect()->route('register');
+    }
+
+
+
     }
 }

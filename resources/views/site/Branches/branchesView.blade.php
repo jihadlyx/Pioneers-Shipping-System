@@ -5,7 +5,7 @@
 @endsection
 @section('content')
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h2 class="text-title-md2 font-bold text-black dark:text-white">
+        <h2 class="text-title-md2 text-3d font-bold text-black dark:text-white">
             الفروع
         </h2>
 
@@ -61,21 +61,21 @@
                     <div class="flex items-center gap-1 border-b border-stroke px-6.5 py-4 dark:border-strokedark">
                         @if($isCreate)
                             <button data-target="AddBranch"
-                                    class="modal-show flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
-                                <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M15 7H9V1C9 0.4 8.6 0 8 0C7.4 0 7 0.4 7 1V7H1C0.4 7 0 7.4 0 8C0 8.6 0.4 9 1 9H7V15C7 15.6 7.4 16 8 16C8.6 16 9 15.6 9 15V9H15C15.6 9 16 8.6 16 8C16 7.4 15.6 7 15 7Z"
-                                        fill=""></path>
-                                </svg>
+                                    class="modal-show flex items-center gap-2 text-white hover:bg-opacity-80 rounded bg-primary px-4.5 py-2 font-bold border-b-4 border-blue-700 hover:border-blue-500 transition-transform hover:scale-95">
+                                    <svg class="fill-current icon-3d" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M15 7H9V1C9 0.4 8.6 0 8 0C7.4 0 7 0.4 7 1V7H1C0.4 7 0 7.4 0 8C0 8.6 0.4 9 1 9H7V15C7 15.6 7.4 16 8 16C8.6 16 9 15.6 9 15V9H15C15.6 9 16 8.6 16 8C16 7.4 15.6 7 15 7Z"
+                                            fill=""></path>
+                                    </svg>
                                 إضافة فرع
                             </button>
                             @include('site.Branches.modal.add')
                         @endif
                         @if($isShowTrash)
                             <a href="{{ route('branches.trash.getTrash', ["page_id" => 10]) }}"
-                                class="flex cursor-pointer items-center gap-2 rounded bg-danger px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
-                                <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
+                               class="bg-meta-1 transition-transform hover:scale-95 flex items-center gap-2 hover:bg-opacity-80 hover:bg-redblue-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">
+                                <svg class="fill-current icon-3d" width="20" height="20" viewBox="0 0 18 18"
                                      fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M13.7535 2.47502H11.5879V1.9969C11.5879 1.15315 10.9129 0.478149 10.0691 0.478149H7.90352C7.05977 0.478149 6.38477 1.15315 6.38477 1.9969V2.47502H4.21914C3.40352 2.47502 2.72852 3.15002 2.72852 3.96565V4.8094C2.72852 5.42815 3.09414 5.9344 3.62852 6.1594L4.07852 15.4688C4.13477 16.6219 5.09102 17.5219 6.24414 17.5219H11.7004C12.8535 17.5219 13.8098 16.6219 13.866 15.4688L14.3441 6.13127C14.8785 5.90627 15.2441 5.3719 15.2441 4.78127V3.93752C15.2441 3.15002 14.5691 2.47502 13.7535 2.47502ZM7.67852 1.9969C7.67852 1.85627 7.79102 1.74377 7.93164 1.74377H10.0973C10.2379 1.74377 10.3504 1.85627 10.3504 1.9969V2.47502H7.70664V1.9969H7.67852ZM4.02227 3.96565C4.02227 3.85315 4.10664 3.74065 4.24727 3.74065H13.7535C13.866 3.74065 13.9785 3.82502 13.9785 3.96565V4.8094C13.9785 4.9219 13.8941 5.0344 13.7535 5.0344H4.24727C4.13477 5.0344 4.02227 4.95002 4.02227 4.8094V3.96565ZM11.7285 16.2563H6.27227C5.79414 16.2563 5.40039 15.8906 5.37227 15.3844L4.95039 6.2719H13.0785L12.6566 15.3844C12.6004 15.8625 12.2066 16.2563 11.7285 16.2563Z"
@@ -109,9 +109,10 @@
                         </label>
                     </div>
                     <div class="datatable-search">
-                        <input class="datatable-input" placeholder="بحث..." type="search" title="Search within table"
+                        <input class="datatable-input" placeholder="بحث..." type="search" title="البحث عن عنصر في الجدول"
                             aria-controls="dataTableOne" />
                     </div>
+
                 </div>
                 <div class="datatable-container">
                     <table class="datatable-table table w-full table-auto" id="dataTableOne">
@@ -186,7 +187,7 @@
                                             @if($isUpdate)
                                                 <button data-target="EditBranch{{ $branch->id_branch }}"
                                                         title="تعديل" class="hover:text-primary">
-                                                    <svg class="fill-current" width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <svg class="fill-current " width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <g clip-path="url(#clip0_62_9787)">
                                                             <path d="M15.55 2.97499C15.55 2.77499 15.475 2.57499 15.325 2.42499C15.025 2.12499 14.725 1.82499 14.45 1.52499C14.175 1.24999 13.925 0.974987 13.65 0.724987C13.525 0.574987 13.375 0.474986 13.175 0.449986C12.95 0.424986 12.75 0.474986 12.575 0.624987L10.875 2.32499H2.02495C1.17495 2.32499 0.449951 3.02499 0.449951 3.89999V14C0.449951 14.85 1.14995 15.575 2.02495 15.575H12.15C13 15.575 13.725 14.875 13.725 14V5.12499L15.35 3.49999C15.475 3.34999 15.55 3.17499 15.55 2.97499ZM8.19995 8.99999C8.17495 9.02499 8.17495 9.02499 8.14995 9.02499L6.34995 9.62499L6.94995 7.82499C6.94995 7.79999 6.97495 7.79999 6.97495 7.77499L11.475 3.27499L12.725 4.49999L8.19995 8.99999ZM12.575 14C12.575 14.25 12.375 14.45 12.125 14.45H2.02495C1.77495 14.45 1.57495 14.25 1.57495 14V3.87499C1.57495 3.62499 1.77495 3.42499 2.02495 3.42499H9.72495L6.17495 6.99999C6.04995 7.12499 5.92495 7.29999 5.87495 7.49999L4.94995 10.3C4.87495 10.5 4.92495 10.675 5.02495 10.85C5.09995 10.95 5.24995 11.1 5.52495 11.1H5.62495L8.49995 10.15C8.67495 10.1 8.84995 9.97499 8.97495 9.84999L12.575 6.24999V14ZM13.5 3.72499L12.25 2.49999L13.025 1.72499C13.225 1.92499 14.05 2.74999 14.25 2.97499L13.5 3.72499Z" fill=""></path>
                                                         </g>
@@ -238,7 +239,7 @@
                                     </td>
                                     <td>
                                         <button type="submit"
-                                                class="flex w-fit justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
+                                                class="flex w-fit justify-center rounded bg-primary p-3  text-gray hover:bg-opacity-90 font-bold border-b-4 border-blue-700 hover:border-blue-500 transition-transform hover:scale-95">
                                             <a href="{{ route('branches.view.index', ['page_id' => $id_page, 'id_branch' => $branch->id_branch]) }}">
                                                 سعر التوصيل
                                             </a>

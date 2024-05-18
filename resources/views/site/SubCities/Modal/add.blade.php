@@ -3,7 +3,7 @@
     <div
         class="relative m-auto w-full max-w-180 sm:max-w-230 rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10">
         <div class=" flex items-center justify-between">
-            <h2 class="flex-1 text-center text-title-md font-bold text-meta-5 dark:text-white">
+            <h2 class="flex-1 text-3d text-center text-title-md font-bold text-meta-5 dark:text-white">
                 مدينة أو منطقة جديدة
             </h2>
             <button data-target="SaveChanging"

@@ -6,7 +6,7 @@
 @section('content')
     <!-- Breadcrumb Start -->
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h2 class="text-title-md2 font-bold text-black dark:text-white">
+        <h2 class="text-title-md2 text-3d font-bold text-black dark:text-white">
             حالات الشحنة
         </h2>
 
@@ -61,14 +61,14 @@
                 @if($isCreate)
                     <div class="flex items-center gap-1 border-b border-stroke px-6.5 py-4 dark:border-strokedark">
                         <button data-target="AddState"
-                            class="modal-show flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
-                            <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                            class="modal-show flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-bold border-b-4 border-blue-700 hover:border-blue-500 transition-transform hover:scale-95 text-white hover:bg-opacity-80">
+                            <svg class="fill-current icon-3d" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M15 7H9V1C9 0.4 8.6 0 8 0C7.4 0 7 0.4 7 1V7H1C0.4 7 0 7.4 0 8C0 8.6 0.4 9 1 9H7V15C7 15.6 7.4 16 8 16C8.6 16 9 15.6 9 15V9H15C15.6 9 16 8.6 16 8C16 7.4 15.6 7 15 7Z"
                                     fill=""></path>
                             </svg>
-                            إضافة حالة للحشنة
+                            إضافة حالة للشحنة
                         </button>
                     @include('site.settings.TypeStatus.modal.add')
                     </div>

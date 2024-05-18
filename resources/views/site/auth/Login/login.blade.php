@@ -44,7 +44,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                             <div class="mb-4">
                                 <label class="mb-2.5 block font-medium text-black dark:text-white">البريد الإلكتروني</label>
                                 <div class="relative">
-                                    <input type="email" name="email" placeholder="ادخل بريدك الإلكتروني" class="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                                    <input type="email" name="email" required maxlength="255" minlength="13" placeholder="ادخل بريدك الإلكتروني" class="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
 
                                     <span class="absolute ltr:right-4 rtl:left-4 top-1/2 transform -translate-y-1/2">
                                         <svg class="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,7 +59,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                             <div class="mb-6">
                                 <label class="mb-2.5 block font-medium text-black dark:text-white">كلمة السر</label>
                                 <div class="relative">
-                                    <input type="password" name="password" placeholder="ادخل كلمة السر" class="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                                    <input type="password" name="password" required maxlength="255" minlength="6" placeholder="ادخل كلمة السر" class="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
 
                                     <span class="absolute ltr:right-4 rtl:left-4 top-1/2 transform -translate-y-1/2">
                             <svg class="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -77,6 +77,10 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                             </div>
 
                         </form>
+                        <div>
+                            <a href="{{ route('register') }}" class="ml-3 cursor-pointer" >انشاء حساب جديد</a>
+                            <a href="{{ route('password.request') }}" class="text-primary cursor-pointer">هل نسيت كلمة السر؟</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -86,6 +90,56 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
 </main>
 
 @include('site.layouts.script')
+<script>
+    const forms = document.querySelectorAll(".needs-validation");
+
+    forms.forEach(form => {
+        form.addEventListener("submit", onSubmitForm);
+
+        function onSubmitForm(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            // استهداف جميع الحقول داخل النموذج
+            const fields = form.querySelectorAll(
+                "input[required], select[required], textarea[required]"
+            );
+
+// تحقق مما إذا كانت هناك حقول فارغة
+            let isFormValid = true;
+            fields.forEach(function (field) {
+
+                if (!field.value.trim()) {
+                    isFormValid = false;
+                    field.classList.add("is-invalid"); // إضافة كلاس 'is-invalid' إلى الحقل الفارغ
+                    field.nextElementSibling.style.display = "block"; // عرض العنصر الذي يحمل الكلاس 'invalid-feedback'
+                } else {
+                    // إذا كان هناك قيمة في الحقل، قم بالتحقق من الحد الأقصى والأدنى لعدد الأحرف
+                    if (
+                        field.minLength && field.value.trim().length < field.minLength ||
+                        field.maxLength && field.value.trim().length > field.maxLength
+                    ) {
+                        isFormValid = false;
+                        field.classList.add("is-invalid"); // إضافة كلاس 'is-invalid' إلى الحقل
+                        field.nextElementSibling.style.display = "block"; // عرض العنصر الذي يحمل الكلاس 'invalid-feedback'
+                    } else {
+                        field.classList.remove("is-invalid"); // إزالة كلاس 'is-invalid' إذا كان الحقل غير فارغ
+                        field.nextElementSibling.style.display = "none"; // إخفاء العنصر الذي يحمل الكلاس 'invalid-feedback'
+                    }
+                }
+            });
+
+
+            // إذا كان النموذج صالحاً، قم بإرساله
+            if (isFormValid) {
+                form.classList.remove("was-validated");
+                form.submit();
+            } else {
+                form.classList.add("was-validated");
+            }
+        }
+    });
+</script>
 </body>
 
 </html>

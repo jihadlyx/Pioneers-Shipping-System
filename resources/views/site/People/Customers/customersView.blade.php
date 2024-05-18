@@ -6,7 +6,7 @@
 @section('content')
 <!-- Breadcrumb Start -->
 <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-    <h2 class="text-title-md2 font-bold text-black dark:text-white">
+    <h2 class="text-title-md2 text-3d font-bold text-black dark:text-white">
         الزبائن
     </h2>
     <nav>
@@ -51,21 +51,21 @@
                     <div class="flex items-center gap-1 border-b border-stroke px-6.5 py-4 dark:border-strokedark">
                     @if($isCreate)
                         <button data-target="AddCustomer"
-                                class="modal-show flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
-                            <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M15 7H9V1C9 0.4 8.6 0 8 0C7.4 0 7 0.4 7 1V7H1C0.4 7 0 7.4 0 8C0 8.6 0.4 9 1 9H7V15C7 15.6 7.4 16 8 16C8.6 16 9 15.6 9 15V9H15C15.6 9 16 8.6 16 8C16 7.4 15.6 7 15 7Z"
-                                    fill=""></path>
-                            </svg>
+                                class="modal-show flex items-center gap-2 rounded bg-primary px-4.5 py-2  text-white hover:bg-opacity-80 font-bold border-b-4 border-blue-700 hover:border-blue-500 transition-transform hover:scale-95">
+                                <svg class="fill-current icon-3d" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15 7H9V1C9 0.4 8.6 0 8 0C7.4 0 7 0.4 7 1V7H1C0.4 7 0 7.4 0 8C0 8.6 0.4 9 1 9H7V15C7 15.6 7.4 16 8 16C8.6 16 9 15.6 9 15V9H15C15.6 9 16 8.6 16 8C16 7.4 15.6 7 15 7Z"
+                                        fill=""></path>
+                                </svg>
                             إضافة زبون
                         </button>
                         @include('site.people.customers.modal.add')
                     @endif
                     @if($isShowTrash)
                         <a href="{{ route('customers.getTrash', ["page_id" => 10]) }}"
-                           class="flex cursor-pointer items-center gap-2 rounded bg-danger px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
-                            <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
+                           class="bg-meta-1 transition-transform hover:scale-95 flex items-center gap-2 hover:bg-opacity-80 hover:bg-redblue-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">
+                            <svg class="fill-current icon-3d" width="20" height="20" viewBox="0 0 18 18"
                                  fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M13.7535 2.47502H11.5879V1.9969C11.5879 1.15315 10.9129 0.478149 10.0691 0.478149H7.90352C7.05977 0.478149 6.38477 1.15315 6.38477 1.9969V2.47502H4.21914C3.40352 2.47502 2.72852 3.15002 2.72852 3.96565V4.8094C2.72852 5.42815 3.09414 5.9344 3.62852 6.1594L4.07852 15.4688C4.13477 16.6219 5.09102 17.5219 6.24414 17.5219H11.7004C12.8535 17.5219 13.8098 16.6219 13.866 15.4688L14.3441 6.13127C14.8785 5.90627 15.2441 5.3719 15.2441 4.78127V3.93752C15.2441 3.15002 14.5691 2.47502 13.7535 2.47502ZM7.67852 1.9969C7.67852 1.85627 7.79102 1.74377 7.93164 1.74377H10.0973C10.2379 1.74377 10.3504 1.85627 10.3504 1.9969V2.47502H7.70664V1.9969H7.67852ZM4.02227 3.96565C4.02227 3.85315 4.10664 3.74065 4.24727 3.74065H13.7535C13.866 3.74065 13.9785 3.82502 13.9785 3.96565V4.8094C13.9785 4.9219 13.8941 5.0344 13.7535 5.0344H4.24727C4.13477 5.0344 4.02227 4.95002 4.02227 4.8094V3.96565ZM11.7285 16.2563H6.27227C5.79414 16.2563 5.40039 15.8906 5.37227 15.3844L4.95039 6.2719H13.0785L12.6566 15.3844C12.6004 15.8625 12.2066 16.2563 11.7285 16.2563Z"

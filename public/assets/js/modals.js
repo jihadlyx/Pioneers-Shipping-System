@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
         //     let ele = filed.parentElement.previousElementSibling;
         // } else
             let ele = filed.previousElementSibling;
-        ele.innerHTML += '<span class="text-meta-1">*</span>';
+        ele.innerHTML += '<span style="color: rgb(220 53 69 / 1)">*</span>';
     })
 
     const forms = document.querySelectorAll(".needs-validation");

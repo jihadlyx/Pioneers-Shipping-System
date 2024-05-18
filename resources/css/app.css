@@ -33,6 +33,14 @@
         @apply h-[calc(100vh_-_8.125rem)] lg:h-[calc(100vh_-_5.625rem)];
     }
 }
+
+.text-3d {
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+}
+.icon-3d {
+    filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
+}
+
 select {
     background-image: none !important;
 }

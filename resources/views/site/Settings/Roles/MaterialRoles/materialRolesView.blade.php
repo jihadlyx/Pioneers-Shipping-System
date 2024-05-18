@@ -6,7 +6,7 @@
 @section('content')
  <!-- Breadcrumb Start -->
  <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-    <h2 class="text-title-md2 font-bold text-black dark:text-white">
+    <h2 class="text-title-md2 text-3d font-bold text-black dark:text-white">
         تحديد أذونات المدير
     </h2>
     <nav>

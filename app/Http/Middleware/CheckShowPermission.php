@@ -66,14 +66,16 @@ class CheckShowPermission
                 ->where('id_page', $page_id)
                 ->first();
 
-
-
-            if (!$materialRole || !$materialRole->show) {
-                return abort(403, "not access" );
+            if($materialRole) {
+                if (!$materialRole->show) {
+                    return abort(403, "not access 55"  );
+                }
+                return $next($request);
             }
 
+            return abort(403, 'Unauthorized action.7' );
 
-            return $next($request);
+
         } else {
             return abort(403, 'Unauthorized action.6');
         }

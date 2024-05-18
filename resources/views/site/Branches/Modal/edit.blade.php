@@ -3,7 +3,7 @@
     <div
         class="relative m-auto w-full max-w-180 sm:max-w-230 rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10">
         <div class=" flex items-center justify-between">
-            <h2 class="flex-1 text-center text-title-md font-bold text-meta-3 dark:text-white">
+            <h2 class="flex-1 text-3d text-center text-title-md font-bold text-meta-3 dark:text-white">
                 تعديل على الفرع
             </h2>
             <button data-target="SaveChanging"
@@ -78,10 +78,16 @@
                 </div>
 
             </div>
-            <button
-                class="save-data flex w-fit items-center justify-center gap-2 rounded bg-meta-3 px-4.5 py-2.5 font-medium text-white">
-                حفظ
-            </button>
+            <div class="flex items-center justify-between">
+                <button
+                    class="save-data flex w-fit items-center justify-center gap-2 rounded bg-meta-3 px-4.5 py-2.5 text-white font-bold border-b-4 border-green-700 hover:border-green-500 transition-transform hover:scale-95">
+                    حفظ
+                </button>
+                <div class="flex items-center gap-2">
+                    <span class="text-meta-1 text-xl">*</span> الحقول الإلزامية
+                </div>
+            </div>
+
         </form>
     </div>
 </div>

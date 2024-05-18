@@ -3,7 +3,7 @@
     <div
         class="relative m-auto w-full max-w-180 sm:max-w-230 rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10">
         <div class=" flex items-center justify-between">
-            <h2 class="flex-1 text-center text-title-md font-bold text-meta-3 dark:text-white">
+            <h2 class="flex-1 text-3d text-center text-title-md font-bold text-meta-3 dark:text-white">
                 تعديل على المندوب
             </h2>
             <button data-target="SaveChanging"
@@ -104,24 +104,29 @@
                 </div>
 
             </div>
-            <div class="mb-4.5 flex items-center gap-6 ">
-                <button type="submit"
-                        class="save-data flex w-fit items-center justify-center gap-2 rounded bg-meta-3 px-4.5 py-2.5 font-medium text-white">
-                    حفظ
-                </button>
-                <div x-data="{ checkboxToggle: false }">
-                    <label for="checkboxLabel{{ $delegate->id_delegate }}" class="flex gap-2 cursor-pointer select-none items-center text-sm font-medium" @click="checkboxToggle = !checkboxToggle">
-                        <div class="relative ">
-                            <input type="checkbox" data-set="reset-{{ $delegate->id_delegate }}" id="checkboxLabel{{ $delegate->id_delegate }}"
-                                   @change="checkboxToggle = !checkboxToggle" class="check-box sr-only" x-model="checkboxToggle" />
-                            <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
-                                 class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
+            <div class="flex items-center justify-between">
+                <div class="mb-4.5 flex items-center gap-6 ">
+                    <button type="submit"
+                            class="save-data flex w-fit items-center justify-center gap-2 rounded bg-meta-3 px-4.5 py-2.5 font-medium text-white">
+                        حفظ
+                    </button>
+                    <div x-data="{ checkboxToggle: false }">
+                        <label for="checkboxLabel{{ $delegate->id_delegate }}" class="flex gap-2 cursor-pointer select-none items-center text-sm font-medium" @click="checkboxToggle = !checkboxToggle">
+                            <div class="relative ">
+                                <input type="checkbox" data-set="reset-{{ $delegate->id_delegate }}" id="checkboxLabel{{ $delegate->id_delegate }}"
+                                       @change="checkboxToggle = !checkboxToggle" class="check-box sr-only" x-model="checkboxToggle" />
+                                <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
+                                     class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
                                 <span :class="checkboxToggle && 'bg-primary'"
                                       class="h-2.5 w-2.5 rounded-sm"></span>
+                                </div>
                             </div>
-                        </div>
-                        تغيير كلمة المرور
-                    </label>
+                            تغيير كلمة المرور
+                        </label>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-meta-1 text-xl">*</span> الحقول الإلزامية
                 </div>
             </div>
         </form>

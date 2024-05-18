@@ -15,8 +15,8 @@ class PasswordResetLinkController extends Controller
      */
     public function create(): View
     {
-        return view('auth.forgot-password');
-//        return view('site.auth.Reset Password.resetPasswordView');
+//        return view('auth.forgot-password');
+        return view('site.auth.Reset Password.resetPasswordView');
     }
 
     /**
