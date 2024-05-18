@@ -21,9 +21,12 @@ return new class extends Migration
             $table->integer("pid");
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('id_emp')->unsigned();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('id_emp')->references('id_emp')->on('employees')->onDelete('cascade');
+
         });
     }
 

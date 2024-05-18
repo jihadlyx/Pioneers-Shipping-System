@@ -66,21 +66,20 @@ class ForgotPasswordController extends Controller
                         'token' => $token,
                         'expires_at' => Carbon::now()->addMinutes(2),
                     ]);;
-
-                    // Send email
-                    Mail::to($user->email)->send(new ResetPasswordEmail($user));
-                    $msg = 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني';
-                    return view('site.auth.Reset Password.mailSuccess', compact('msg'));
+                } else
+                {
+                    return redirect()->route('password.sendLink')
+                        ->with([
+                            "message" => [
+                                "type" => "error",
+                                "title" => "لقد تم ارسال رسالة الى برديك",
+                                "text" => "يرجى التحقق من بريدك او المحاولة في وقت لاحق"
+                            ]
+                        ]);
                 }
-                return redirect()->route('password.sendLink')
-                    ->with([
-                        "message" => [
-                            "type" => "error",
-                            "title" => "لقد تم ارسال رسالة الى برديك",
-                            "text" => "يرجى التحقق من بريدك او المحاولة في وقت لاحق"
-                        ]
-                    ]);
-            } else {
+
+            }
+            else {
                 $token = sha1(time().$user->email);
                 PasswordResets::create([
                     'email' => $user->email,
@@ -88,11 +87,12 @@ class ForgotPasswordController extends Controller
                     'expires_at' => Carbon::now()->addMinutes(2),
                 ]);;
 
-                // Send email
-                Mail::to($user->email)->send(new ResetPasswordEmail($user));
-                $msg = 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني';
-                return view('site.auth.Reset Password.mailSuccess', compact('msg'));
             }
+
+            // Send email
+            Mail::to($user->email)->send(new ResetPasswordEmail($user));
+            $msg = 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني';
+            return view('site.auth.Reset Password.mailSuccess', compact('msg'));
         }
 
 

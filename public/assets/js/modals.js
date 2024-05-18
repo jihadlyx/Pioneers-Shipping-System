@@ -124,13 +124,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const fieldsAll = document.querySelectorAll(
         "input[required], select[required], textarea[required]"
     );
-    fieldsAll.forEach(filed => {
-        // if (filed == 'select') {
-        //     let ele = filed.parentElement.previousElementSibling;
-        // } else
-            let ele = filed.previousElementSibling;
-        ele.innerHTML += '<span style="color: rgb(220 53 69 / 1)">*</span>';
-    })
+    fieldsAll.forEach(field => {
+        let ele;
+        if (field.tagName.toLowerCase() === 'select') {
+            ele = field.parentElement.previousElementSibling;
+        } else {
+            ele = field.previousElementSibling;
+        }
+
+        if (ele) {
+            ele.innerHTML += '<span style="color: rgb(220, 53, 69);">*</span>';
+        }
+    });
+
 
     const forms = document.querySelectorAll(".needs-validation");
 

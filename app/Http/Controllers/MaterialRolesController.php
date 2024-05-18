@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\CheckShowPermission;
 use App\Models\MaterialRole;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -53,8 +54,12 @@ class MaterialRolesController extends Controller
      */
     public function show($page_id, $id)
     {
-        $materialRoles = MaterialRole::where('id_role', $id)->get();
-        return view('site.settings.Roles.MaterialRoles.materialRolesView', compact('materialRoles', 'id'));
+        $materialRoles = MaterialRole::where('id_role', $id)
+            ->where('id_page', '!=', 8)
+            ->get();
+        $title = Role::where('id_role', $id)->first()->title;
+
+        return view('site.settings.Roles.MaterialRoles.materialRolesView', compact('materialRoles', 'title', 'id'));
     }
 
     /**

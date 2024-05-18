@@ -78,7 +78,7 @@
                                 <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                                     الى الفرع
                                 </label>
-                                <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
+                                <div x-data="{ isOptionSelected: false }" class="relative hidden z-20 bg-transparent dark:bg-form-input">
                                     <select name="prices[{{ $index }}][id_to_branch]"
                                             class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                             :class="isOptionSelected && 'text-black dark:text-white'"
@@ -96,6 +96,9 @@
                                         </svg>
                                     </span>
                                 </div>
+                                <input type="text" value="{{ $branch->title != null ? $branch->title : $branch->toBranch->title }}" disabled placeholder="ادخل اسم الفرع"
+                                       class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                />
                                 <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                                     الرجاء اختيار فرع
                                 </div>
@@ -106,7 +109,7 @@
                                 </label>
                                 <input type="number" name="prices[{{ $index }}][price]" value="{{ $branch->price }}" placeholder="ادخل اسم السعر"
                                        class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                                       required maxlength="30" minlength="1"/>
+                                       required maxlength="4" minlength="1" max="4"/>
                                 <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                                     الرجاء ادخل حقل السعر
                                 </div>
@@ -115,7 +118,7 @@
                 @endforeach
 
                 <button type="submit"
-                    class="flex w-fit items-center justify-center gap-2 rounded bg-primary px-4.5 py-2.5 font-medium text-white">
+                        class="save-data modal-show flex transition-transform hover:scale-95 items-center gap-2 text-white hover:bg-opacity-80 rounded bg-primary px-4.5 py-2 font-bold border-b-4 border-blue-700 hover:border-blue-500">
                     إضافة
                 </button>
             </div>

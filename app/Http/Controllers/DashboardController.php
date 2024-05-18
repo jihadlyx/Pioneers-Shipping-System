@@ -161,15 +161,15 @@ class DashboardController extends Controller
         }
 
         if($id == 1) {
-            $text = 'الشحنات التي قيد الموافقه';
+            $text = 'استعلام عن الشحنات التي قيد الانتظار';
         } elseif ($id == 2) {
-            $text = 'الشحنات التي قيد التوصيل';
+            $text = 'استعلام عن الشحنات التي قيد التوصيل';
         }
         elseif ($id == 3) {
-            $text = 'الشحنات التي تم تسليمها';
+            $text = 'استعلام عن الشحنات التي تم تسليمها';
         }
         else {
-            $text = 'الشحنات التي تعذر توصيلها';
+            $text = 'استعلام عن الشحنات التي تعذر توصيلها';
         }
         return view('site.Dashboard.Type Status Ship.typeShipmentView', compact('shipments', 'delegates', 'isEmployee', 'isUpdate', 'isDelete', "id_page", 'sub_cites', 'text', 'id', 'prices_branches', 'customers'));
 
