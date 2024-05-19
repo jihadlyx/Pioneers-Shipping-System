@@ -216,7 +216,7 @@
                                         </div>
                                     </td>
                                     <td>{{ $city->branch->title .' - '. $city->title  }}</td>
-                                    <td>{{ $city->price  }}</td>
+                                    <td>{{ $city->price  }} دينار</td>
                                     @include('site.SubCities.modal.delete')
                                     @include('site.SubCities.modal.edit')
                                 </tr>

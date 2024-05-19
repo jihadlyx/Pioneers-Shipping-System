@@ -206,7 +206,7 @@
                                         </td>
                                         <td> {{ $new_branch->title }} </td>
                                         <td> {{ $branch->toBranch->title }} </td>
-                                        <td> {{ $branch->price  }} </td>
+                                        <td> {{ $branch->price  }} دينار </td>
                                         @include('site.Branches.DeliveryPrices.delete')
                                         @include('site.Branches.DeliveryPrices.edit')
                                     </tr>
