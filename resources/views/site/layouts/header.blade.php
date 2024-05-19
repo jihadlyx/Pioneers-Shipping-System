@@ -28,7 +28,7 @@
                 </span>
             </button>
             <!-- Hamburger Toggle BTN -->
-            <a class="block flex-shrink-0 lg:hidden" href="index.html">
+            <a class="block flex-shrink-0 lg:hidden" href="/dashboard/9">
                 <img src="{{ asset('assets/images/logo/logo-icon.svg') }}" alt="Logo" />
             </a>
         </div>
@@ -84,7 +84,12 @@
                     </span>
 
                     <span class="h-12 w-12 rounded-full">
-                        <img src="{{ asset('assets/images/user/user-01.png') }}" alt="User" />
+                        @if(Auth()->user()->findUserByType(auth()->user()->id_type_users)->image)
+                            <img src="{{ asset(Auth()->user()->findUserByType(auth()->user()->id_type_users)->image) }}" alt="User" />
+                        @else
+                            <img src="{{ asset('imagesUsers/Avatar.png') }}" alt="User Null" />
+                        @endif
+
                     </span>
 
                     <svg :class="dropdownOpen && 'rotate-180'" class="hidden fill-current sm:block" width="12"

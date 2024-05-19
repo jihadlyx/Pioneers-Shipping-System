@@ -149,8 +149,12 @@
                                 <option value="" disabled selected class="text-body">
                                     اختر
                                 </option>
+
                                 @foreach($roles as $role)
-                                    <option value="{{ $role->id_role }}" class="text-body"> {{ $role->title }} </option>
+
+                                    @if($role->employee->id_role == Auth()->user()->findUserByType(Auth()->user()->id_type_users)->id_role || $role->id_role == Auth()->user()->findUserByType(Auth()->user()->id_type_users)->id_role)
+                                        <option value="{{ $role->id_role }}" class="text-body"> {{ $role->title }} </option>
+                                    @endif
                                 @endforeach
                             </select>
                             <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">

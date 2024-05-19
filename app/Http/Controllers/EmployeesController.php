@@ -39,7 +39,7 @@ class EmployeesController extends Controller
         $isShowTrash = $this->checkShowRole(10);
         $user = Auth()->user();
         if($isCreate) {
-            $employees = Employee::whereNotIn('id_emp', [$user->pid])
+            $employees = Employee::whereNotIn('id_emp', [$user->pid])->whereNotIn('id_role', [0])
                 ->whereNotIn('id_emp', [$user->id_emp])->get();
         }
         else {
@@ -52,8 +52,9 @@ class EmployeesController extends Controller
             $branches = [$user->findUserByType($user->id_type_users)->branch];
         }
 
-        $roles = Role::where('id_role', [$user->findUserByType($user->id_type_users)->id_role])
-                    ->orwhere('id_emp', [$user->pid])->get();
+//        $roles = Role::where('id_role', [$user->findUserByType($user->id_type_users)->id_role])
+//                    ->orwhere('id_emp', [$user->pid])->get();
+        $roles = Role::all();
         $maxEmployeeId = Employee::withTrashed()->max('id_emp') ? Employee::withTrashed()->max('id_emp') + 1 : 1;
 
         return view('site.People.Employees.employeesView', compact('employees','isShowTrash', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'roles', 'branches', 'maxEmployeeId'));

@@ -41,7 +41,7 @@ class EmployeeTableSeeder extends Seeder
             'phone_number' => 911089052,
             'id_number' => 1,
             'phone_number2' => null,
-            'id_role' => 1,
+            'id_role' => 0,
             'id_branch' => 1,
             'image' => null
         ]);
