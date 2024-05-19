@@ -94,8 +94,8 @@
 
             </div>
             <button type="submit"
-                class="save-data flex w-fit items-center justify-center gap-2 rounded bg-primary px-4.5 py-2.5 font-medium text-white">
-                إضافة
+                    class="save-data modal-show flex transition-transform hover:scale-95 items-center gap-2 text-white hover:bg-opacity-80 rounded bg-primary px-4.5 py-2 font-bold border-b-4 border-blue-700 hover:border-blue-500">
+                تعديل السعر
             </button>
         </form>
     </div>

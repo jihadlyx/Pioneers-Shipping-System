@@ -46,10 +46,15 @@
                 </div>
 
             </div>
-            <button
-                class="save-data flex w-fit items-center justify-center gap-2 rounded bg-meta-3 px-4.5 py-2.5 font-medium text-white">
-                تعديل الحالة
-            </button>
+            <div class="flex items-center justify-between">
+                <button
+                    class="save-data flex w-fit items-center justify-center gap-2 rounded bg-meta-3 px-4.5 py-2.5 font-medium text-white">
+                    تعديل الحالة
+                </button>
+                <div class="flex items-center gap-2">
+                    <span class="text-meta-1 text-xl">*</span> الحقول الإلزامية
+                </div>
+            </div>
         </form>
     </div>
 </div>

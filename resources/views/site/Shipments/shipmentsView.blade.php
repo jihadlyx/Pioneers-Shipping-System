@@ -6,7 +6,7 @@
 @section('content')
     <!-- Breadcrumb Start -->
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h2 class="text-title-md2 font-bold text-black dark:text-white">
+        <h2 class="text-title-md2 text-3d font-bold text-black dark:text-white">
             الشحنات
         </h2>
         <nav>
@@ -26,21 +26,7 @@
                         الرئيسية
                     </a>
                 </li>
-                <li>
-                    <a class="flex items-center gap-3 font-medium" href="/shipments/5">
-                        <svg class="fill-current" width="18" height="7" viewBox="0 0 18 7" fill="none"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M1.4296 2.58734L3.1773 0.510459C3.3292 0.333165 3.6078 0.307837 3.8104 0.459804C3.9877 0.61177 4.0131 0.890376 3.8611 1.093L2.2148 3.04324H16.2464C16.4997 3.04324 16.7023 3.24586 16.7023 3.49914C16.7023 3.75241 16.4997 3.95504 16.2464 3.95504H2.2148L3.8611 5.90528C4.0131 6.08257 3.9877 6.36118 3.8104 6.53847C3.7345 6.61445 3.6332 6.63978 3.5318 6.63978C3.4052 6.63978 3.2786 6.58913 3.2026 6.48782L1.455 4.41094C1.0009 3.85373 1.0009 3.09389 1.4296 2.58734Z"
-                                fill=""></path>
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                  d="M3.8104 0.459804C3.6078 0.307837 3.3292 0.333165 3.1773 0.510459L1.4296 2.58734C1.0009 3.09389 1.0009 3.85373 1.455 4.41094L3.2026 6.48782C3.2786 6.58913 3.4052 6.63978 3.5318 6.63978C3.6332 6.63978 3.7345 6.61445 3.8104 6.53847C3.9877 6.36118 4.0131 6.08257 3.8611 5.90528L2.2148 3.95504H16.2464C16.4997 3.95504 16.7023 3.75241 16.7023 3.49914C16.7023 3.24586 16.4997 3.04324 16.2464 3.04324H2.2148L3.8611 1.093C4.0131 0.890376 3.9877 0.61177 3.8104 0.459804ZM2.9903 2.68302H16.2464C16.6986 2.68302 17.0625 3.04692 17.0625 3.49914C17.0625 3.95136 16.6986 4.31525 16.2464 4.31525H2.9903L4.1346 5.67085C4.1349 5.67123 4.1352 5.67161 4.1356 5.67199C4.4275 6.01385 4.354 6.50432 4.0652 6.79318C3.8978 6.96055 3.6887 7 3.5318 7C3.3205 7 3.0797 6.91713 2.9216 6.71335L1.1793 4.64286L1.1762 4.63904C0.618 3.95682 0.6042 3.00293 1.1545 2.35478C1.1547 2.35453 1.155 2.35429 1.1552 2.35404L2.9016 0.278534L2.9038 0.276033C3.1903 -0.0583053 3.6861 -0.0837548 4.0266 0.17163L4.036 0.17867L4.0449 0.186306C4.3792 0.472882 4.4047 0.968616 4.1493 1.30913L4.143 1.31743L2.9903 2.68302Z"
-                                  fill=""></path>
-                        </svg>
 
-                        <span class="hover:text-primary">الشحنات</span>
-                    </a>
-                </li>
                 <li>
                     <a class="flex items-center gap-3 font-medium" href="/shipments/5/1">
                         <svg class="fill-current" width="18" height="7" viewBox="0 0 18 7" fill="none"
@@ -87,19 +73,21 @@
                                     <button data-target="AddShipment"
                                             class="modal-show flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
                                         <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none"
+
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M15 7H9V1C9 0.4 8.6 0 8 0C7.4 0 7 0.4 7 1V7H1C0.4 7 0 7.4 0 8C0 8.6 0.4 9 1 9H7V15C7 15.6 7.4 16 8 16C8.6 16 9 15.6 9 15V9H15C15.6 9 16 8.6 16 8C16 7.4 15.6 7 15 7Z"
                                                 fill=""></path>
                                         </svg>
+
                                         إضافة شحنة
                                     </button>
                                     @include('site.Shipments.modal.add')
                                 @endif
                                 @if($isShowTrash)
                                     <a href="{{ route('shipments.getTrash', ["page_id" => 10]) }}"
-                                       class="flex cursor-pointer items-center gap-2 rounded bg-danger px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
-                                        <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
+                                       class="bg-meta-1 transition-transform hover:scale-95 flex items-center gap-2 hover:bg-opacity-80 hover:bg-redblue-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">
+                                        <svg class="fill-current icon-3d" width="20" height="20" viewBox="0 0 18 18"
                                              fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M13.7535 2.47502H11.5879V1.9969C11.5879 1.15315 10.9129 0.478149 10.0691 0.478149H7.90352C7.05977 0.478149 6.38477 1.15315 6.38477 1.9969V2.47502H4.21914C3.40352 2.47502 2.72852 3.15002 2.72852 3.96565V4.8094C2.72852 5.42815 3.09414 5.9344 3.62852 6.1594L4.07852 15.4688C4.13477 16.6219 5.09102 17.5219 6.24414 17.5219H11.7004C12.8535 17.5219 13.8098 16.6219 13.866 15.4688L14.3441 6.13127C14.8785 5.90627 15.2441 5.3719 15.2441 4.78127V3.93752C15.2441 3.15002 14.5691 2.47502 13.7535 2.47502ZM7.67852 1.9969C7.67852 1.85627 7.79102 1.74377 7.93164 1.74377H10.0973C10.2379 1.74377 10.3504 1.85627 10.3504 1.9969V2.47502H7.70664V1.9969H7.67852ZM4.02227 3.96565C4.02227 3.85315 4.10664 3.74065 4.24727 3.74065H13.7535C13.866 3.74065 13.9785 3.82502 13.9785 3.96565V4.8094C13.9785 4.9219 13.8941 5.0344 13.7535 5.0344H4.24727C4.13477 5.0344 4.02227 4.95002 4.02227 4.8094V3.96565ZM11.7285 16.2563H6.27227C5.79414 16.2563 5.40039 15.8906 5.37227 15.3844L4.95039 6.2719H13.0785L12.6566 15.3844C12.6004 15.8625 12.2066 16.2563 11.7285 16.2563Z"
@@ -120,6 +108,8 @@
                             </div>
                         @endif
                     @endif
+                    </div>
+
                     @include('site.Shipments.modal.save')
                 </div>
                 <div class="datatable-top">

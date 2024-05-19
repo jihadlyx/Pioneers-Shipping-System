@@ -5,6 +5,7 @@
         <div class=" flex items-center justify-between">
             <h2 class="flex-1 text-center text-title-md font-bold text-meta-5 dark:text-white">
                 المندوبين
+
             </h2>
             <button data-target="SaveChanging"
                 class="btn-modal-close absolute ltr:right-1 rtl:left-1 top-1 ltr:sm:right-5 rtl:sm:left-5 sm:top-5">
@@ -140,10 +141,18 @@
                     </div>
                 </div>
             </div>
-            <button type="submit"
-                class="save-data flex w-fit items-center justify-center gap-2 rounded bg-primary px-4.5 py-2.5 font-medium text-white">
-                إضافة مندوب جديد
-            </button>
+
+            <div class="flex items-center justify-between">
+                <button type="submit"
+                        class="save-data modal-show flex transition-transform hover:scale-95 items-center gap-2 text-white hover:bg-opacity-80 rounded bg-primary px-4.5 py-2 font-bold border-b-4 border-blue-700 hover:border-blue-500"
+                >
+                    إضافة مندوب جديد
+                </button>
+                <div class="flex items-center gap-2">
+                    <span class="text-meta-1 text-xl">*</span> الحقول الإلزامية
+                </div>
+            </div>
+
         </form>
     </div>
 </div>

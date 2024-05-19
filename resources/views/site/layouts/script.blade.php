@@ -28,7 +28,7 @@
         setTimeout(function(){
             let alert = document.querySelector("div[role='alert']")
                 if(alert){
-                    alert.style.visibility = "hidden";
+                    alert.style.visibility = 'hidden';
                 }
         }, 5000);
 
@@ -36,4 +36,6 @@
     function printInvoice(){
         window.print();
     }
+
+
 </script>

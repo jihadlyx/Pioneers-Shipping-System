@@ -24,6 +24,7 @@ class User extends Authenticatable
     protected $fillable = [
         'email',
         'password',
+        'id_emp',
         'id_type_users',
         'pid',
     ];
@@ -109,5 +110,14 @@ class User extends Authenticatable
         $type = Auth::user()->id_type_users;
         $user = $this->findUserByType($type);
         return $user->role->title;
+    }
+
+    public function getToken() {
+        $user = PasswordResets::where('email', $this->email)->first();
+        return $user->token;
+    }
+    public function getExpires() {
+        $user = PasswordResets::where('email', $this->email)->first();
+        return $user->expires_at;
     }
 }

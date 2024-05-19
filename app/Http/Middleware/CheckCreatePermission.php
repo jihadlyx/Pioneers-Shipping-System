@@ -29,7 +29,8 @@ class CheckCreatePermission
                 ->first();
             if($path_page) {
                 if (str_contains($path, $path_page->path)) {
-                    return abort(403, "$path not path" );
+                    $msg = "403, ليس لديك صلاحية الوصول لهذه الصفحة";
+                    return redirect()->route('site.Pages.errorView', compact('msg'));
                 }
             }
 
@@ -38,26 +39,30 @@ class CheckCreatePermission
                 case 1:
                     $employee = DB::table('Employees')->where('id_emp', $user->pid)->first();
                     if (!$employee) {
-                        return abort(403, 'Unauthorized action.1');
+                        $msg = "403, إجراء غير مصرح به 1";
+                        return redirect()->route('site.Pages.errorView', compact('msg'));
                     }
                     $role_id = $employee->id_role;
                     break;
                 case 2:
                     $delegate = DB::table('Delegates')->where('id_delegate', $user->pid)->first();
                     if (!$delegate) {
-                        return abort(403, 'Unauthorized action.2');
+                        $msg = "403, إجراء غير مصرح به 2";
+                        return redirect()->route('site.Pages.errorView', compact('msg'));
                     }
                     $role_id = $delegate->id_role;
                     break;
                 case 3:
                     $customer = DB::table('Customers')->where('id_customer', $user->pid)->first();
                     if (!$customer) {
-                        return abort(403, 'Unauthorized action.3');
+                        $msg = "403, إجراء غير مصرح به 3";
+                        return redirect()->route('site.Pages.errorView', compact('msg'));
                     }
                     $role_id = $customer->id_role;
                     break;
                 default:
-                    return abort(403, 'Unauthorized action.4');
+                    $msg = "403, إجراء غير مصرح به 4";
+                    return redirect()->route('site.Pages.errorView', compact('msg'));
             }
 
             // التحقق من صلاحية المواد للمستخدم
@@ -68,13 +73,15 @@ class CheckCreatePermission
 
 
             if (!$materialRole || !$materialRole->create) {
-                return abort(403, "$path  access 33" );
+                $msg = "403, ليس لديك صلاحية الوصول لهذه الصفحة";
+                return redirect()->route('site.Pages.errorView', compact('msg'));
             }
 
 
             return $next($request);
         } else {
-            return abort(403, 'Unauthorized action.6');
+            $msg = "403, إجراء غير مصرح به 6";
+            return redirect()->route('site.Pages.errorView', compact('msg'));
         }
     }
 }

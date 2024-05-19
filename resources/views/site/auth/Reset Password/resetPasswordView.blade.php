@@ -19,14 +19,14 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                 <div class="hidden w-full xl:block xl:w-1/2">
                     <div class="px-26 py-17.5 text-center">
                         <a class="mb-5.5 inline-block" href="index.html">
-                            <img class="hidden dark:block" src="{{ asset('assets/images/logo/logo.svg') }}" alt="Logo">
-                            <img class="dark:hidden" src="{{ asset('assets/images/logo/logo-dark.svg') }}" alt="Logo">
+{{--                            <img class="hidden dark:block" src="{{ asset('assets/images/logo/logo.svg') }}" alt="Logo">--}}
+{{--                            <img class="dark:hidden" src="{{ asset('assets/images/logo/logo-dark.svg') }}" alt="Logo">--}}
                         </a>
 
-                        <p class="font-medium 2xl:px-20">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                            suspendisse.
-                        </p>
+{{--                        <p class="font-medium 2xl:px-20">--}}
+{{--                            Lorem ipsum dolor sit amet, consectetur adipiscing elit--}}
+{{--                            suspendisse.--}}
+{{--                        </p>--}}
 
                         <span class="mt-15 inline-block">
                       <img src="{{ asset('assets/images/illustration/illustration-03.svg') }}" alt="illustration">
@@ -41,9 +41,17 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                         <p class="mb-7.5 font-medium">
                             أدخل عنوان بريدك الإلكتروني لتلقي رابط إعادة تعيين كلمة المرور
                         </p>
-
-                        <form method="POST" action="{{ route('password.email') }}">
+                        @if(Session::has('message'))
+                            <div class="alert-{{ Session::get('message')["type"] }} flex  rounded-lg p-4 mb-4 text-md " role="alert">
+                                <svg class="w-5 h-5 inline ltr:mr-3 rtl:ml-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                                <div>
+                                    <span class="font-medium">{{ Session::get('message')["title"] }} !</span> {{ Session::get('message')["text"] }}
+                                </div>
+                            </div>
+                        @endif
+                        <form method="POST" action="{{ route('password.sendLink') }}">
                             @csrf
+                            @method('POST')
                             <div class="mb-6">
                                 <label class="mb-2.5 block font-medium text-black dark:text-white">البريد الإلكتروني</label>
                                 <div class="relative">
@@ -60,7 +68,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                             </div>
 
                             <div>
-                                <input type="submit" value="Send Password Reset Link" class="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 font-medium text-white transition hover:bg-opacity-90">
+                                <input type="submit" value="ارسال" class="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 font-medium text-white transition hover:bg-opacity-90">
                             </div>
                         </form>
                     </div>

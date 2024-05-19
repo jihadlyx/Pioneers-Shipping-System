@@ -6,7 +6,7 @@
 @section('content')
     <!-- Breadcrumb Start -->
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h2 class="text-title-md2 font-bold text-black dark:text-white">
+        <h2 class="text-title-md2 text-3d font-bold text-black dark:text-white">
             اضافة اسعار التوصيل للفرع
         </h2>
         <nav>
@@ -118,7 +118,7 @@
                 @endforeach
 
                 <button type="submit"
-                    class="flex w-fit items-center justify-center gap-2 rounded bg-primary px-4.5 py-2.5 font-medium text-white">
+                        class="save-data modal-show flex transition-transform hover:scale-95 items-center gap-2 text-white hover:bg-opacity-80 rounded bg-primary px-4.5 py-2 font-bold border-b-4 border-blue-700 hover:border-blue-500">
                     إضافة
                 </button>
             </div>

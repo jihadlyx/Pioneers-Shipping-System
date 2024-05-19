@@ -13,13 +13,21 @@ class Role extends Model
 
     protected $table = "roles";
     protected $primaryKey = 'id_role';
-    protected $fillable = ["id_role", "title"];
+    protected $fillable = [
+        "id_role",
+        "title",
+        'id_emp'
+    ];
 
     public function isHasMany() {
         if ($this->employees()->count() <= 0 && $this->delegates()->count() <= 0 && $this->customers()->count() <= 0) {
             return true;
         }
         return false;
+    }
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'id_emp');
     }
 
     public function employees()

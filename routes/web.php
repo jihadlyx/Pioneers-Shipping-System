@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BranchesController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\CostumersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DelegatesController;
@@ -30,6 +31,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('site.auth.Login.login');
 });
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', function () {

@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->integer('id_role')->unsigned()->primary();
             $table->string('title', 50);
+            $table->integer('id_emp')->unsigned();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('id_emp')->references('id_emp')->on('employees')->onDelete('cascade');
         });
     }
 
