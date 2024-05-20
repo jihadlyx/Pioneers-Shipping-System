@@ -246,7 +246,7 @@
                                 <th data-sortable="true" style="width: 10.715481171548117%">
                                     <a href="#" class="datatable-sorter">
                                         <div class="flex items-center gap-1.5">
-                                            <p>رقم الهاتف</p>
+                                            <p>اجمالي السعر</p>
                                             <div class="inline-flex flex-col space-y-[2px]">
                                                 <span class="inline-block">
                                                     <svg class="fill-current" width="10" height="5"
@@ -337,7 +337,7 @@
                                                 </svg>
                                             </button>
                                         @endif
-                                        @if($shipment->id_status != 3)
+                                        @if($shipment->id_status == 1 )
                                             @if($isDelete)
                                                 <button data-target="DeleteShipment{{ $shipment->id_ship }}" title="حذف" class=" hover:text-meta-1">
                                                     <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
@@ -387,15 +387,25 @@
                                     @else
                                         {{ $shipment->shipment->name_ship }}
                                     @endif
-                                    {{ $shipment->name_ship }}
                                 </td>
                                 <td class="{{ Auth()->user()->id_type_users == 3 ? 'hidden' : '' }}">
                                     @if(Auth()->user()->id_type_users != 2)
                                         {{ $shipment->customer->name_customer }}
+                                        <h5 class="font-medium text-black dark:text-white">
+                                            0{{ $shipment->phone_number }}
+                                        </h5>
+                                        <h5 class="font-medium {{ $shipment->phone_number2 == null ? 'hidden' : '' }} text-black dark:text-white">
+                                            0{{ $shipment->phone_number2 }}
+                                        </h5>
                                     @else
                                         {{ $shipment->shipment->customer->name_customer }}
+                                        <h5 class="font-medium text-black dark:text-white">
+                                            0{{ $shipment->shipment->phone_number }}
+                                        </h5>
+                                        <h5 class="font-medium {{ $shipment->shipment->phone_number2 == null ? 'hidden' : '' }} text-black dark:text-white">
+                                            0{{ $shipment->shipment->phone_number2 }}
+                                        </h5>
                                     @endif
-
                                 </td>
                                 <td>
                                     @if(Auth()->user()->id_type_users != 2)
@@ -406,7 +416,7 @@
 
                                 </td>
                                 <td>
-                                    <p class="inline-flex rounded-full @if($shipment->id_status == 1 || $shipment->id_status == 3) bg-success text-success @elseif($shipment->id_status == 3) bg-danger text-danger @else bg-warning text-warning @endif  bg-opacity-10 px-3 py-1 text-md font-medium">
+                                    <p class="inline-flex rounded-full @if($shipment->id_status == 1) bg-meta-5 text-meta-5  @elseif($shipment->id_status == 3 ) bg-success text-success @elseif($shipment->id_status == 4) bg-danger text-danger @else bg-warning text-warning @endif  bg-opacity-10 px-3 py-1 text-md font-medium">
                                         {{ $shipment->state->title }}
                                     </p>
 
@@ -414,24 +424,17 @@
                                 <td class="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                                     <h5 class="font-medium text-black dark:text-white">
                                         @if(Auth()->user()->id_type_users != 2)
-                                            0{{ $shipment->phone_number }}
+                                            {{ $shipment->getPrice() + $shipment->ship_value }} دينار
                                         @else
-                                            0{{ $shipment->shipment->phone_number }}
-                                        @endif
-                                    </h5>
-                                    <h5 class="font-medium {{ $shipment->phone_number2 == null ? 'hidden' : '' }} text-black dark:text-white">
-                                        @if(Auth()->user()->id_type_users != 2)
-                                            0{{ $shipment->phone_number2 }}
-                                        @else
-                                            0{{ $shipment->shipment->phone_number2 }}
+                                            {{ $shipment->shipment->getPrice() + $shipment->shipment->ship_value }}دينار
                                         @endif
                                     </h5>
                                 </td>
                                 <td>
                                     @if(Auth()->user()->id_type_users != 2)
-                                        {{ $shipment->city->title }}
+                                        {{ $shipment->city->branch->title  .' - ' . $shipment->city->title }}
                                     @else
-                                        {{ $shipment->shipment->city->title }}
+                                        {{ $shipment->city->branch->title  .' - ' . $shipment->shipment->city->title }}
                                     @endif
                                 </td>
                                 <td class="green">

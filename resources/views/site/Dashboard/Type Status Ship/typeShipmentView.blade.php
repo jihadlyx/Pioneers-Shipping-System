@@ -281,7 +281,7 @@
                                                     </svg>
                                                 </button>
                                             @endif
-                                            @if($shipment->id_status != 3)
+                                            @if($shipment->id_status == 1 )
                                                 @if($isDelete)
                                                     <button data-target="DeleteShipment{{ $shipment->id_ship }}" title="حذف" class=" hover:text-meta-1">
                                                         <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
@@ -361,7 +361,7 @@
 
                                 </td>
                                 <td>
-                                    <p class="inline-flex rounded-full @if($shipment->id_status == 3 || $shipment->id_status == 1) bg-success text-success @elseif($shipment->id_status == 4) bg-danger text-danger @else bg-warning text-warning @endif  bg-opacity-10 px-3 py-1 text-md font-medium">
+                                    <p class="inline-flex rounded-full @if($shipment->id_status == 1) bg-meta-5 text-meta-5  @elseif($shipment->id_status == 3 ) bg-success text-success @elseif($shipment->id_status == 4) bg-danger text-danger @else bg-warning text-warning @endif  bg-opacity-10 px-3 py-1 text-md font-medium">
                                         {{ $shipment->state->title }}
                                     </p>
 
@@ -375,7 +375,7 @@
                                 </td>
                                 <td>
                                     @if(Auth()->user()->id_type_users == 2)
-                                        {{ $shipment->shipment->getPrice() + $shipment->shipment->ship_value }}
+                                        {{ $shipment->shipment->getPrice() + $shipment->shipment->ship_value }}دينار
                                     @else
                                         {{ $shipment->getPrice() + $shipment->ship_value }} دينار
                                     @endif

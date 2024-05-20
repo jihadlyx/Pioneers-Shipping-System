@@ -43,12 +43,16 @@
                                     class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     :class="isOptionSelected && 'text-black dark:text-white'"
                                     @change.once="isOptionSelected = true" required>
-                                <option value="" disabled selected class="text-body">
-                                    اختر
-                                </option>
-                                @foreach($customers as $customer)
-                                    <option value="{{ $customer->id_customer }}" @if($customer->id_customer == $shipment->id_customer) selected @endif class="text-body"> {{ $customer->name_customer }} </option>
-                                @endforeach
+                                @if($id_page == 11)
+                                    <option value="{{ $shipment->id_customer }}" class="text-body"> {{ $shipment->customer->name_customer }} </option>
+                                @else
+                                    <option value="" disabled selected class="text-body">
+                                        اختر
+                                    </option>
+                                    @foreach($customers as $customer)
+                                        <option value="{{ $customer->id_customer }}" @if($customer->id_customer == $shipment->id_customer) selected @endif class="text-body"> {{ $customer->name_customer }} </option>
+                                    @endforeach
+                                @endif
                             </select>
                             <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">
                                 <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24"
@@ -125,7 +129,7 @@
                                     اختر
                                 </option>
                                 @foreach($sub_cites as $city)
-                                    <option value="{{ $city->id_city}}"  @if($city->id_city == $shipment->id_city) selected @endif class="text-body" > {{ $city->title }} </option>
+                                    <option value="{{ $city->id_city}}"  @if($city->id_city == $shipment->id_city) selected @endif class="text-body" > {{ $city->branch->title  .' - ' . $city->title . '  ' . $city->getPrice()  }} </option>
                                 @endforeach
                             </select>
                             <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">

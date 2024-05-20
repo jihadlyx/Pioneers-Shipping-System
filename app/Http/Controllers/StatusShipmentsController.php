@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PriceBranch;
 use App\Models\Shipments;
 use App\Models\StatusShipments;
+use App\Models\SubCities;
 use App\Models\TypeShipStatus;
 use App\Traits\AuthorizationTrait;
 use Illuminate\Http\Request;
@@ -12,16 +14,17 @@ use Illuminate\Validation\ValidationException;
 
 class StatusShipmentsController extends Controller
 {
-    protected $id_page = 11;
+    protected $page_id = 11;
     use AuthorizationTrait;
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
-        $isUpdate = $this->checkUpdateRole($this->id_page);
+        $id_page = $this->page_id;
+        $isUpdate = $this->checkUpdateRole($this->page_id);
         $user = Auth()->user();
         $id_branch = $user->findUserByType($user->id_type_users)->id_branch;
 
@@ -66,10 +69,10 @@ class StatusShipmentsController extends Controller
                         ->whereRaw('ss2.id_status != 2');
                 })
                 ->get();
-
-
         }
-        return view('site.Status Shipments.statusShipmentsView', compact('shipments', 'isUpdate'));
+        $prices_branches = PriceBranch::with('id_from_branch', $user->findUserByType($user->id_type_users)->id_branch);
+        $sub_cites = SubCities::all();
+        return view('site.Status Shipments.statusShipmentsView', compact('shipments', 'sub_cites', 'prices_branches', 'id_page', 'isUpdate'));
     }
 
     /**
@@ -120,7 +123,7 @@ class StatusShipmentsController extends Controller
             $ship->update([
                 'id_status' => 2,
             ]);
-            return redirect()->route('statuses.index', ['page_id' => $this->id_page])
+            return redirect()->route('statuses.index', ['page_id' => $this->page_id])
                 ->with([
                     "message" => [
                         "type" => "success",
@@ -173,6 +176,7 @@ class StatusShipmentsController extends Controller
      */
     public function update(Request $request, $id_page, $id)
     {
+//        return $request;
         $ship = StatusShipments::where('id', $id)->first();
         $maxStatusId = StatusShipments::withTrashed()->max('id') ? StatusShipments::withTrashed()->max('id') + 1 : 1;
         StatusShipments::create([
@@ -187,7 +191,7 @@ class StatusShipmentsController extends Controller
         $ship->update([
             'id_status' => $request->state,
         ]);
-        return redirect()->route('statuses.index', ['page_id' => $this->id_page])
+        return redirect()->route('statuses.index', ['page_id' => $this->page_id])
             ->with([
                 "message" => [
                     "type" => "success",

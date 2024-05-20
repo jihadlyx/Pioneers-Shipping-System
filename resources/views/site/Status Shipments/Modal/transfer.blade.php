@@ -26,26 +26,29 @@
                         " {{ $shipment->shipment->name_ship }} "
                     </h3>
                     <div class="btns-close-modale mt-6 flex flex-col justify-center gap-y-4">
-                        <form action="{{ route('status.shipments.update', ['page_id' => 11, 'id_status_ship' => $shipment->id]) }}" method="POST" class="needs-validation" novalidate>
-                            @csrf
-                            @method('PATCH')
+
                             <div class="">
-                                <input type="radio" class="hidden" id="state3" name="state" value="3" />
-                                <input type="radio" class="hidden" id="state4" name="state" value="4" />
-                                <button type="submit" class="w-full">
-                                    <label  for="state3" class="save-data cursor-pointer w-full mb-2 py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-meta-3 text-white focus:outline-none focus:ring-2 focus:ring-meta-3 focus:ring-offset-2 transition-all text-sm">
-                                        تم التسليم
-                                    </label>
-                                </button>
-                                <button type="submit" class="w-full ">
-                                    <label for="state4"  class="save-data cursor-pointer w-full py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-meta-5 text-white focus:outline-none focus:ring-2 focus:ring-meta-5 focus:ring-offset-2 transition-all text-sm">
-                                        تعذر التسليم
-                                    </label>
-                                </button>
+                                <form action="{{ route('status.shipments.update', ['page_id' => 11, 'id_status_ship' => $shipment->id]) }}" method="POST" class="needs-validation" novalidate>
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="number" class="hidden" name="state" value="3" />
+                                    <button type="submit" class="w-full">
+                                        <label  for="state3" class="save-data cursor-pointer w-full mb-2 py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-meta-3 text-white focus:outline-none focus:ring-2 focus:ring-meta-3 focus:ring-offset-2 transition-all text-sm">
+                                            تم التسليم
+                                        </label>
+                                    </button>
+                                </form>
+                                <form action="{{ route('status.shipments.update', ['page_id' => 11, 'id_status_ship' => $shipment->id]) }}" method="POST" class="needs-validation" novalidate>
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="number" class="hidden" name="state" value="4" />
+                                    <button type="submit" name="state" value="4" class="w-full ">
+                                        <label for="state4"  class="save-data cursor-pointer w-full py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-meta-5 text-white focus:outline-none focus:ring-2 focus:ring-meta-5 focus:ring-offset-2 transition-all text-sm">
+                                            تعذر التسليم
+                                        </label>
+                                    </button>
+                                </form>
                             </div>
-                        </form>
-
-
                         <button type="button"
                                 class="btn-close-2 py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm">
                             إلغاء الأمر

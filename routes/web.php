@@ -27,10 +27,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('site.auth.Login.login');
+Route::middleware('guest')->group(function () {
+    Route::get('/', function () {
+        return view('site.auth.Login.login');
+    });
 });
+Route::get('/home', function () {
+    return view('welcome');
+});
+
 
 
 Route::middleware('auth')->group(function () {
