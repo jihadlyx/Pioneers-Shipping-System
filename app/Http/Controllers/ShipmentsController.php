@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\CheckShowPermission;
+use App\Models\Branch;
 use App\Models\Customers;
 use App\Models\Delegate;
 use App\Models\PriceBranch;
@@ -262,11 +263,11 @@ class ShipmentsController extends Controller
     {
         // العثور على الشحنة باستخدام المعرف
         $shipment = Shipments::where('id_ship', $id)->first();
-
+        $branches = Branch::where('state' , 1)->get();
         if (!$shipment) {
             abort(404); // يمكنك تعديل هذا بحسب احتياجاتك
         }
-        return view('site.shipments.modal.print', compact('shipment'));
+        return view('site.shipments.modal.print', compact('shipment', 'branches'));
     }
 
     public function getTrash() {

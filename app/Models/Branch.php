@@ -43,4 +43,18 @@ class Branch extends Model
     {
         return $this->hasMany(Customers::class, 'id_branch');
     }
+    public function shipments()
+    {
+        return $this->hasManyThrough(Shipments::class, Customers::class, 'id_branch', 'id_customer');
+    }
+
+    public function hasValidShipments()
+    {
+        // جلب الشحنات مع الحالات المحددة
+        $shipments = $this->shipments()->whereIn('id_status', [1, 2])->count();
+
+        // إذا كان هناك أي شحنة بهذه الحالات، أرجع false، وإلا أرجع true
+        return $shipments <= 0;
+    }
+
 }

@@ -8,6 +8,7 @@ use App\Models\PriceBranch;
 use App\Models\SubCities;
 use App\Traits\AuthorizationTrait;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class SubCitiesController extends Controller
 {
@@ -61,15 +62,14 @@ class SubCitiesController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'id_city' => ['required', 'numeric', 'unique:'.SubCities::class],
+                'title' => ['required', 'string', 'max:30'],
+                'price' => ['required', 'numeric', 'max:20'],
 
-//        $validatedData = $request->validate([
-//            'id_city' => ['required', 'numeric', 'unique:'.SubCities::class],
-//            'title' => ['required', 'string', 'max:30'],
-//            'price' => ['required', 'numeric', 'max:30'],
-//
-//        ]);
-//
-//        if($validatedData) {
+            ]);
+
             SubCities::create([
                 "id_city" => $request->id_city,
                 "title" => $request->title,
@@ -78,8 +78,6 @@ class SubCitiesController extends Controller
 
             ]);
 
-//      }
-
             return redirect()->route('subCities.index', ['page_id' => $this->page_id])
                 ->with([
                     "message" => [
@@ -87,6 +85,16 @@ class SubCitiesController extends Controller
                         "title" => "نحجت العملية",
                         "text" => "تمت عملية إضافة المدينة بنجاح"
                     ]]);
+        } catch (ValidationException $e) {
+                return redirect()->route('subCities.index', ['page_id' => $this->page_id])
+                    ->with([
+                        "message" => [
+                            "type" => "error",
+                            "title" => "فشلت العملية",
+                            "text" => "يوجد خطأ في عملية ادخال البيانات يرجى التأكد البيانات"
+                        ]
+                    ]);
+            }
     }
 
     /**
@@ -120,35 +128,50 @@ class SubCitiesController extends Controller
      */
     public function update(Request $request,$page_id, $id)
     {
+        try {
+            $validatedData = $request->validate([
+                'id_city' => ['required', 'numeric'],
+                'title' => ['required', 'string', 'max:30'],
+                'price' => ['required', 'numeric', 'max:20'],
 
-        $city = SubCities::where("id_city", $id)->first();
-
-        if($city) {
-            $city->update([
-                "title" => $request->title,
-                'price' => $request->price
             ]);
+            $city = SubCities::where("id_city", $id)->first();
 
-
-            return redirect()->route("subCities.index", ['page_id' => $this->page_id])
-                ->with([
-                    "message" => [
-                        "type" => "success",
-                        "title" => "نحجت العملية",
-                        "text" => "تمت عملية التعديل على المندوب"
-                    ]
+            if($city) {
+                $city->update([
+                    "title" => $request->title,
+                    'price' => $request->price
                 ]);
 
+
+                return redirect()->route("subCities.index", ['page_id' => $this->page_id])
+                    ->with([
+                        "message" => [
+                            "type" => "success",
+                            "title" => "نحجت العملية",
+                            "text" => "تمت عملية التعديل على المندوب"
+                        ]
+                    ]);
+
+            }
+            return redirect()->route('subCities.index', ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "فشلت العملية",
+                        "text" => "هذا المندوب غير موجود"
+                    ]]);
+
+        } catch (ValidationException $e) {
+            return redirect()->route('subCities.index', ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "فشلت العملية",
+                        "text" => "يوجد خطأ في عملية ادخال البيانات يرجى التأكد البيانات"
+                    ]
+                ]);
         }
-        return redirect()->route('subCities.index', ['page_id' => $this->page_id])
-            ->with([
-                "message" => [
-                    "type" => "error",
-                    "title" => "فشلت العملية",
-                    "text" => "هذا المندوب غير موجود"
-                ]]);
-
-
         }
 
 

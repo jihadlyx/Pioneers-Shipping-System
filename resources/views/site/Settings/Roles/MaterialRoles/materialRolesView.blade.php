@@ -60,12 +60,12 @@
                     <label>
                         عدد الصفوف
                         <select class="datatable-selector">
-                            <option value="{{ $materialRoles->count() }}"> All</option>
+                            <option value="{{ count($materialRoles) }}"> All</option>
                         </select>
                     </label>
                 </div>
                 <div class="datatable-search">
-                    <input class="datatable-input" placeholder="بحث..." type="search" title="Search within table"
+                    <input class="datatable-input" maxlength="55" placeholder="بحث..." type="search" title="Search within table"
                         aria-controls="dataTableOne" />
                 </div>
             </div>

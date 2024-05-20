@@ -7,6 +7,7 @@ use App\Models\SubCities;
 use App\Models\TypeShipStatus;
 use App\Traits\AuthorizationTrait;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class TypeStatusController extends Controller
 {
@@ -21,7 +22,7 @@ class TypeStatusController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -57,28 +58,33 @@ class TypeStatusController extends Controller
     public function store(Request $request)
     {
 
+        try {
+            $validatedData = $request->validate([
+            'id_city' => ['required', 'numeric', 'unique:'.TypeShipStatus::class],
+            'title' => ['required', 'string', 'max:30'],
+            ]);
+            TypeShipStatus::create([
+                "id_status" => $request->id_status,
+                "title" => $request->title,
+            ]);
 
-//        $validatedData = $request->validate([
-//            'id_city' => ['required', 'numeric', 'unique:'.SubCities::class],
-//            'title' => ['required', 'string', 'max:30'],
-//            'price' => ['required', 'string', 'max:30'],
-//
-//        ]);
-
-//        if($validatedData) {
-        TypeShipStatus::create([
-            "id_status" => $request->id_status,
-            "title" => $request->title,
-        ]);
-
-        return redirect()->route('status.index', ['page_id' => $this->page_id])
-            ->with([
-                "message" => [
-                    "type" => "success",
-                    "title" => "نحجت العملية",
-                    "text" => "تمت عملية إضافة المدينة بنجاح"
-                ]]);
-
+            return redirect()->route('status.index', ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "success",
+                        "title" => "نحجت العملية",
+                        "text" => "تمت عملية إضافة المدينة بنجاح"
+                    ]]);
+        } catch (ValidationException $e) {
+                return redirect()->route('status.index', ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "فشلت العملية",
+                        "text" => "يوجد خطأ في عملية ادخال البيانات يرجى التأكد البيانات"
+                    ]
+                ]);
+            }
     }
 
     /**
@@ -112,31 +118,44 @@ class TypeStatusController extends Controller
      */
     public function update(Request $request,$page_id, $id)
     {
-        $state = TypeShipStatus::where("id_status", $id)->first();
-
-        if($state) {
-            $state->update([
-                "title" => $request->title,
+        try {
+            $validatedData = $request->validate([
+                'id_city' => ['required', 'numeric', 'unique:'.TypeShipStatus::class],
+                'title' => ['required', 'string', 'max:30'],
             ]);
-            return redirect()->route("status.index", ['page_id' => $this->page_id])
+            $state = TypeShipStatus::where("id_status", $id)->first();
+
+            if($state) {
+                $state->update([
+                    "title" => $request->title,
+                ]);
+                return redirect()->route("status.index", ['page_id' => $this->page_id])
+                    ->with([
+                        "message" => [
+                            "type" => "success",
+                            "title" => "نحجت العملية",
+                            "text" => "تمت عملية التعديل على المندوب"
+                        ]
+                    ]);
+
+            }
+            return redirect()->route('status.index', ['page_id' => $this->page_id])
                 ->with([
                     "message" => [
-                        "type" => "success",
-                        "title" => "نحجت العملية",
-                        "text" => "تمت عملية التعديل على المندوب"
+                        "type" => "error",
+                        "title" => "فشلت العملية",
+                        "text" => "هذا المندوب غير موجود"
+                    ]]);
+        } catch (ValidationException $e) {
+            return redirect()->route('status.index', ['page_id' => $this->page_id])
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "فشلت العملية",
+                        "text" => "يوجد خطأ في عملية ادخال البيانات يرجى التأكد البيانات"
                     ]
                 ]);
-
         }
-        return redirect()->route('status.index', ['page_id' => $this->page_id])
-            ->with([
-                "message" => [
-                    "type" => "error",
-                    "title" => "فشلت العملية",
-                    "text" => "هذا المندوب غير موجود"
-                ]]);
-
-
     }
 
     /**
@@ -147,9 +166,7 @@ class TypeStatusController extends Controller
      */
     public function destroy($page_id,$id)
     {
-        //
         $state = TypeShipStatus::where("id_status", $id)->first();
-
         if($state) {
             TypeShipStatus::destroy("id_status", $id);
             return redirect()->route("status.index", ['page_id' => $this->page_id])
@@ -168,9 +185,5 @@ class TypeStatusController extends Controller
                 "text" => "هذا الفرع غير موجود"
             ]
         ]);
-
-
-
-
     }
 }

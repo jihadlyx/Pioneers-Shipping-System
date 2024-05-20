@@ -111,7 +111,7 @@
                         </label>
                     </div>
                     <div class="datatable-search">
-                        <input class="datatable-input" placeholder="بحث..." type="search" title="Search within table"
+                        <input class="datatable-input" maxlength="55" placeholder="بحث..." type="search" title="Search within table"
                             aria-controls="dataTableOne" />
                     </div>
                 </div>

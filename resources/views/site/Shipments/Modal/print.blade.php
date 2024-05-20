@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    @vite('resources/css/app.css')
 </head>
 <body>
 <div class = "invoice-wrapper" id = "print-area">
@@ -19,76 +20,58 @@
         <div class = "invoice-container">
             <div class = "invoice-head">
                 <div class = "invoice-head-top">
-                    <div class = "invoice-head-top-left text-start">
-                        <img src = "{{ asset('assets\images\logo\logo.svg') }}" />
+                    <div class = "invoice-head-top-left text-black-2 text-start">
+{{--                        <img src = "{{ asset('assets\images\logo\logo.svg') }}" />--}}
+                        <span>
+                            @foreach($branches as $index => $branch )
+                                @if(($branches->count()-1) == $index)
+                                    {{ $branch->title }}
+                                @else
+                                    {{ $branch->title }} -
+                                @endif
+
+                            @endforeach
+                        </span>
+
                     </div>
-                    <div class = "invoice-head-top-right text-end">
-                        <h3>فاتورة </h3>
+                    <div class = "invoice-head-top-right text-black-2 text-title-md text-end">
+                        شركة كويك ديلفري
+                        <p></p>
+                        {{ $shipment->customer->branch->title }}
                     </div>
                 </div>
-                <div class = "hr"></div>
-                <div class = "invoice-head-middle">
+                <div class = "invoice-head-middle flex justify-between items-end">
                     <div class = "invoice-head-middle-left text-start">
-                        <p><span class = "text-bold">التاريخ</span>: 05/12/2020</p>
+                        <p><span class = "text-bold">التاريخ</span>: {{ date('Y-m-d') }}</p>
                     </div>
                     <div class = "invoice-head-middle-right text-end">
                         <!-- <p><spanf class = "text-bold">Invoice No:</span>16789</p> -->
+                        {{ $shipment->generateQrCode() }}
                     </div>
                 </div>
                 <div class = "hr"></div>
-                <div class = "invoice-head-bottom">
-                    <div class = "invoice-head-bottom-left">
-{{--                        <img src="{{ $shipment->generateQrCode() }}" alt="QR Code">--}}
-                        {{ $shipment->generateQrCode() }}
-                    </div>
-                    <div class = "invoice-head-bottom-right">
-                        <ul class = "text-end">
-                            <li class = "text-bold">إيصال</li>
-                            <li> <span class = "text-bold"> الفرع</span> {{ $shipment->customer->branch->title }} </li>
-                            <li> <span class = "text-bold"> المستخدم</span> {{ Auth()->user()->getName() }} </li>
-                        </ul>
-                    </div>
+                <div class = "invoice-head-bottom text-title-md flex justify-center text-black-2">
+                        فاتورة ( {{ $shipment->id_ship }} )
                 </div>
             </div>
-            <div class = "overflow-view">
-                <div class = "invoice-body">
-                    <table dir="rtl">
-                        <thead>
-                        <tr>
-                            <td class = "text-bold">رقم الشحنة</td>
-                            <td class = "text-bold">اسم الشحنة</td>
-                            <td class = "text-bold">الزبون</td>
-                            <td class = "text-bold">اسم المستلم</td>
-                            <td class = "text-bold">رقم هاتف المستلم</td>
-                            <td class = "text-bold">عنوان التوصيل</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td> {{ $shipment->id_ship }} </td>
-                            <td> {{ $shipment->name_ship }} </td>
-                            <td> {{ $shipment->customer->name_customer }} </td>
-                            <td> {{ $shipment->recipient_name }} </td>
-                            <td> 0{{ $shipment->phone_number }} </td>
-                            <td> {{ $shipment->city->title }} </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div dir="rtl" class = "invoice-body-bottom">
-                        <div class = "invoice-body-info-item border-bottom">
-                            <div class = "info-item-td text-end text-bold">سعر الشحنة :</div>
-                            <div class = "info-item-td text-end"> {{ $shipment->ship_value }} </div>
-                        </div>
-                        <div class = "invoice-body-info-item border-bottom">
-                            <div class = "info-item-td text-end text-bold">سعر التوصيل :</div>
-                            <div class = "info-item-td text-end"> {{ $shipment->getPrice() }} </div>
-                        </div>
-                        <div class = "invoice-body-info-item">
-                            <div class = "info-item-td text-end text-bold">الإجمالي :</div>
-                            <div class = "info-item-td text-end"> {{ $shipment->ship_value + $shipment->getPrice() }} </div>
-                        </div>
-                    </div>
+            <div class = "border-2 rounded py-4 px-6">
+                <div class="invoice-details text-lg" dir="rtl">
+                    <p class="flex gap-4 mb-2"><span class="text-black-2 font-bold text-xl">اسم الزبون: </span> {{ $shipment->customer->name_customer }}</p>
+                    <p class="flex gap-4 mb-2"><span class="text-black-2 font-bold text-xl">رقم الشحنة: </span> {{ $shipment->id_ship }}</p>
+                    <p class="flex gap-4 mb-2"><span class="text-black-2 font-bold text-xl">اسم المستلم: </span> {{ $shipment->recipient_name }}</p>
+                    <p class="flex gap-4 mb-2"><span class="text-black-2 font-bold text-xl">هاتف المستلم: </span> 0{{ $shipment->phone_number }}</p>
+                    <p class="flex gap-4 mb-2 {{ $shipment->phone_number2 == null ? 'hidden' : '' }}"><span class="text-black-2 font-bold text-xl">هاتف المستلم الاحتياطي: </span> 0{{ $shipment->phone_number2 }}</p>
+                    <p class="flex gap-4 mb-2"><span class="text-black-2 font-bold text-xl">اسم المدينة او المنطقة: </span> {{ $shipment->city->title }}</p>
+                    <p class="flex gap-4 mb-2"><span class="text-black-2 font-bold text-xl">عنوان التوصيل: </span> {{ $shipment->address }}</p>
+                    <p class="flex gap-4 mb-2"><span class="text-black-2 font-bold text-xl">سعر الشحنة: </span> {{ $shipment->ship_value }}</p>
+                    <p class="flex gap-4 mb-2"><span class="text-black-2 font-bold text-xl">سعر التوصيل: </span> {{ $shipment->getPrice() }}</p>
+                    <p class="flex gap-4 mb-2"><span class="text-black-2 font-bold text-xl">الإجمالي: </span> {{ $shipment->getPrice() + $shipment->ship_value    }}</p>
                 </div>
+            </div>
+            <div class="mt-3 text-center text-black-2">
+                هاتف الفرع
+                0{{ $shipment->customer->branch->phone_number }}
+                {{ $shipment->customer->branch->phone_number2 == null ? '' : 0 . $shipment->customer->branch->phone_number2 }}
             </div>
         </div>
     </div>

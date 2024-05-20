@@ -7,6 +7,7 @@ use App\Models\MaterialRole;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use function Sodium\add;
 
 class MaterialRolesController extends Controller
 {
@@ -54,9 +55,20 @@ class MaterialRolesController extends Controller
      */
     public function show($page_id, $id)
     {
-        $materialRoles = MaterialRole::where('id_role', $id)
-            ->where('id_page', '!=', 8)
-            ->get();
+        $user = Auth()->user()->findUserByType(auth()->user()->id_type_users);
+        if($user->id_role == 0)
+            $materialRoles = MaterialRole::where('id_role', $id)->get();
+        else
+            $user_roles = MaterialRole::where('id_role', $user->id_role)->get();
+            $roles = MaterialRole::where('id_role', $id)->get();
+            $materialRoles = [];
+            foreach($user_roles as $index => $role) {
+                if($role->show == 1){
+                    array_push($materialRoles, $roles[$index]);
+                }
+            }
+//            return $materialRoles;
+
         $title = Role::where('id_role', $id)->first()->title;
 
         return view('site.settings.Roles.MaterialRoles.materialRolesView', compact('materialRoles', 'title', 'id'));
