@@ -75,6 +75,7 @@ class RolesController extends Controller
             $role = Role::create([
                 'id_role'=> $request->id_role,
                 'title'=> $request->title,
+                'id_emp' => Auth()->user()->pid,
             ]);
 
             if($role) {

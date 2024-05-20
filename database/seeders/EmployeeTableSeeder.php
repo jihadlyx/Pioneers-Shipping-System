@@ -41,7 +41,7 @@ class EmployeeTableSeeder extends Seeder
             'phone_number' => 911089052,
             'id_number' => 1,
             'phone_number2' => null,
-            'id_role' => 1,
+            'id_role' => 0,
             'id_branch' => 1,
             'image' => null
         ]);
@@ -49,9 +49,10 @@ class EmployeeTableSeeder extends Seeder
         // إنشاء مستخدم
         $user = User::create([
             'email' => "jihad@gmail.com",
-            'password' => Hash::make("1234"),
+            'password' => Hash::make("123456"),
             'id_type_users' => 1,
             'pid' => 1,
+            'id_emp' => 1
         ]);
     }
 }

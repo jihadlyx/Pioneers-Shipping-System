@@ -35,16 +35,24 @@ class PageTableSeeder extends Seeder
             'title' => 'تعذر التوصيل'
         ]);
         Role::create([
+            'id_role'=> 0,
+            'title'=> "مبرمج",
+            'id_emp' => 1
+        ]);
+        Role::create([
             'id_role'=> 1,
             'title'=> "مدير",
+            'id_emp' => 1
         ]);
         Role::create([
             'id_role'=> 2,
             'title'=> "مندوب",
+            'id_emp' => 1
         ]);
         Role::create([
             'id_role'=> 3,
             'title'=> "زبون",
+            'id_emp' => 1
         ]);
         Page::create([
             "id_page" => 9,

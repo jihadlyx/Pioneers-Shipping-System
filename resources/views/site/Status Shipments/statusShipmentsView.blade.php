@@ -7,7 +7,7 @@
 <!-- Breadcrumb Start -->
 <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <h2 class="text-title-md2 text-3d font-bold text-black dark:text-white">
-        تفاصيل الشحنات
+        الشحنات
     </h2>
     <nav>
         <ol class="flex text-lg font-medium flex-wrap items-center gap-3">
@@ -38,13 +38,13 @@
                               fill=""></path>
                     </svg>
 
-                    <span class="hover:text-primary">الشحنات</span>
+                    <span class="hover:text-primary">الشحنات قيد التوصيل</span>
                 </a>
             </li>
         </ol>
     </nav>
 </div>
-<!-- Breadcrumb End -->
+    <!-- Breadcrumb End -->
 
 @if(Session::has('message'))
 <div class="alert-{{ Session::get('message')["type"] }} flex  rounded-lg p-4 mb-4 text-md " role="alert">
