@@ -191,25 +191,25 @@
                                     @if(Auth()->user()->id_type_users != 2)
                                         <li>
                                             <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                               href="{{ route('shipments.index', ['page_id' => 5, 'id_status' => 1]) }}" :class="page === 'Employees' && '!text-white'">الشحنات الجديدة
+                                               href="{{ route('shipments.index', ['page_id' => 5, 'id_status' => 1]) }}" :class="page === 'status1' && '!text-white'">الشحنات الجديدة
                                             </a>
                                         </li>
                                     @endif
                                     @if(Auth()->user()->checkShowRole(11))
                                         <li>
                                             <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                               href="{{ route('statuses.index', ['page_id' => 11]) }}" :class="page === 'Delegates' && '!text-white'">الشحنات قيد التوصيل
+                                               href="{{ route('statuses.index', ['page_id' => 11]) }}" :class="page === 'status2' && '!text-white'">الشحنات قيد التوصيل
                                             </a>
                                         </li>
                                     @endif
                                     <li>
                                         <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                           href="{{ route('shipments.index', ['page_id' => 5, 'id_status' => 3]) }}" :class="page === 'Customers' && '!text-white'">الشحنات التي تم تسليمها
+                                           href="{{ route('shipments.index', ['page_id' => 5, 'id_status' => 3]) }}" :class="page === 'status3' && '!text-white'">الشحنات التي تم تسليمها
                                         </a>
                                     </li>
                                     <li>
                                         <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                           href="{{ route('shipments.index', ['page_id' => 5, 'id_status' => 4]) }}" :class="page === 'Customers' && '!text-white'">الشحنات التي تعذر تسليمها
+                                           href="{{ route('shipments.index', ['page_id' => 5, 'id_status' => 4]) }}" :class="page === 'status4' && '!text-white'">الشحنات التي تعذر تسليمها
                                         </a>
                                     </li>
 
@@ -314,7 +314,7 @@
                                 @if(Auth()->user()->checkShowRole(8))
                                     <li>
                                 <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                    href="/status/8" :class="page === 'Delegates' && '!text-white'">
+                                    href="/status/8" :class="page === 'TypeShipments' && '!text-white'">
                                     انواع حالات الشحنة
                                 </a>
                             </li>

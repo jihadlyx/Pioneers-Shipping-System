@@ -33,7 +33,7 @@ Route::middleware('guest')->group(function () {
     });
 });
 Route::get('/home', function () {
-    return view('welcome');
+    return view('site.Home.home');
 });
 
 
