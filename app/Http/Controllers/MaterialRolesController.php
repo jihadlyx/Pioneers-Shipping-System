@@ -59,6 +59,7 @@ class MaterialRolesController extends Controller
         if($user->id_role == 0)
             $materialRoles = MaterialRole::where('id_role', $id)->get();
         else
+        {
             $user_roles = MaterialRole::where('id_role', $user->id_role)->get();
             $roles = MaterialRole::where('id_role', $id)->get();
             $materialRoles = [];
@@ -67,6 +68,7 @@ class MaterialRolesController extends Controller
                     array_push($materialRoles, $roles[$index]);
                 }
             }
+        }
 //            return $materialRoles;
 
         $title = Role::where('id_role', $id)->first()->title;

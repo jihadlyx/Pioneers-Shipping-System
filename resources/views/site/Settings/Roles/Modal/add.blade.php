@@ -51,8 +51,8 @@
                         class="save-data modal-show flex transition-transform hover:scale-95 items-center gap-2 text-white hover:bg-opacity-80 rounded bg-primary px-4.5 py-2 font-bold border-b-4 border-blue-700 hover:border-blue-500">
                     إضافة صلاحية جديدة
                 </button>
-                <div class="flex items-center gap-2">
-                    <span class="text-meta-1 text-xl">*</span> الحقول الإلزامية
+                <div class="flex items-center gap-2 text-lg">
+                    <span class="text-meta-1 ">*</span> حقول الزامية
                 </div>
             </div>
         </form>

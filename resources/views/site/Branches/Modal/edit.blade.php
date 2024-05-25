@@ -86,8 +86,8 @@
                     class="save-data flex w-fit items-center justify-center gap-2 rounded bg-meta-3 px-4.5 py-2.5 text-white font-bold border-b-4 border-green-700 hover:border-green-500 transition-transform hover:scale-95">
                     تعديل الفرع
                 </button>
-                <div class="flex items-center gap-2">
-                    <span class="text-meta-1 text-xl">*</span> الحقول الإلزامية
+                <div class="flex items-center gap-2 text-lg">
+                    <span class="text-meta-1 ">*</span> حقول الزامية
                 </div>
             </div>
 

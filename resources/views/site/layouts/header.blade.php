@@ -83,7 +83,7 @@
             <div class="relative" x-data="{ dropdownOpen: false }" @click.outside="dropdownOpen = false">
                 <a class="flex items-center gap-4" href="#" @click.prevent="dropdownOpen = ! dropdownOpen">
                     <span class="hidden text-right lg:block">
-                        <span class="block text-sm font-bold text-black dark:text-white">
+                        <span class="block text-lg font-bold text-black dark:text-white">
                             {{ Auth()->user()->getName() }}
                         </span>
                         <span class="block text-md font-medium">
@@ -93,9 +93,9 @@
 
                     <span class="h-12 w-12 rounded-full">
                         @if(Auth()->user()->findUserByType(auth()->user()->id_type_users)->image)
-                            <img src="{{ asset(Auth()->user()->findUserByType(auth()->user()->id_type_users)->image) }}" alt="User" />
+                            <img src="{{ asset(Auth()->user()->findUserByType(auth()->user()->id_type_users)->image) }}" class="rounded-full max-w-full max-h-full" alt="User" />
                         @else
-                            <img src="{{ asset('imagesUsers/Avatar.png') }}" alt="User Null" />
+                            <img src="{{ asset('imagesUsers/Avatar.png') }}" class="rounded-full max-w-full max-h-full" alt="User Null" />
                         @endif
 
                     </span>

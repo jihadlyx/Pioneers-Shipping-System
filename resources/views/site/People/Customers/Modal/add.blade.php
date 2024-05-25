@@ -146,8 +146,8 @@
                 >
                     إضافة زبون جديد
                 </button>
-                <div class="flex items-center gap-2">
-                    <span class="text-meta-1 text-xl">*</span> الحقول الإلزامية
+                <div class="flex items-center gap-2 text-lg">
+                    <span class="text-meta-1 ">*</span> حقول الزامية
                 </div>
             </div>
 

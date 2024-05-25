@@ -33,7 +33,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                     </div>
                 </div>
                 <div class="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-r-2">
-                    <div class="w-full p-4 sm:p-12.5 xl:p-17.5">
+                    <div class="w-full p-2 sm:p-8.5 xl:p-8.5">
                         {{--                        <span class="mb-1.5 block font-medium">Start for free</span>--}}
                         <h2 class="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                             انشاء حساب جديد
@@ -51,7 +51,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                         <form action="{{ route('register') }}" method="POST" class="needs-validation" novalidate >
                             @csrf
                             <div class="mb-4">
-                                <label class="mb-2.5 block font-medium text-black dark:text-white">الاسم</label>
+                                <label class="mb-2.5 block text-xl font-medium text-black dark:text-white">الاسم</label>
                                 <div class="relative">
                                     <input type="text" name="name" placeholder="ادخل اسمك" required maxlength="50" minlength="2"
                                            class="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
@@ -66,7 +66,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                 </div>
                             </div>
                             <div class="mb-4">
-                                <label class="mb-2.5 block font-medium text-black dark:text-white">رقم الهاتف</label>
+                                <label class="mb-2.5 block text-xl font-medium text-black dark:text-white">رقم الهاتف</label>
                                 <div class="relative">
                                     <input type="number" name="phone_number" inputmode="numeric" required maxlength="12" minlength="10" placeholder="ادخل رقم الهاتف" class="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
 
@@ -80,7 +80,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                 </div>
                             </div>
                             <div class="mb-4">
-                                <label class="mb-2.5 block font-medium text-black dark:text-white">البريد الإلكتروني</label>
+                                <label class="mb-2.5 block text-xl font-medium text-black dark:text-white">البريد الإلكتروني</label>
                                 <div class="relative">
                                     <input type="email" name="email" required maxlength="255" minlength="13" placeholder="ادخل بريدك الإلكتروني" class="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
 
@@ -94,7 +94,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                 </div>
                             </div>
                             <div class="mb-6">
-                                <label class="mb-2.5 block font-medium text-black dark:text-white">كلمة السر</label>
+                                <label class="mb-2.5 block text-xl font-medium text-black dark:text-white">كلمة السر</label>
                                 <div class="relative">
                                     <input type="password" name="password"
                                            required maxlength="255" minlength="6" placeholder="ادخل كلمة السر" class="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
@@ -139,7 +139,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                 </div>
                             </div>
                             <div class="mb-4">
-                                <label class="mb-2.5 block font-medium text-black dark:text-white">العنوان</label>
+                                <label class="mb-2.5 block text-xl font-medium text-black dark:text-white">العنوان</label>
                                 <div class="relative">
                                     <input type="text" name="address" required maxlength="30" minlength="5" placeholder="ادخل العنوان" class="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
 
