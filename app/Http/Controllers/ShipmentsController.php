@@ -277,52 +277,69 @@ class ShipmentsController extends Controller
         return view('site.Shipments.trashView', compact('shipments', 'isUpdate', 'id_page'));
     }
 
-    public function restore($id_page, $id) {
-        $shipment = Shipments::onlyTrashed()->find($id);
-        if ($shipment) {
-            $shipment->restore();
-            return redirect()->route("shipments.index", ['page_id' => $this->page_id, 'id_status' => $shipment->id_status])
+    public function restore(Request $request, $page_id) {
+        if ($request->has('shipments')) {
+            $shipmentsData = $request->input('shipments');
+
+            foreach ($shipmentsData as $shipmentData) {
+                if (isset($shipmentData['check']) && $shipmentData['check'] === 'on') {
+                    $shipment = Shipments::onlyTrashed()->find($shipmentData['id']);
+                    if ($shipment) {
+                        $shipment->restore();
+                    }
+                }
+            }
+
+            return redirect()->route("shipments.index", ['page_id' => $page_id])
                 ->with([
                     "message" => [
                         "type" => "success",
                         "title" => "نجحت العملية",
-                        "text" => "تم استعادة الشحنة بنجاح"
+                        "text" => "تم استعادة الشحنات بنجاح"
                     ]
                 ]);
         }
-        return redirect()->route('shipments.getTrash', ['page_id' => 10])
+
+        return redirect()->route('shipments.getTrash', ['page_id' => $page_id])
             ->with([
                 "message" => [
                     "type" => "error",
                     "title" => "فشلت العملية",
-                    "text" => "هذا الشحنة غير موجود"
+                    "text" => "الشحنات غير موجودة"
                 ]
             ]);
     }
+    public function delete(Request $request, $page_id) {
+        if ($request->has('shipments')) {
+            $shipmentsData = $request->input('shipments');
 
-    public function delete($page_id, $id)
-    {
-        $shipment = Shipments::onlyTrashed()->find($id);
+            foreach ($shipmentsData as $shipmentData) {
+                if (isset($shipmentData['check']) && $shipmentData['check'] === 'on') {
+                    $shipment = Shipments::onlyTrashed()->find($shipmentData['id']);
+                    if ($shipment) {
+                        $shipment->forceDelete();
+                    }
+                }
+            }
 
-        if($shipment) {
-            $shipment->forceDelete();
-            return redirect()->route("shipments.index", ['page_id' => $this->page_id, 'id_status' => $shipment->id_status])
+            return redirect()->route("shipments.index", ['page_id' => $page_id])
                 ->with([
                     "message" => [
-                        "type" => "error",
+                        "type" => "success",
                         "title" => "نجحت العملية",
-                        "text" => "تم حذف الشحنة"
+                        "text" => "تم حذف الشحنات نهائيًا بنجاح"
                     ]
                 ]);
         }
 
-        return redirect()->route('shipments.index', ['page_id' => $this->page_id, 'id_status' => $shipment->id_status])
+        return redirect()->route('shipments.index', ['page_id' => $page_id])
             ->with([
                 "message" => [
                     "type" => "error",
                     "title" => "فشلت العملية",
-                    "text" => "هذه الشحنة غير موجود"
+                    "text" => "الشحنات غير موجودة"
                 ]
             ]);
     }
+
 }

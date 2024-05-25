@@ -71,209 +71,215 @@
     @endif
     <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div class="data-table-common data-table-one max-w-full overflow-x-auto">
-            <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+            <form id="TrashedForm" class="TrashedForm" method="POST">
+                @csrf
+                @method("PATCH")
+                @if($isUpdate)
+                    <div class="flex items-center gap-1 border-b border-stroke px-6.5 py-4 dark:border-strokedark">
+                        <button type="button" data-target="RestoreEmp"
+                                class="modal-show flex items-center gap-2 text-white hover:bg-opacity-80 rounded bg-primary px-4.5 py-2 font-bold border-b-4 border-blue-700 hover:border-blue-500 transition-transform hover:scale-95">
+                            استعادة
+                        </button>
+                        <button type="button" data-target="DeleteTrashEmp"
+                                class="bg-meta-1 transition-transform hover:scale-95 flex items-center gap-2 hover:bg-opacity-80 hover:bg-redblue-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">
+                            حذف
+                        </button>
+                    </div>
+                @endif
                 @include('site.People.Employees.modal.save')
-                <div class="datatable-top">
-                    <div class="datatable-dropdown">
-                        <label>
-                            عدد الصفوف
-                            <select class="datatable-selector">
-                                <option value="5" selected="">5</option>
-                                <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="-1">All</option>
-                            </select>
-                        </label>
+                @include('site.People.Employees.modal.restore')
+                @include('site.People.Employees.modal.deleteTrash')
+                <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                    <div class="datatable-top">
+                        <div class="datatable-dropdown">
+                            <label>
+                                عدد الصفوف
+                                <select class="datatable-selector">
+                                    <option value="5" selected="">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="-1">All</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="datatable-search">
+                            <input class="datatable-input" placeholder="بحث..." type="search" title="Search within table"
+                                   aria-controls="dataTableOne" />
+                        </div>
                     </div>
-                    <div class="datatable-search">
-                        <input class="datatable-input" placeholder="بحث..." type="search" title="Search within table"
-                               aria-controls="dataTableOne" />
-                    </div>
-                </div>
-                <div class="datatable-container">
-                    <table class="datatable-table table w-full table-auto" id="dataTableOne">
-                        <thead>
-                        <tr>
-                            <th data-sortable="true" style="width: 10.549511854951188%">
-                                <a href="#" class="datatable-sorter">
-                                    <div class="flex items-center gap-1.5">
-                                        <p>#</p>
-                                    </div>
-                                </a>
-                            </th>
-                            <th data-sortable="true" style="width: 10.549511854951188%">
-                                <a href="#" class="datatable-sorter">
-                                    <div class="flex items-center gap-1.5">
-                                        <p>#</p>
-                                    </div>
-                                </a>
-                            </th>
-                            <th data-sortable="true" style="width: 12.549511854951188%">
-                                <a href="#" class="datatable-sorter">
-                                    <div class="flex items-center gap-1.5">
-                                        <p class="text-xl">الاسم</p>
-                                        <div class="inline-flex flex-col space-y-[2px]">
-                                            <span class="inline-block">
-                                                <svg class="fill-current" width="10" height="5"
-                                                     viewBox="0 0 10 5" fill="none"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5 0L0 5H10L5 0Z" fill=""></path>
-                                                </svg>
-                                            </span>
-                                            <span class="inline-block">
-                                                <svg class="fill-current" width="10" height="5"
-                                                     viewBox="0 0 10 5" fill="none"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
-                                                    </path>
-                                                </svg>
-                                            </span>
+                    <div class="datatable-container">
+                        <table class="datatable-table table w-full table-auto" id="dataTableOne">
+                            <thead>
+                            <tr>
+                                <th data-sortable="true" style="width: 10.549511854951188%">
+                                    <a href="#" class="datatable-sorter">
+                                        <div class="flex items-center gap-1.5">
+                                            <p>#</p>
                                         </div>
-                                    </div>
-                                </a>
-                            </th>
-                            <th data-sortable="true" style="width: 14.086471408647142%">
-                                <a href="#" class="datatable-sorter">
-                                    <div class="flex items-center gap-1.5">
-                                        <p class="text-xl">رقم الهاتف</p>
-                                        <div class="inline-flex flex-col space-y-[2px]">
-                                            <span class="inline-block">
-                                                <svg class="fill-current" width="10" height="5"
-                                                     viewBox="0 0 10 5" fill="none"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5 0L0 5H10L5 0Z" fill=""></path>
-                                                </svg>
-                                            </span>
-                                            <span class="inline-block">
-                                                <svg class="fill-current" width="10" height="5"
-                                                     viewBox="0 0 10 5" fill="none"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
-                                                    </path>
-                                                </svg>
-                                            </span>
+                                    </a>
+                                </th>
+                                <th data-sortable="true" style="width: 12.549511854951188%">
+                                    <a href="#" class="datatable-sorter">
+                                        <div class="flex items-center gap-1.5">
+                                            <p class="text-xl">الاسم</p>
+                                            <div class="inline-flex flex-col space-y-[2px]">
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                         viewBox="0 0 10 5" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 0L0 5H10L5 0Z" fill=""></path>
+                                                    </svg>
+                                                </span>
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                         viewBox="0 0 10 5" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </th>
-                            <th data-sortable="true" style="width: 8.715481171548117%">
-                                <a href="#" class="datatable-sorter">
-                                    <div class="flex items-center gap-1.5">
-                                        <p class="text-xl">الفرع</p>
-                                        <div class="inline-flex flex-col space-y-[2px]">
-                                            <span class="inline-block">
-                                                <svg class="fill-current" width="10" height="5"
-                                                     viewBox="0 0 10 5" fill="none"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5 0L0 5H10L5 0Z" fill=""></path>
-                                                </svg>
-                                            </span>
-                                            <span class="inline-block">
-                                                <svg class="fill-current" width="10" height="5"
-                                                     viewBox="0 0 10 5" fill="none"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
-                                                    </path>
-                                                </svg>
-                                            </span>
+                                    </a>
+                                </th>
+                                <th data-sortable="true" style="width: 14.086471408647142%">
+                                    <a href="#" class="datatable-sorter">
+                                        <div class="flex items-center gap-1.5">
+                                            <p class="text-xl">رقم الهاتف</p>
+                                            <div class="inline-flex flex-col space-y-[2px]">
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                         viewBox="0 0 10 5" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 0L0 5H10L5 0Z" fill=""></path>
+                                                    </svg>
+                                                </span>
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                         viewBox="0 0 10 5" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </th>
-                            <th data-sortable="true" class="red" style="width: 12.225941422594143%">
-                                <a href="#" class="datatable-sorter">
-                                    <div class="flex items-center gap-1.5">
-                                        <p class="text-xl">العنوان</p>
-                                        <div class="inline-flex flex-col space-y-[2px]">
-                                            <span class="inline-block">
-                                                <svg class="fill-current" width="10" height="5"
-                                                     viewBox="0 0 10 5" fill="none"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5 0L0 5H10L5 0Z" fill=""></path>
-                                                </svg>
-                                            </span>
-                                            <span class="inline-block">
-                                                <svg class="fill-current" width="10" height="5"
-                                                     viewBox="0 0 10 5" fill="none"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
-                                                    </path>
-                                                </svg>
-                                            </span>
+                                    </a>
+                                </th>
+                                <th data-sortable="true" style="width: 8.715481171548117%">
+                                    <a href="#" class="datatable-sorter">
+                                        <div class="flex items-center gap-1.5">
+                                            <p class="text-xl">الفرع</p>
+                                            <div class="inline-flex flex-col space-y-[2px]">
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                         viewBox="0 0 10 5" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 0L0 5H10L5 0Z" fill=""></path>
+                                                    </svg>
+                                                </span>
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                         viewBox="0 0 10 5" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </th>
-                        </tr>
-                        </thead>
-
-
-                        <tbody>
-                        @foreach($employees as $index => $employee)
-                            <tr data-index="{{ $index }}">
-                                <td class="px-4 py-5 h-full">
-                                    <div class="text-gray-100 flex items-center gap-1">
-                                        @if($isUpdate)
-                                            <button data-target="DeleteTrashEmp{{ $employee->id_emp }}"
-                                                    class="flex cursor-pointer items-center gap-2 rounded bg-danger px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
-                                                حذف نهائي
-                                            </button>
-                                        @endif
-                                    </div>
-                                </td>
-                                <td class="px-4 py-5 h-full">
-                                    <div class="text-gray-100 flex items-center gap-1">
-                                        @if($isUpdate)
-                                            <button data-target="RestoreEmp{{ $employee->id_emp }}"
-                                                    class="flex cursor-pointer items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
-                                                استعادة
-                                            </button>
-                                        @endif
-                                    </div>
-                                </td>
-                                <td>
-                                    {{ $employee->name_emp }}
-                                </td>
-                                <td class="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
-                                    <h5 class="font-medium text-black dark:text-white">0{{ $employee->phone_number }}</h5>
-                                    <h5 class="font-medium {{ $employee->phone_number2 ? '' : 'hidden' }} text-black dark:text-white">0{{ $employee->phone_number2 }}</h5>
-                                </td>
-                                <td>
-                                    {{ $employee->branch->title }}
-                                </td>
-                                <td>
-                                    {{ $employee->address }}
-                                </td>
-                                @include('site.People.Employees.modal.restore')
-                                @include('site.People.Employees.modal.deleteTrash')
+                                    </a>
+                                </th>
+                                <th data-sortable="true" class="red" style="width: 12.225941422594143%">
+                                    <a href="#" class="datatable-sorter">
+                                        <div class="flex items-center gap-1.5">
+                                            <p class="text-xl">العنوان</p>
+                                            <div class="inline-flex flex-col space-y-[2px]">
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                         viewBox="0 0 10 5" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 0L0 5H10L5 0Z" fill=""></path>
+                                                    </svg>
+                                                </span>
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                         viewBox="0 0 10 5" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </th>
                             </tr>
-                        @endforeach
-                        </tbody>
+                            </thead>
+                            <tbody>
+                            @foreach($employees as $index => $employee)
+                                <tr data-index="{{ $index }}">
+                                    <td class="px-4 py-5 h-full">
+                                        @if($isUpdate)
+                                            <div x-data="{ checkboxToggle: false }">
+                                                <label for="checkboxLabelOneCreate{{ $index }}"
+                                                       class="flex cursor-pointer select-none items-center text-sm font-medium">
+                                                    <div class="relative">
+                                                        <input class="hidden" name="employees[{{ $index }}][id]" value="{{ $employee->id_emp }}">
+                                                        <input type="checkbox" name="employees[{{ $index }}][check]" id="checkboxLabelOneCreate{{ $index }}" class="sr-only"
+                                                               @change="checkboxToggle = !checkboxToggle"   />
+                                                        <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
+                                                             class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
+                                                                <span :class="checkboxToggle && 'bg-primary'"
+                                                                      class="h-2.5 w-2.5 rounded-sm"></span>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{ $employee->name_emp }}
+                                    </td>
+                                    <td class="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+                                        <h5 class="font-medium text-black dark:text-white">0{{ $employee->phone_number }}</h5>
+                                        <h5 class="font-medium {{ $employee->phone_number2 ? '' : 'hidden' }} text-black dark:text-white">0{{ $employee->phone_number2 }}</h5>
+                                    </td>
+                                    <td>
+                                        {{ $employee->branch->title }}
+                                    </td>
+                                    <td>
+                                        {{ $employee->address }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
 
 
 
-                    </table>
+                        </table>
+                    </div>
+                    <div class="datatable-bottom">
+                        <div class="datatable-info">عرض 1 الى 10 من 16 عناصر</div>
+                        <nav class="datatable-pagination">
+                            <ul class="datatable-pagination-list">
+                                <li class="datatable-pagination-list-item datatable-hidden datatable-disabled">
+                                    <a data-page="1" class="datatable-pagination-list-item-link">‹</a>
+                                </li>
+                                <li class="datatable-pagination-list-item datatable-active">
+                                    <a data-page="1" class="datatable-pagination-list-item-link">1</a>
+                                </li>
+                                <li class="datatable-pagination-list-item">
+                                    <a data-page="2" class="datatable-pagination-list-item-link">2</a>
+                                </li>
+                                <li class="datatable-pagination-list-item">
+                                    <a data-page="2" class="datatable-pagination-list-item-link">›</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
-                <div class="datatable-bottom">
-                    <div class="datatable-info">عرض 1 الى 10 من 16 عناصر</div>
-                    <nav class="datatable-pagination">
-                        <ul class="datatable-pagination-list">
-                            <li class="datatable-pagination-list-item datatable-hidden datatable-disabled">
-                                <a data-page="1" class="datatable-pagination-list-item-link">‹</a>
-                            </li>
-                            <li class="datatable-pagination-list-item datatable-active">
-                                <a data-page="1" class="datatable-pagination-list-item-link">1</a>
-                            </li>
-                            <li class="datatable-pagination-list-item">
-                                <a data-page="2" class="datatable-pagination-list-item-link">2</a>
-                            </li>
-                            <li class="datatable-pagination-list-item">
-                                <a data-page="2" class="datatable-pagination-list-item-link">›</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 @endsection

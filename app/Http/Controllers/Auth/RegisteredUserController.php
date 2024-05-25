@@ -64,6 +64,7 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
                 'id_type_users' => 3,
                 'pid' => $maxCustomerId,
+                'id_emp' => $maxCustomerId,
             ]);
             $user = User::where('id_type_users', 3)
                 ->where('pid', $maxCustomerId)

@@ -63,18 +63,19 @@ class PriceBranchesController extends Controller
                 $msg_title = "تمت عملية التعديل على الفرع بنجاح";
             } else {
                 $maxBranchId = PriceBranch::max('id') ? PriceBranch::max('id') + 1 : 1;
+                $p = $price['price'];
                 PriceBranch::create([
                     'id' => $maxBranchId,
                     'id_from_branch' => $id, // Assuming authenticated user has a branch
                     'id_to_branch' => $price['id_to_branch'],
-                    'price' => $price['price'],
+                    'price' => $p,
                 ]);
                 if($price['id_to_branch'] != $id) {
                     PriceBranch::create([
                         'id' => $maxBranchId + 1,
                         'id_from_branch' => $price['id_to_branch'], // Assuming authenticated user has a branch
                         'id_to_branch' => $id,
-                        'price' => $price['price'],
+                        'price' => $p,
                     ]);
                 }
                 $msg_title = "تمت عملية اضافة الفرع بنجاح";
@@ -99,7 +100,7 @@ class PriceBranchesController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show($page_id, $id)
     {
@@ -114,7 +115,7 @@ class PriceBranchesController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit($page_id, $id)
     {

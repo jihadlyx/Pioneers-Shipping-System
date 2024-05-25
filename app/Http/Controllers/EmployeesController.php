@@ -293,62 +293,92 @@ class EmployeesController extends Controller
         return view('site.People.employees.trashView', compact('employees', 'isUpdate', 'id_page'));
     }
 
-    public function restore($id_page, $id) {
-        $employee = Employee::onlyTrashed()->find($id);
-        if ($employee) {
-            $employee->restore();
-            $user = User::onlyTrashed()
-                ->where('pid', $id)
-                ->where('id_type_users', 1)
-                ->first();
-            $user->restore();
-            return redirect()->route("employees.index", ['page_id' => $this->page_id])
+    public function restore(Request $request, $page_id) {
+        // تأكيد وجود البيانات المرسلة في الطلب
+        if ($request->has('employees')) {
+            $employeesData = $request->input('employees');
+            // تكرار عبر كل موظف واستعادته فقط إذا كان الحقل "check" موجودًا وقيمته "on"
+            foreach ($employeesData as $employeeData) {
+                if (isset($employeeData['check']) && $employeeData['check'] === 'on') {
+                    $employee = Employee::onlyTrashed()->find($employeeData['id']);
+                    if ($employee) {
+                        $employee->restore();
+                        $user = User::onlyTrashed()
+                            ->where('pid', $employeeData['id'])
+                            ->where('id_type_users', 1)
+                            ->first();
+                        if ($user) {
+                            $user->restore();
+                        }
+                    }
+                }
+            }
+
+            // إعادة التوجيه مع رسالة نجاح
+            return redirect()->route("employees.index", ['page_id' => $page_id])
                 ->with([
                     "message" => [
                         "type" => "success",
                         "title" => "نجحت العملية",
-                        "text" => "تم استعادة الموظف بنجاح"
+                        "text" => "تم استعادة الموظفين بنجاح"
                     ]
                 ]);
         }
-        return redirect()->route('employees.trash.getTrash', ['page_id' => 10])
+
+        // إعادة التوجيه مع رسالة خطأ في حالة عدم وجود الموظفين
+        return redirect()->route('employees.getTrash', ['page_id' => $page_id])
             ->with([
                 "message" => [
                     "type" => "error",
                     "title" => "فشلت العملية",
-                    "text" => "هذا الموظف غير موجود"
+                    "text" => "الموظفون غير موجودون"
                 ]
             ]);
     }
 
-    public function delete($page_id, $id)
-    {
-        $employee = Employee::onlyTrashed()->find($id);
 
-        if($employee) {
-            $employee->forceDelete();
-            $user = User::onlyTrashed()
-                ->where('pid', $id)
-                ->where('id_type_users', 1)
-                ->first();
-            $user->forceDelete();
-            return redirect()->route("employees.index", ['page_id' => $this->page_id])
+    public function delete(Request $request, $page_id) {
+        // تأكيد وجود البيانات المرسلة في الطلب
+        if ($request->has('employees')) {
+            $employeesData = $request->input('employees');
+
+            // تكرار عبر كل موظف وحذفه نهائيًا فقط إذا كان الحقل "check" موجودًا وقيمته "on"
+            foreach ($employeesData as $employeeData) {
+                if (isset($employeeData['check']) && $employeeData['check'] === 'on') {
+                    $employee = Employee::onlyTrashed()->find($employeeData['id']);
+                    if ($employee) {
+                        $employee->forceDelete();
+                        $user = User::onlyTrashed()
+                            ->where('pid', $employeeData['id'])
+                            ->where('id_type_users', 1)
+                            ->first();
+                        if ($user) {
+                            $user->forceDelete();
+                        }
+                    }
+                }
+            }
+
+            // إعادة التوجيه مع رسالة نجاح
+            return redirect()->route("employees.index", ['page_id' => $page_id])
                 ->with([
                     "message" => [
-                        "type" => "error",
+                        "type" => "success",
                         "title" => "نجحت العملية",
-                        "text" => "تم حذف الموظف"
+                        "text" => "تم حذف الموظفين نهائيًا بنجاح"
                     ]
                 ]);
         }
 
-        return redirect()->route('employees.index', ['page_id' => $this->page_id])
+        // إعادة التوجيه مع رسالة خطأ في حالة عدم وجود الموظفين
+        return redirect()->route('employees.getTrash', ['page_id' => $page_id])
             ->with([
                 "message" => [
                     "type" => "error",
                     "title" => "فشلت العملية",
-                    "text" => "هذا الموظف غير موجود"
+                    "text" => "الموظفون غير موجودون"
                 ]
             ]);
     }
+
 }

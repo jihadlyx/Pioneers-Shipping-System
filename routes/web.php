@@ -32,6 +32,7 @@ Route::middleware('guest')->group(function () {
         return view('site.auth.Login.login');
     });
 });
+
 Route::get('/home', function () {
     return view('site.Home.home');
 });
@@ -107,55 +108,57 @@ Route::middleware('auth')->group(function () {
 //      Branches
         Route::patch('/branches/update/{page_id}/{id_branch}', [BranchesController::class, 'update'])->name('branches.update');
         Route::patch('/branches/translate/{page_id}/{id_branch}', [BranchesController::class, 'translate'])->name('branches.translate');
-        Route::patch('/trash/branches/restore/{page_id}/{id_branch}', [BranchesController::class, 'restore'])->name('branches.trash.restore');
+        Route::patch('/trash/branches/restore/{page_id}', [BranchesController::class, 'restore'])->name('branches.trash.restore');
 //      Employees
         Route::patch('/employees/{page_id}/{id_emp}', [EmployeesController::class, 'update'])->name('employees.update');
-        Route::patch('/trash/employees/restore/{page_id}/{id_emp}', [EmployeesController::class, 'restore'])->name('employees.restore');
+        Route::patch('/trash/employees/restore/{page_id}', [EmployeesController::class, 'restore'])->name('employees.restore');
 //      Delegates
         Route::patch('/delegates/{page_id}/{id_delegate}', [DelegatesController::class, 'update'])->name('delegates.update');
-        Route::patch('/trash/delegates/restore/{page_id}/{id_delegate}', [DelegatesController::class, 'restore'])->name('delegates.restore');
+        Route::patch('/trash/delegates/restore/{page_id}', [DelegatesController::class, 'restore'])->name('delegates.restore');
 //      Customers
         Route::patch('/customers/{page_id}/{id_customer}', [CostumersController::class, 'update'])->name('customers.update');
-        Route::patch('/trash/customers/restore/{page_id}/{id_customer}', [CostumersController::class, 'restore'])->name('customers.restore');
+        Route::patch('/trash/customers/restore/{page_id}', [CostumersController::class, 'restore'])->name('customers.restore');
 //      Shipments
         Route::patch('/shipments/{page_id}/{id_ship}', [ShipmentsController::class, 'update'])->name('shipments.update');
-        Route::patch('/trash/shipments/restore/{page_id}/{id_ship}', [ShipmentsController::class, 'restore'])->name('shipments.restore');
+        Route::patch('/trash/shipments/restore/{page_id}', [ShipmentsController::class, 'restore'])->name('shipments.restore');
         Route::patch('/shipments/status/update/{page_id}/{id_status_ship}', [StatusShipmentsController::class, 'update'])->name('status.shipments.update');
 //      SubCities
         Route::patch('/subCities/{page_id}/{id_city}', [SubCitiesController::class, 'update'])->name('subCities.update');
-        Route::patch('/trash/subCities/{page_id}/{id_city}', [SubCitiesController::class, 'restore'])->name('subCities.restore');
+        Route::patch('/trash/subCities/restore/{page_id}', [SubCitiesController::class, 'restore'])->name('subCities.restore');
+
+
 //      Status
         Route::patch('/status/{page_id}/{id_status}', [TypeStatusController::class, 'update'])->name('status.update');
 //      Roles
         Route::patch('/roles/update/{page_id}/{id_role}', [RolesController::class, 'update'])->name('roles.update');
-        Route::patch('/trash/roles/update/{page_id}/{id_role}', [RolesController::class, 'restore'])->name('roles.restore');
+        Route::patch('/trash/roles/update/{page_id}', [RolesController::class, 'restore'])->name('roles.restore');
         Route::patch('/roles/material/edit/{page_id}/{id_role}', [MaterialRolesController::class, 'edit'])->name('materialRoles.edit');
     });
 
     Route::middleware('CheckDeletePermission')->group(function () {
 //      Branches
         Route::delete('/branches/delete/{page_id}/{id_branch}', [BranchesController::class, 'destroy'])->name('branches.destroy');
-        Route::delete('/trash/branches/delete/{page_id}/{id_branch}', [BranchesController::class, 'delete'])->name('branches.delete');
+        Route::patch('/trash/branches/delete/{page_id}', [BranchesController::class, 'delete'])->name('branches.delete');
 //      Employees
         Route::delete('/employees/{page_id}/{id_emp}', [EmployeesController::class, 'destroy'])->name('employees.destroy');
-        Route::delete('/trash/employees/delete/{page_id}/{id_emp}', [EmployeesController::class, 'delete'])->name('employees.delete');
+        Route::patch('/trash/employees/delete/{page_id}', [EmployeesController::class, 'delete'])->name('employees.delete');
 //      Delegates
         Route::delete('/delegates/delete/{page_id}/{id_delegate}', [DelegatesController::class, 'destroy'])->name('delegates.destroy');
-        Route::delete('/trash/delegates/delete/{page_id}/{id_delegate}', [DelegatesController::class, 'delete'])->name('delegates.delete');
+        Route::patch('/trash/delegates/delete/{page_id}', [DelegatesController::class, 'delete'])->name('delegates.delete');
 //      Customers
         Route::delete('/customers/{page_id}/{id_customer}', [CostumersController::class, 'destroy'])->name('customers.destroy');
-        Route::delete('/trash/customers/{page_id}/{id_customer}', [CostumersController::class, 'delete'])->name('customers.delete');
+        Route::patch('/trash/customers/{page_id}', [CostumersController::class, 'delete'])->name('customers.delete');
 //      Shipments
         Route::delete('/shipments/{page_id}/{id_ship}', [ShipmentsController::class, 'destroy'])->name('shipments.destroy');
-        Route::delete('/trash/shipments/{page_id}/{id_ship}', [ShipmentsController::class, 'delete'])->name('shipments.delete');
+        Route::patch('/trash/shipments/{page_id}', [ShipmentsController::class, 'delete'])->name('shipments.delete');
 //      SubCities
         Route::delete('/subCities/{page_id}/{id_city}', [SubCitiesController::class, 'destroy'])->name('subCities.destroy');
-        Route::delete('/trash/subCities/{page_id}/{id_city}', [SubCitiesController::class, 'delete'])->name('subCities.delete');
+        Route::patch('/trash/subCities/{page_id}', [SubCitiesController::class, 'delete'])->name('subCities.delete');
 //      Status
         Route::delete('/status/{page_id}/{id_status}', [TypeStatusController::class, 'destroy'])->name('status.destroy');
 //      Roles
         Route::delete('/roles/destroy/{page_id}/{id_role}', [RolesController::class, 'destroy'])->name('roles.destroy');
-        Route::delete('/trash/roles/destroy/{page_id}/{id_role}', [RolesController::class, 'delete'])->name('roles.delete');
+        Route::patch('/trash/roles/destroy/{page_id}', [RolesController::class, 'delete'])->name('roles.delete');
 
     });
 });

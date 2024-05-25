@@ -181,7 +181,8 @@
                         </thead>
                         <tbody>
                             @foreach($branches as $index => $branch)
-                                @if($branch->toBranch->id_branch != $branch->fromBranch->id_branch)
+                                @if($branch->toBranch != null && $branch->fromBranch != null )
+                                    @if($branch->toBranch->id_branch != $branch->fromBranch->id_branch)
                                     <tr data-index="{{ $index }}">
                                         <td class="px-4 py-5">
                                             <div class="text-gray-100 flex items-center gap-1">
@@ -210,6 +211,7 @@
                                         @include('site.Branches.DeliveryPrices.delete')
                                         @include('site.Branches.DeliveryPrices.edit')
                                     </tr>
+                                @endif
                                 @endif
                             @endforeach
 

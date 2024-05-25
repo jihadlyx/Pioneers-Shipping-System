@@ -70,8 +70,23 @@
 
     <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div class="data-table-common data-table-one max-w-full overflow-x-auto">
-            <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+            <form class="TrashedForm" method="POST">
+                @csrf
+                @method("PATCH")
+                <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                    <div class="flex items-center gap-1 border-b border-stroke px-6.5 py-4 dark:border-strokedark">
+                        <button type="button" data-target="RestoreBranch"
+                                class="modal-show flex items-center gap-2 text-white hover:bg-opacity-80 rounded bg-primary px-4.5 py-2 font-bold border-b-4 border-blue-700 hover:border-blue-500 transition-transform hover:scale-95">
+                            استعادة
+                        </button>
+                        <button type="button" data-target="DeleteTrashBranch"
+                                class="bg-meta-1 transition-transform hover:scale-95 flex items-center gap-2 hover:bg-opacity-80 hover:bg-redblue-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">
+                            حذف
+                        </button>
+                    </div>
                 @include('site.Branches.modal.save')
+                @include('site.branches.modal.restore')
+                @include('site.branches.modal.deleteTrash')
                 <div class="datatable-top">
                     <div class="datatable-dropdown">
                         <label>
@@ -93,13 +108,6 @@
                     <table class="datatable-table table w-full table-auto" id="dataTableOne">
                         <thead>
                         <tr>
-                            <th data-sortable="true" style="width: 8.549511854951188%">
-                                <a href="#" class="datatable-sorter">
-                                    <div class="flex items-center gap-1.5">
-                                        <p>#</p>
-                                    </div>
-                                </a>
-                            </th>
                             <th data-sortable="true" style="width: 8.549511854951188%">
                                 <a href="#" class="datatable-sorter">
                                     <div class="flex items-center gap-1.5">
@@ -151,23 +159,20 @@
                         @foreach($branches as $index => $branch)
                             <tr data-index="{{ $index }}">
                                 <td class="px-4 py-5 h-full">
-                                    <div class="text-gray-100 flex items-center gap-1">
-                                        @if($isUpdate)
-                                            <button data-target="DeleteTrashBranch{{ $branch->id_branch }}"
-                                                    class="flex cursor-pointer items-center gap-2 rounded bg-danger px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
-                                                حذف نهائي
-                                            </button>
-                                        @endif
-                                    </div>
-                                </td>
-                                <td class="px-4 py-5 h-full">
-                                    <div class="text-gray-100 flex items-center gap-1">
-                                        @if($isUpdate)
-                                            <button data-target="RestoreBranch{{ $branch->id_branch }}"
-                                                    class="flex cursor-pointer items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
-                                                استعادة
-                                            </button>
-                                        @endif
+                                    <div x-data="{ checkboxToggle: false }">
+                                        <label for="checkboxLabelOneCreate{{ $index }}"
+                                               class="flex cursor-pointer select-none items-center text-sm font-medium">
+                                            <div class="relative">
+                                                <input class="hidden" name="branches[{{ $index }}][id]" value="{{ $branch->id_branch }}">
+                                                <input type="checkbox" name="branches[{{ $index }}][check]" id="checkboxLabelOneCreate{{ $index }}" class="sr-only"
+                                                       @change="checkboxToggle = !checkboxToggle"   />
+                                                <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
+                                                     class="mr-4 flex h-5 w-5 items-center justify-center rounded border">
+                                                        <span :class="checkboxToggle && 'bg-primary'"
+                                                              class="h-2.5 w-2.5 rounded-sm"></span>
+                                                </div>
+                                            </div>
+                                        </label>
                                     </div>
                                 </td>
                                 <td>
@@ -180,8 +185,7 @@
                                 <td>
                                     {{ $branch->address }}
                                 </td>
-                                @include('site.branches.modal.restore')
-                                @include('site.branches.modal.deleteTrash')
+
                             </tr>
                         @endforeach
 
@@ -208,6 +212,7 @@
                     </nav>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 @endsection

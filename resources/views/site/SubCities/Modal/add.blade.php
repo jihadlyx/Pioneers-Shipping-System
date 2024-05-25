@@ -79,7 +79,7 @@
                         </label>
                         <input type="number" name="price" placeholder="ادخل سعر التوصيل"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required maxlength="10" minlength="1"/>
+                            required maxlength="4" minlength="1"/>
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل سعر التوصيل
                         </div>

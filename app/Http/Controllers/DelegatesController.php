@@ -99,6 +99,7 @@ class DelegatesController extends Controller
                     'password' => Hash::make($request->password),
                     'id_type_users' => 2,
                     'pid' => $request->id_delegate,
+                    'id_emp' => Auth()->user()->pid,
                 ]);
             });
             return redirect()->route("delegates.index", ['page_id' => $this->page_id])
@@ -265,62 +266,84 @@ class DelegatesController extends Controller
         return view('site.People.Delegates.trashView', compact('delegates', 'isUpdate', 'id_page'));
     }
 
-    public function restore($id_page, $id) {
-        $delegate = Delegate::onlyTrashed()->find($id);
-        if ($delegate) {
-            $delegate->restore();
-            $user = User::onlyTrashed()
-                ->where('pid', $id)
-                ->where('id_type_users', 2)
-                ->first();
-            $user->restore();
-            return redirect()->route("delegates.index", ['page_id' => $this->page_id])
+    public function restore(Request $request, $page_id) {
+        if ($request->has('delegates')) {
+            $delegatesData = $request->input('delegates');
+
+            foreach ($delegatesData as $delegateData) {
+                if (isset($delegateData['check']) && $delegateData['check'] === 'on') {
+                    $delegate = Delegate::onlyTrashed()->find($delegateData['id']);
+                    if ($delegate) {
+                        $delegate->restore();
+                        $user = User::onlyTrashed()
+                            ->where('pid', $delegateData['id'])
+                            ->where('id_type_users', 2)
+                            ->first();
+                        if ($user) {
+                            $user->restore();
+                        }
+                    }
+                }
+            }
+
+            return redirect()->route("delegates.index", ['page_id' => $page_id])
                 ->with([
                     "message" => [
                         "type" => "success",
                         "title" => "نجحت العملية",
-                        "text" => "تم استعادة المندوب بنجاح"
+                        "text" => "تم استعادة المندوبين بنجاح"
                     ]
                 ]);
         }
-        return redirect()->route('delegates.getTrash', ['page_id' => 10])
+
+        return redirect()->route('delegates.getTrash', ['page_id' => $page_id])
             ->with([
                 "message" => [
                     "type" => "error",
                     "title" => "فشلت العملية",
-                    "text" => "هذا المندوب غير موجود"
+                    "text" => "المندوبون غير موجودون"
                 ]
             ]);
     }
 
-    public function delete($page_id, $id)
-    {
-        $delegate = Delegate::onlyTrashed()->find($id);
+    public function delete(Request $request, $page_id) {
+        if ($request->has('delegates')) {
+            $delegatesData = $request->input('delegates');
 
-        if($delegate) {
-            $delegate->forceDelete();
-            $user = User::onlyTrashed()
-                ->where('pid', $id)
-                ->where('id_type_users', 3)
-                ->first();
-            $user->forceDelete();
-            return redirect()->route("delegates.index", ['page_id' => $this->page_id])
+            foreach ($delegatesData as $delegateData) {
+                if (isset($delegateData['check']) && $delegateData['check'] === 'on') {
+                    $delegate = Delegate::onlyTrashed()->find($delegateData['id']);
+                    if ($delegate) {
+                        $delegate->forceDelete();
+                        $user = User::onlyTrashed()
+                            ->where('pid', $delegateData['id'])
+                            ->where('id_type_users', 2)
+                            ->first();
+                        if ($user) {
+                            $user->forceDelete();
+                        }
+                    }
+                }
+            }
+
+            return redirect()->route("delegates.index", ['page_id' => $page_id])
                 ->with([
                     "message" => [
-                        "type" => "error",
+                        "type" => "success",
                         "title" => "نجحت العملية",
-                        "text" => "تم حذف المندوب"
+                        "text" => "تم حذف المندوبين نهائيًا بنجاح"
                     ]
                 ]);
         }
 
-        return redirect()->route('delegates.index', ['page_id' => $this->page_id])
+        return redirect()->route('delegates.index', ['page_id' => $page_id])
             ->with([
                 "message" => [
                     "type" => "error",
                     "title" => "فشلت العملية",
-                    "text" => "هذا المندوب غير موجود"
+                    "text" => "المندوبون غير موجودون"
                 ]
             ]);
     }
+
 }

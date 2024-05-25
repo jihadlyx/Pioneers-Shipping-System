@@ -1,4 +1,4 @@
-<div id="DeleteTrashBranch{{ $branch->id_branch }}" x-transition=""
+<div id="DeleteTrashBranch" x-transition=""
     class="modal fixed left-0 top-0 z-999999 hidden h-full min-h-screen w-full items-center justify-center bg-black/90 px-4 py-5">
     <div class="w-full max-w-142.5 rounded-lg bg-white px-8 py-12 text-center dark:bg-boxdark md:px-17.5 md:py-15">
         <span class="mx-auto inline-block">
@@ -10,27 +10,23 @@
             </svg>
         </span>
         <h3 class="mt-5.5 pb-2 text-xl font-bold text-black dark:text-white sm:text-2xl">
-            هل انت متأكد من حذف هذه الفرع
+            هل انت متأكد من حذف هذه الفروع
         </h3>
         <p class="mb-10 font-medium">
-            اذا قمت بحذف هذ الفرع فسيتم حذفه نهائيا
+            اذا قمت بحذف هذه الفروع فسيتم حذفه نهائيا
         </p>
         <div class="-mx-3 flex flex-wrap gap-y-4">
             <div class="w-full px-3 2xsm:w-1/2">
-                <button
+                <button type="button"
                     class="btn-modal-close block w-full rounded border border-stroke bg-gray p-3 text-center font-medium text-black transition hover:border-meta-1 hover:bg-meta-1 hover:text-white dark:border-strokedark dark:bg-meta-4 dark:text-white dark:hover:border-meta-1 dark:hover:bg-meta-1">
                     لا
                 </button>
             </div>
             <div class="w-full px-3 2xsm:w-1/2">
-                <form action="{{ route('branches.delete', ['page_id' => $id_page, 'id_branch' => $branch->id_branch]) }}" method="POST">
-                    @csrf
-                    @method("DELETE")
-                    <button type="submit"
-                        class="block w-full rounded border border-meta-1 bg-meta-1 p-3 text-center font-medium text-white transition hover:bg-opacity-90">
-                        نعم
-                    </button>
-                </form>
+                <button type="button" data-action="{{ route('branches.delete', ['page_id' => $id_page]) }}"
+                    class="transferButton block w-full rounded border border-meta-1 bg-meta-1 p-3 text-center font-medium text-white transition hover:bg-opacity-90">
+                    نعم
+                </button>
             </div>
         </div>
     </div>

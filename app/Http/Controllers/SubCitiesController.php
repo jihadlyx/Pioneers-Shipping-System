@@ -66,7 +66,7 @@ class SubCitiesController extends Controller
             $validatedData = $request->validate([
                 'id_city' => ['required', 'numeric', 'unique:'.SubCities::class],
                 'title' => ['required', 'string', 'max:30'],
-                'price' => ['required', 'numeric', 'max:20'],
+                'price' => ['required', 'numeric', 'max:9999'],
 
             ]);
 
@@ -132,7 +132,7 @@ class SubCitiesController extends Controller
             $validatedData = $request->validate([
                 'id_city' => ['required', 'numeric'],
                 'title' => ['required', 'string', 'max:30'],
-                'price' => ['required', 'numeric', 'max:20'],
+                'price' => ['required', 'numeric', 'max:9999'],
 
             ]);
             $city = SubCities::where("id_city", $id)->first();
@@ -211,54 +211,72 @@ class SubCitiesController extends Controller
         $cities = SubCities::onlyTrashed()->get();
         return view('site.SubCities.trashView', compact('cities', 'isUpdate', 'id_page'));
     }
+    public function restore(Request $request, $id_page) {
+        if ($request->has('cities')) {
+            $subCitiesData = $request->input('cities');
 
-    public function restore($id_page, $id) {
-        $city = SubCities::onlyTrashed()->find($id);
-        if ($city) {
-            $city->restore();
-            return redirect()->route("subCities.index", ['page_id' => $this->page_id])
+            // تكرار عبر كل منطقة فرعية واستعادتها
+            foreach ($subCitiesData as $subCityData) {
+                $subCity = SubCities::onlyTrashed()->find($subCityData['id']);
+                if ($subCity) {
+                    if(isset($subCityData['check']) && $subCityData['check'] === 'on') {
+                        $subCity->restore();
+                    }
+                }
+            }
+
+            // إعادة التوجيه مع رسالة نجاح
+            return redirect()->route("subCities.index", ['page_id' => $id_page])
                 ->with([
                     "message" => [
                         "type" => "success",
                         "title" => "نجحت العملية",
-                        "text" => "تم استعادة المنطقة بنجاح"
+                        "text" => "تم استعادة المناطق الفرعية بنجاح"
                     ]
                 ]);
         }
-        return redirect()->route('subCities.getTrash', ['page_id' => 10])
+
+        return redirect()->route('subCities.trash.getTrash', ['page_id' => 10])
             ->with([
                 "message" => [
                     "type" => "error",
                     "title" => "فشلت العملية",
-                    "text" => "هذه المنطقة غير موجود"
+                    "text" => "المناطق الفرعية غير موجودة"
                 ]
             ]);
     }
-
-    public function delete($page_id, $id)
+    public function delete(Request $request, $id_page)
     {
-        $city = SubCities::onlyTrashed()->find($id);
+        if ($request->has('cities')) {
+            $subCitiesData = $request->input('cities');
 
-        if($city) {
-            $city->forceDelete();
-            return redirect()->route("subCities.index", ['page_id' => $this->page_id])
+            foreach ($subCitiesData as $subCityData) {
+                if (isset($subCityData['check']) && $subCityData['check'] === 'on') {
+                    $subCity = SubCities::onlyTrashed()->find($subCityData['id']);
+                    if ($subCity) {
+                        $subCity->forceDelete();
+                    }
+                }
+            }
+
+            // إعادة التوجيه مع رسالة نجاح
+            return redirect()->route("subCities.index", ['page_id' => $id_page])
                 ->with([
                     "message" => [
-                        "type" => "error",
+                        "type" => "success",
                         "title" => "نجحت العملية",
-                        "text" => "تم حذف المنطقة"
+                        "text" => "تم حذف المناطق الفرعية نهائيًا بنجاح"
                     ]
                 ]);
         }
-
-        return redirect()->route('subCities.index', ['page_id' => $this->page_id])
+        // إعادة التوجيه مع رسالة خطأ في حالة عدم وجود الفروع
+        return redirect()->route('subCities.trash.getTrash', ['page_id' => 10])
             ->with([
                 "message" => [
                     "type" => "error",
                     "title" => "فشلت العملية",
-                    "text" => "هذه المنطقة غير موجود"
+                    "text" => "المناطق الفرعية غير موجودة"
                 ]
             ]);
     }
-
 }

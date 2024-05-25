@@ -103,6 +103,7 @@ class CostumersController extends Controller
                     'password' => Hash::make($request->password),
                     'id_type_users' => 3,
                     'pid' => $request->id_customer,
+                    'id_emp' => Auth()->user()->pid,
                 ]);
 
             });
@@ -265,62 +266,85 @@ class CostumersController extends Controller
         return view('site.People.Customers.trashView', compact('customers', 'isUpdate', 'id_page'));
     }
 
-    public function restore($id_page, $id) {
-        $customer = Customers::onlyTrashed()->find($id);
-        if ($customer) {
-            $customer->restore();
-            $user = User::onlyTrashed()
-                ->where('pid', $id)
-                ->where('id_type_users', 3)
-                ->first();
-            $user->restore();
-            return redirect()->route("customers.index", ['page_id' => $this->page_id])
+    public function restore(Request $request, $page_id) {
+        if ($request->has('customers')) {
+            $customersData = $request->input('customers');
+
+            foreach ($customersData as $customerData) {
+                if (isset($customerData['check']) && $customerData['check'] === 'on') {
+                    $customer = Customers::onlyTrashed()->find($customerData['id']);
+                    if ($customer) {
+                        $customer->restore();
+                        $user = User::onlyTrashed()
+                            ->where('pid', $customerData['id'])
+                            ->where('id_type_users', 3)
+                            ->first();
+                        if ($user) {
+                            $user->restore();
+                        }
+                    }
+                }
+            }
+
+            return redirect()->route("customers.index", ['page_id' => $page_id])
                 ->with([
                     "message" => [
                         "type" => "success",
                         "title" => "نجحت العملية",
-                        "text" => "تم استعادة الزبون بنجاح"
+                        "text" => "تم استعادة الزبائن بنجاح"
                     ]
                 ]);
         }
-        return redirect()->route('customers.getTrash', ['page_id' => 10])
+
+        return redirect()->route('customers.getTrash', ['page_id' => $page_id])
             ->with([
                 "message" => [
                     "type" => "error",
                     "title" => "فشلت العملية",
-                    "text" => "هذا الزبون غير موجود"
+                    "text" => "الزبائن غير موجودين"
                 ]
             ]);
     }
 
-    public function delete($page_id, $id)
-    {
-        $customer = Customers::onlyTrashed()->find($id);
 
-        if($customer) {
-            $customer->forceDelete();
-            $user = User::onlyTrashed()
-                ->where('pid', $id)
-                ->where('id_type_users', 3)
-                ->first();
-            $user->forceDelete();
-            return redirect()->route("customers.index", ['page_id' => $this->page_id])
+    public function delete(Request $request, $page_id) {
+        if ($request->has('customers')) {
+            $customersData = $request->input('customers');
+
+            foreach ($customersData as $customerData) {
+                if (isset($customerData['check']) && $customerData['check'] === 'on') {
+                    $customer = Customers::onlyTrashed()->find($customerData['id']);
+                    if ($customer) {
+                        $customer->forceDelete();
+                        $user = User::onlyTrashed()
+                            ->where('pid', $customerData['id'])
+                            ->where('id_type_users', 3)
+                            ->first();
+                        if ($user) {
+                            $user->forceDelete();
+                        }
+                    }
+                }
+            }
+
+            return redirect()->route("customers.index", ['page_id' => $page_id])
                 ->with([
                     "message" => [
-                        "type" => "error",
+                        "type" => "success",
                         "title" => "نجحت العملية",
-                        "text" => "تم حذف الزبون"
+                        "text" => "تم حذف الزبائن نهائيًا بنجاح"
                     ]
                 ]);
         }
 
-        return redirect()->route('customers.index', ['page_id' => $this->page_id])
+        return redirect()->route('customers.index', ['page_id' => $page_id])
             ->with([
                 "message" => [
                     "type" => "error",
                     "title" => "فشلت العملية",
-                    "text" => "هذا الزبون غير موجود"
+                    "text" => "الزبائن غير موجودين"
                 ]
             ]);
     }
+
 }

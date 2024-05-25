@@ -224,53 +224,78 @@ class RolesController extends Controller
         return view('site.Settings.Roles.trashView', compact('roles', 'isUpdate', 'id_page'));
     }
 
-    public function restore($id_page, $id) {
-        $city = Role::onlyTrashed()->find($id);
-        if ($city) {
-            $city->restore();
-            return redirect()->route("roles.index", ['page_id' => $this->page_id])
+    public function restore(Request $request, $id_page) {
+        if ($request->has('roles')) {
+            $rolesData = $request->input('roles');
+
+            // تكرار عبر كل دور واستعادته
+            foreach ($rolesData as $roleData) {
+                $role = Role::onlyTrashed()->find($roleData['id']);
+                if ($role) {
+                    if(isset($roleData['check']) && $roleData['check'] === 'on') {
+                        $role->restore();
+                    }
+                }
+            }
+
+            // إعادة التوجيه مع رسالة نجاح
+            return redirect()->route("roles.index", ['page_id' => $id_page])
                 ->with([
                     "message" => [
                         "type" => "success",
                         "title" => "نجحت العملية",
-                        "text" => "تم استعادة المنطقة بنجاح"
+                        "text" => "تم استعادة الصلاحية بنجاح"
                     ]
                 ]);
         }
-        return redirect()->route('roles.getTrash', ['page_id' => 10])
+
+        return redirect()->route('roles.trash.getTrash', ['page_id' => 10])
             ->with([
                 "message" => [
                     "type" => "error",
                     "title" => "فشلت العملية",
-                    "text" => "هذه المنطقة غير موجود"
+                    "text" => "الصلاحية غير موجودة"
                 ]
             ]);
     }
 
-    public function delete($page_id, $id)
+    public function delete(Request $request, $id_page)
     {
-        $city = Role::onlyTrashed()->find($id);
+        if ($request->has('roles')) {
+            $rolesData = $request->input('roles');
 
-        if($city) {
-            $city->forceDelete();
-            return redirect()->route("roles.index", ['page_id' => $this->page_id])
+            // تكرار عبر كل دور وحذفه نهائيًا فقط إذا كان الحقل "check" موجودًا وقيمته "on"
+            foreach ($rolesData as $roleData) {
+                if (isset($roleData['check']) && $roleData['check'] === 'on') {
+                    $role = Role::onlyTrashed()->find($roleData['id']);
+                    if ($role) {
+                        $role->forceDelete();
+                    }
+                }
+            }
+
+            // إعادة التوجيه مع رسالة نجاح
+            return redirect()->route("roles.index", ['page_id' => $id_page])
                 ->with([
                     "message" => [
-                        "type" => "error",
+                        "type" => "success",
                         "title" => "نجحت العملية",
-                        "text" => "تم حذف المنطقة"
+                        "text" => "تم حذف الصلاحية نهائيًا بنجاح"
                     ]
                 ]);
         }
 
-        return redirect()->route('roles.index', ['page_id' => $this->page_id])
+        // إعادة التوجيه مع رسالة خطأ في حالة عدم وجود الصلاحية
+        return redirect()->route('roles.index', ['page_id' => $id_page])
             ->with([
                 "message" => [
                     "type" => "error",
                     "title" => "فشلت العملية",
-                    "text" => "هذه المنطقة غير موجود"
+                    "text" => "الصلاحية غير موجودة"
                 ]
             ]);
     }
+
+
 
 }

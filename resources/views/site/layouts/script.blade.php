@@ -39,3 +39,24 @@
 
 
 </script>
+
+<script>
+    let buttons = document.querySelectorAll('.transferButton')
+        buttons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Get the original form
+                // var originalForm = document.getElementById('originalForm');
+                // Get the target form
+                var targetForm = document.querySelector('.TrashedForm');
+                // Update the target form's action with the original form's action
+                // alert(targetForm)
+                targetForm.action = btn.getAttribute('data-action');
+
+                // Optionally, copy other necessary data from the original form to the target form here
+
+                // Submit the target form
+                targetForm.submit();
+            });
+        })
+
+</script>

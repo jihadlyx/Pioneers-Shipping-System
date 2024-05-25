@@ -26,12 +26,22 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $authenticated = $request->authenticate();
+        if ($authenticated) {
+            $request->session()->regenerate();
 
-        $request->session()->regenerate();
+            // Redirect to the intended page on successful login
+            return redirect()->route('dashboard.index', ['page_id' => 9]);
+        }
 
-//        return redirect()->intended(RouteServiceProvider::HOME);
-        return redirect()->route('dashboard.index', ['page_id' => 9]);
+        // Redirect back to the login page with an error message on failed login
+        return redirect()->route('login')->with([
+            "message" => [
+                "type" => "error",
+                "title" => "يرجى التأكد من بريدك الإلكتروني وكلمة السر",
+                "text" => ""
+            ]
+        ]);
     }
 
     /**

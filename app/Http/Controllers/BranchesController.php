@@ -244,6 +244,12 @@ class BranchesController extends Controller
                 'state' => 0,
             ]);
             Branch::destroy("id_branch", $id);
+            $branches = PriceBranch::where('id_from_branch', $id)
+                ->orWhere('id_to_branch', $id)->get();
+            foreach ($branches as $item) {
+                if($item)
+                    PriceBranch::destroy("id", $item->id);
+            }
             return redirect()->route("branches.index", ['page_id' => $this->page_id])
                 ->with([
                     "message" => [
@@ -271,54 +277,89 @@ class BranchesController extends Controller
         return view('site.branches.trashView', compact('branches', 'isUpdate', 'id_page'));
     }
 
-    public function restore($id_page, $id) {
-        $branch = Branch::onlyTrashed()->find($id);
-        if ($branch) {
-            $branch->update([
-                'state' => 1,
-            ]);
-            $branch->restore();
-            return redirect()->route("branches.index", ['page_id' => $this->page_id])
+    public function restore(Request $request, $id_page) {
+        if ($request->has('branches')) {
+            $branchesData = $request->input('branches');
+
+            // تكرار عبر كل فرع واستعادته
+            foreach ($branchesData as $branchData) {
+                $branch = Branch::onlyTrashed()->find($branchData['id']);
+                if ($branch) {
+                    if(isset($branchData['check']) && $branchData['check'] === 'on') {
+                        $branch->update([
+                            'state' => 1,
+                        ]);
+                        $branch->restore();
+                        $branches = PriceBranch::onlyTrashed()->where('id_from_branch', $branch->id_branch)
+                            ->orWhere('id_to_branch', $branch->id_branch)->get();
+                        foreach ($branches as $item) {
+                            if($item)
+                                $item->restore();
+                        }
+                    }
+                }
+            }
+
+            // إعادة التوجيه مع رسالة نجاح
+            return redirect()->route("branches.index", ['page_id' => $id_page])
                 ->with([
                     "message" => [
                         "type" => "success",
                         "title" => "نجحت العملية",
-                        "text" => "تم استعادة الفرع بنجاح"
+                        "text" => "تم استعادة الفروع بنجاح"
                     ]
                 ]);
         }
+
         return redirect()->route('branches.trash.getTrash', ['page_id' => 10])
             ->with([
                 "message" => [
                     "type" => "error",
                     "title" => "فشلت العملية",
-                    "text" => "هذا الفرع غير موجود"
+                    "text" => "الفروع غير موجودة"
                 ]
             ]);
     }
 
-    public function delete($page_id, $id)
+    public function delete(Request $request, $id_page)
     {
-        $branch = Branch::onlyTrashed()->find($id);
+        if ($request->has('branches')) {
+            $branchesData = $request->input('branches');
 
-        if($branch) {
-            $branch->forceDelete();
-            return redirect()->route("branches.index", ['page_id' => $this->page_id])
+            // تكرار عبر كل فرع وحذفه نهائيًا فقط إذا كان الحقل "check" موجودًا وقيمته "on"
+            foreach ($branchesData as $branchData) {
+                if (isset($branchData['check']) && $branchData['check'] === 'on') {
+                    $branch = Branch::onlyTrashed()->find($branchData['id']);
+                    if ($branch) {
+                        $branch->forceDelete();
+                        $branches = PriceBranch::onlyTrashed()->where('id_from_branch', $branch->id_branch)
+                            ->orWhere('id_to_branch', $branch->id_branch)->get();
+                        foreach ($branches as $item) {
+                            if($item)
+                                $item->forceDelete();
+                        }
+                    }
+                }
+            }
+
+            // إعادة التوجيه مع رسالة نجاح
+            return redirect()->route("branches.index", ['page_id' => $id_page])
                 ->with([
                     "message" => [
-                        "type" => "error",
+                        "type" => "success",
                         "title" => "نجحت العملية",
-                        "text" => "تم حذف الفرع"
+                        "text" => "تم حذف الفروع نهائيًا بنجاح"
                     ]
                 ]);
         }
 
-        return redirect()->route('branches.index', ['page_id' => $this->page_id])
+        // إعادة التوجيه مع رسالة خطأ في حالة عدم وجود الفروع
+        return redirect()->route('branches.index', ['page_id' => $id_page])
             ->with([
                 "message" => [
                     "type" => "error",
                     "title" => "فشلت العملية",
-                    "text" => "هذا الفرع غير موجود"
+                    "text" => "الفروع غير موجودة"
                 ]
             ]);
     }
