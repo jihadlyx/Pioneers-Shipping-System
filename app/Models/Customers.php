@@ -10,37 +10,37 @@ class Customers extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $primaryKey = 'id_customer'; // تحديد مفتاح رئيسي مخصص
+    protected $primaryKey = 'customer_id'; // تحديد مفتاح رئيسي مخصص
 
     protected $fillable = [
-        'id_customer',
+        'customer_id',
         'name_customer',
         'phone_number',
         'phone_number2',
         'address',
-        'id_number',
-        'id_branch',
-        'id_role'
+        'number_id',
+        'branch_id',
+        'role_id'
     ];
 
     // تعريف العلاقة مع جدول branches
     public function branch()
     {
-        return $this->belongsTo(Branch::class, 'id_branch');
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
 
     public function role()
     {
-        return $this->belongsTo(Role::class, 'id_role');
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     public function user($pid)
     {
-        return User::where('pid', $pid)->where("id_type_users", 3)->first();
+        return User::where('pid', 3 . $pid)->where("id_type_users", 3)->first();
     }
     public function shipments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Shipments::class, 'id_customer');
+        return $this->hasMany(Shipments::class, 'customer_id');
     }
     public function isHasMany() {
         if ($this->shipments()->count() <= 0) {

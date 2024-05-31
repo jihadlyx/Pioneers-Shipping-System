@@ -39,12 +39,12 @@ class EmployeesController extends Controller
         $isShowTrash = $this->checkShowRole(10);
         $user = Auth()->user();
         if($isCreate) {
-            $employees = Employee::whereNotIn('id_emp', [$user->pid])->whereNotIn('id_role', [0])
-                ->whereNotIn('id_emp', [$user->id_emp])->get();
+            $employees = Employee::whereNotIn('emp_id', [$user->pid()])->whereNotIn('role_id', [0])
+                ->whereNotIn('emp_id', [$user->emp_id])->get();
         }
         else {
-            $employees = Employee::where('id_emp', $user->id_pid)
-                ->whereNotIn('id_emp', [$user->id_emp])->get();
+            $employees = Employee::where('emp_id', $user->pid())
+                ->whereNotIn('emp_id', [$user->emp_id])->get();
         }
         if($this->checkCreateRole(1)){
             $branches = Branch::all();
@@ -52,10 +52,10 @@ class EmployeesController extends Controller
             $branches = [$user->findUserByType($user->id_type_users)->branch];
         }
 
-//        $roles = Role::where('id_role', [$user->findUserByType($user->id_type_users)->id_role])
-//                    ->orwhere('id_emp', [$user->pid])->get();
+//        $roles = Role::where('role_id', [$user->findUserByType($user->id_type_users)->role_id])
+//                    ->orwhere('emp_id', [$user->pid()])->get();
         $roles = Role::all();
-        $maxEmployeeId = Employee::withTrashed()->max('id_emp') ? Employee::withTrashed()->max('id_emp') + 1 : 1;
+        $maxEmployeeId = Employee::withTrashed()->max('emp_id') ? Employee::withTrashed()->max('emp_id') + 1 : 1;
 
         return view('site.People.Employees.employeesView', compact('employees','isShowTrash', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'roles', 'branches', 'maxEmployeeId'));
 
@@ -81,13 +81,13 @@ class EmployeesController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'id_emp' => ['required', 'numeric', 'unique:'.Employee::class],
+                'emp_id' => ['required', 'numeric', 'unique:'.Employee::class],
                 'name' => ['required', 'string', 'max:255', 'min:3'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
                 'password' => ['required'],
                 'address' => ['required', 'string', 'max:30'],
-                'id_role' => ['required', 'numeric'],
-                'id_branch' => ['required', 'numeric'],
+                'role_id' => ['required', 'numeric'],
+                'branch_id' => ['required', 'numeric'],
                 'phone_number' => ['required', 'numeric', 'digits_between:10,12', 'unique:'.Employee::class],
                 'phone_number2' => ['nullable', 'numeric'] ,
                 'photo' => ['nullable'],
@@ -104,14 +104,14 @@ class EmployeesController extends Controller
 
                 // إنشاء موظف
                 Employee::create([
-                    'id_emp' => $request->id_emp,
-                    'name_emp' => $request->name,
+                    'emp_id' => $request->emp_id,
+                    'emp_name' => $request->name,
                     'address' => $request->address,
                     'phone_number' => $request->phone_number,
-                    'id_number' => 1,
+                    'number_id' => 1,
                     'phone_number2' => $request->phone_number2,
-                    'id_role' => $request->id_role,
-                    'id_branch' => $request->id_branch,
+                    'role_id' => $request->role_id,
+                    'branch_id' => $request->branch_id,
                     'image' => 'imagesUsers/'.$fileName,
                 ]);
 
@@ -121,8 +121,8 @@ class EmployeesController extends Controller
                     'email' => $request->email,
                     'password' => Hash::make($request->password),
                     'id_type_users' => 1,
-                    'pid' => $request->id_emp,
-                    'id_emp' => Auth()->user()->pid,
+                    'pid' =>  1 . $request->emp_id,
+                    'emp_id' => Auth()->user()->pid(),
                 ]);
             });
             return redirect()->route("employees.index", ['page_id' => $this->page_id])
@@ -180,12 +180,12 @@ class EmployeesController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'id_emp' => ['required', 'numeric'],
+                'emp_id' => ['required', 'numeric'],
                 'name' => ['required', 'string', 'max:255', 'min:3'],
                 'email' => ['required', 'string', 'email', 'max:255'],
                 'password' => ['nullable'],
                 'address' => ['required', 'string', 'max:30'],
-                'id_role' => ['required', 'numeric'],
+                'role_id' => ['required', 'numeric'],
                 'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
                 'phone_number2' => ['nullable', 'numeric'] ,
                 'photo' => ['nullable'],
@@ -202,12 +202,12 @@ class EmployeesController extends Controller
                     $fileName = null;
                 }
 
-                    $employee = Employee::where("id_emp", $id)->first();
+                    $employee = Employee::where("emp_id", $id)->first();
 
                     if($employee) {
                         $employee->update([
-                            'id_emp' => $request->id_emp,
-                            'name_emp' => $request->name,
+                            'emp_id' => $request->emp_id,
+                            'emp_name' => $request->name,
                             'address' => $request->address,
                             'phone_number' => $request->phone_number,
                             'phone_number2' => $request->phone_number2,
@@ -215,10 +215,10 @@ class EmployeesController extends Controller
                         ]);
                     }
                     $user = User::where('id_type_users', 1)
-                        ->where('pid', $id)->first();
+                        ->where('pid', 1 . $id)->first();
                     $user->update([
                         'email' => $request->email,
-                        'pid' => $id,
+                        'pid' =>  1 . $request->emp_id,
                     ]);
                     if($request->password){
                         if(Hash::make($request->password) != $user->password){
@@ -256,15 +256,15 @@ class EmployeesController extends Controller
      */
     public function destroy($page_id, $id)
     {
-        $employee = Employee::where("id_emp", $id)->first();
+        $employee = Employee::where("emp_id", $id)->first();
 
         if($employee) {
-            Employee::destroy("id_emp", $id);
+            Employee::destroy("emp_id", $id);
 
             $user = User::where('id_type_users', 1)
-                ->where('pid', $id)->first();
+                ->where('pid', 1 . $id)->first();
 
-            User::destroy($user->id);
+            User::destroy($user->pid);
 
 
             return redirect()->route("employees.index", ['page_id' => $this->page_id])
@@ -304,7 +304,7 @@ class EmployeesController extends Controller
                     if ($employee) {
                         $employee->restore();
                         $user = User::onlyTrashed()
-                            ->where('pid', $employeeData['id'])
+                            ->where('pid', 1 . $employeeData['id'])
                             ->where('id_type_users', 1)
                             ->first();
                         if ($user) {
@@ -349,7 +349,7 @@ class EmployeesController extends Controller
                     if ($employee) {
                         $employee->forceDelete();
                         $user = User::onlyTrashed()
-                            ->where('pid', $employeeData['id'])
+                            ->where('pid', 1 . $employeeData['id'])
                             ->where('id_type_users', 1)
                             ->first();
                         if ($user) {

@@ -31,13 +31,13 @@ class RolesController extends Controller
     public function index()
     {
         $page_id = $this->page_id;
-        $maxRoleId = Role::withTrashed()->max('id_role')? Role::withTrashed()->max('id_role') + 1 : 1;
+        $maxRoleId = Role::withTrashed()->max('role_id')? Role::withTrashed()->max('role_id') + 1 : 1;
         $user = Auth()->user()->findUserByType(Auth()->user()->id_type_users);
-        if($user->id_role == 0)
+        if($user->role_id == 0)
             $roles = Role::all();
         else
             $roles = Role::where('id_emp', $user->id_emp)
-                ->whereNot('id_role', $user->id_role)
+                ->whereNot('role_id', $user->role_id)
                 ->get();
 
         $isDelete = $this->checkDeleteRole($this->page_id);
@@ -68,12 +68,12 @@ class RolesController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'id_role' => ['required', 'numeric', 'unique:'.Role::class],
+                'role_id' => ['required', 'numeric', 'unique:'.Role::class],
                 'title' => ['required', 'string', 'max:50', 'min:3', 'unique:'.Role::class],
             ]);
         DB::transaction(function () use ($request) {
             $role = Role::create([
-                'id_role'=> $request->id_role,
+                'role_id'=> $request->role_id,
                 'title'=> $request->title,
                 'id_emp' => Auth()->user()->pid,
             ]);
@@ -85,8 +85,8 @@ class RolesController extends Controller
                     $maxMaterialRoleId = MaterialRole::max('id') ? MaterialRole::max('id') + 1 : 1;
                     MaterialRole::create([
                         'id' => $maxMaterialRoleId,
-                        'id_role' => $request->id_role,
-                        'id_page' => $page->id_page,
+                        'role_id' => $request->role_id,
+                        'page_id' => $page->page_id,
                         'create' => false,
                         'update' => false,
                         'delete' => false,
@@ -96,7 +96,7 @@ class RolesController extends Controller
             }
 
         });
-            return redirect()->route('materialRoles.show', ['page_id' => $this->page_id, 'id_role' => $request->id_role])
+            return redirect()->route('materialRoles.show', ['page_id' => $this->page_id, 'role_id' => $request->role_id])
                 ->with([
                     "message" => [
                         "type" => "success",
@@ -150,7 +150,7 @@ class RolesController extends Controller
         $role = Role::findOrFail($id_role);
         if($role) {
             $role->update([
-                "id_role" => $request->id_role,
+                "role_id" => $request->role_id,
                 "title" => $request->title,
             ]);
             return redirect()->route('roles.index', ['page_id' => 7])
@@ -221,7 +221,7 @@ class RolesController extends Controller
         $id_page = 10;
         $isUpdate = $this->checkUpdateRole(10);
         $roles = Role::onlyTrashed()->get();
-        return view('site.Settings.Roles.trashView', compact('roles', 'isUpdate', 'id_page'));
+        return view('site.Settings.Roles.trashView', compact('roles', 'isUpdate', 'page_id'));
     }
 
     public function restore(Request $request, $id_page) {

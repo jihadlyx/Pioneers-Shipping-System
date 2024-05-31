@@ -11,15 +11,15 @@ class Branch extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $primaryKey = 'id_branch'; // تحديد مفتاح رئيسي مخصص
+    protected $primaryKey = 'branch_id'; // تحديد مفتاح رئيسي مخصص
 
     protected $fillable = [
-        'id_branch',
+        'branch_id',
         'title',
         'address',
         'phone_number',
         'phone_number2',
-        'state',
+        'status',
     ];
 
     public function isHasMany() {
@@ -31,27 +31,27 @@ class Branch extends Model
 
     public function employees()
     {
-        return $this->hasMany(Employee::class, 'id_branch');
+        return $this->hasMany(Employee::class, 'branch_id');
     }
 
     public function delegates()
     {
-        return $this->hasMany(Delegate::class, 'id_branch');
+        return $this->hasMany(DeliveryMen::class, 'branch_id');
     }
 
     public function customers()
     {
-        return $this->hasMany(Customers::class, 'id_branch');
+        return $this->hasMany(Customers::class, 'branch_id');
     }
     public function shipments()
     {
-        return $this->hasManyThrough(Shipments::class, Customers::class, 'id_branch', 'id_customer');
+        return $this->hasManyThrough(Shipments::class, Customers::class, 'branch_id', 'customer_id');
     }
 
     public function hasValidShipments()
     {
         // جلب الشحنات مع الحالات المحددة
-        $shipments = $this->shipments()->whereIn('id_status', [1, 2])->count();
+        $shipments = $this->shipments()->whereIn('status_id', [1, 2])->count();
 
         // إذا كان هناك أي شحنة بهذه الحالات، أرجع false، وإلا أرجع true
         return $shipments <= 0;

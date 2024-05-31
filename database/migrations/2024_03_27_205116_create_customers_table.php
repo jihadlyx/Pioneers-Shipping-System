@@ -14,17 +14,17 @@ return new class extends Migration
     public function up()
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->integer('id_customer')->unsigned()->primary();
-            $table->string('name_customer', 50);
+            $table->integer('customer_id')->unsigned()->primary();
+            $table->string('customer_name', 50);
             $table->bigInteger('phone_number');
             $table->bigInteger('phone_number2')->nullable();
             $table->string('address', 30);
-            $table->integer('id_number');
-            $table->integer('id_branch')->unsigned();
-            $table->integer('id_role');
+            $table->integer('number_id');
+            $table->integer('branch_id')->unsigned();
+            $table->integer('role_id');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('id_branch')->references('id_branch')->on('branches')->onDelete('cascade');
+            $table->foreign('branch_id')->references('branch_id')->on('branches')->onDelete('cascade');
         });
     }
 

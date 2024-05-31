@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('type_ship_statuses', function (Blueprint $table) {
-            $table->integer('id_status')->unsigned()->primary();
+            $table->integer('status_id')->unsigned()->primary();
             $table->string('title', 50);
             $table->timestamps();
             $table->softDeletes();

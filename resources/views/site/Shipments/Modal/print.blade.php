@@ -35,7 +35,7 @@
 
                     </div>
                     <div class = "invoice-head-top-right text-black-2 text-title-md text-end">
-                        شركة كويك ديلفري
+                        <img src="{{ asset('assets/images/logo/light-logo.png') }}" class="w-20" alt="Logo" />
                         <p></p>
                         {{ $shipment->customer->branch->title }}
                     </div>
@@ -51,13 +51,13 @@
                 </div>
                 <div class = "hr"></div>
                 <div class = "invoice-head-bottom text-title-md flex justify-center text-black-2">
-                        فاتورة ( {{ $shipment->id_ship }} )
+                        فاتورة ( {{ $shipment->ship_id }} )
                 </div>
             </div>
             <div class = "border-2 rounded py-4 px-6">
                 <div class="invoice-details text-lg" dir="rtl">
                     <p class="flex gap-4 mb-2"><span class="text-black-2 font-bold text-xl">اسم الزبون: </span> {{ $shipment->customer->name_customer }}</p>
-                    <p class="flex gap-4 mb-2"><span class="text-black-2 font-bold text-xl">رقم الشحنة: </span> {{ $shipment->id_ship }}</p>
+                    <p class="flex gap-4 mb-2"><span class="text-black-2 font-bold text-xl">رقم الشحنة: </span> {{ $shipment->ship_id }}</p>
                     <p class="flex gap-4 mb-2"><span class="text-black-2 font-bold text-xl">اسم المستلم: </span> {{ $shipment->recipient_name }}</p>
                     <p class="flex gap-4 mb-2"><span class="text-black-2 font-bold text-xl">هاتف المستلم: </span> 0{{ $shipment->phone_number }}</p>
                     <p class="flex gap-4 mb-2 {{ $shipment->phone_number2 == null ? 'hidden' : '' }}"><span class="text-black-2 font-bold text-xl">هاتف المستلم الاحتياطي: </span> 0{{ $shipment->phone_number2 }}</p>

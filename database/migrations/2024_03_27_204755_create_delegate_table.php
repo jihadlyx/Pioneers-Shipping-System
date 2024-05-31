@@ -13,18 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('delegates', function (Blueprint $table) {
-            $table->integer('id_delegate')->unsigned()->primary();
-            $table->string('name_delegate', 50);
+        Schema::create('delivery_men', function (Blueprint $table) {
+            $table->integer('delivery_id')->unsigned()->primary();
+            $table->string('delivery_name', 50);
             $table->bigInteger('phone_number');
             $table->bigInteger('phone_number2')->nullable();
             $table->string('address', 30);
-            $table->integer('id_number');
-            $table->integer('id_branch')->unsigned();
-            $table->integer('id_role');
+            $table->integer('number_id');
+            $table->integer('branch_id')->unsigned();
+            $table->integer('role_id');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('id_branch')->references('id_branch')->on('branches')->onDelete('cascade');
+            $table->foreign('branch_id')->references('branch_id')->on('branches')->onDelete('cascade');
         });
     }
 
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('delegate');
+        Schema::dropIfExists('delivery_men');
     }
 };

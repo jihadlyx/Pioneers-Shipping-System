@@ -61,7 +61,7 @@
     </div>
     <!-- Breadcrumb End -->
     <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <form action="{{ route('branches.price.store', ['id' => $new_branch->id_branch, 'page_id' => $page_id]) }}" method="POST" class="needs-validation" novalidate>
+        <form action="{{ route('branches.price.store', ['id' => $new_branch->branch_id, 'page_id' => $page_id]) }}" method="POST" class="needs-validation" novalidate>
             @csrf
             <div class="p-6.5">
                 @foreach($branches as $index => $branch)
@@ -79,11 +79,11 @@
                                     الى الفرع
                                 </label>
                                 <div x-data="{ isOptionSelected: false }" class="relative hidden z-20 bg-transparent dark:bg-form-input">
-                                    <select name="prices[{{ $index }}][id_to_branch]"
+                                    <select name="prices[{{ $index }}][to_branch]"
                                             class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                             :class="isOptionSelected && 'text-black dark:text-white'"
                                             @change.once="isOptionSelected = true" required>
-                                        <option value="{{ $branch->id_branch != null ? $branch->id_branch : $branch->id_to_branch }}" selected class="text-body"> {{ $branch->title != null ? $branch->title : $branch->toBranch->title }} </option>
+                                        <option value="{{ $branch->branch_id != null ? $branch->branch_id : $branch->to_branch }}" selected class="text-body"> {{ $branch->title != null ? $branch->title : $branch->toBranch->title }} </option>
                                     </select>
                                     <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">
                                         <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"

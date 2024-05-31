@@ -2,11 +2,10 @@
     class="absolute ltr:left-0 rtl:right-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static rtl:lg:-translate-x-0 ltr:lg:translate-x-0"
     @click.outside="sidebarToggle = false">
     <!-- SIDEBAR HEADER -->
-    <div class="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <a href="/dashboard/9">
-            <img src="{{ asset('assets/images/logo/logo2.svg') }}" alt="Logo" />
+    <div class="flex items-center h-fit lg:justify-center justify-between gap-2 px-6 py-3.5 ">
+        <a href="/dashboard/9" class="">
+            <img src="{{ asset('assets/images/logo/dark-logo.png') }}" class="lg:w-36 w-20" alt="Logo" />
         </a>
-
         <button class="block lg:hidden rtl:rotate-180" @click.stop="sidebarToggle = !sidebarToggle">
             <svg class="fill-current" width="20" height="18" viewBox="0 0 20 18" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -20,25 +19,25 @@
 
     <div class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         <!-- Sidebar Menu -->
-        <nav class="mt-5 px-4 py-4 lg:mt-9 lg:px-6" x-data="{ selected: $persist('Dashboard') }">
+        <nav class=" px-4 py-2 lg:mt-2 lg:px-6" x-data="{ selected: $persist('Dashboard') }">
             <!-- Menu Group -->
             <div>
 
-                <h3 class="mb-4 ml-4 text-sm font-medium text-bodydark2"></h3>
+                <h3 class="mb-4 ml-4 text-sm font-medium text-white"></h3>
 
-{{--                <h3 class="mb-4 ml-4 text-sm font-medium text-bodydark2">MENU</h3>--}}
+{{--                <h3 class="mb-4 ml-4 text-sm font-medium text-white">MENU</h3>--}}
 
 
                 <ul class="mb-6 flex flex-col gap-1.5">
                     <!-- Menu Item Dashboard -->
                     @if(Auth()->user()->checkShowRole(9))
                         <li>
-                            <a class="relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
+                            <a class="relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-2xl text-white duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                                href="/dashboard/9" @click="selected = (selected === 'Dashboard' ? '':'Dashboard')"
                                :class="{
                                     'bg-graydark dark:bg-meta-4': selected === 'Dashboard' || page === 'Dashboard'
                                 }">
-                                <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                <svg class="fill-current" width="25" height="24" viewBox="0 0 25 24" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6.10322 0.956299H2.53135C1.5751 0.956299 0.787598 1.7438 0.787598 2.70005V6.27192C0.787598 7.22817 1.5751 8.01567 2.53135 8.01567H6.10322C7.05947 8.01567 7.84697 7.22817 7.84697 6.27192V2.72817C7.8751 1.7438 7.0876 0.956299 6.10322 0.956299ZM6.60947 6.30005C6.60947 6.5813 6.38447 6.8063 6.10322 6.8063H2.53135C2.2501 6.8063 2.0251 6.5813 2.0251 6.30005V2.72817C2.0251 2.44692 2.2501 2.22192 2.53135 2.22192H6.10322C6.38447 2.22192 6.60947 2.44692 6.60947 2.72817V6.30005Z" fill="" />
                                     <path d="M15.4689 0.956299H11.8971C10.9408 0.956299 10.1533 1.7438 10.1533 2.70005V6.27192C10.1533 7.22817 10.9408 8.01567 11.8971 8.01567H15.4689C16.4252 8.01567 17.2127 7.22817 17.2127 6.27192V2.72817C17.2127 1.7438 16.4252 0.956299 15.4689 0.956299ZM15.9752 6.30005C15.9752 6.5813 15.7502 6.8063 15.4689 6.8063H11.8971C11.6158 6.8063 11.3908 6.5813 11.3908 6.30005V2.72817C11.3908 2.44692 11.6158 2.22192 11.8971 2.22192H15.4689C15.7502 2.22192 15.9752 2.44692 15.9752 2.72817V6.30005Z" fill="" />
@@ -53,12 +52,12 @@
 
                     @if(Auth()->user()->checkShowRole(1))
                         <li>
-                            <a class="relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
+                            <a class="relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-2xl text-white duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                                href="/branches/1" @click="selected = 'Branches'"
                                :class="{
                                     'bg-graydark dark:bg-meta-4': selected === 'Branches' || page === 'Branches'
                                 }">
-                                <svg class="fill-current" width="18" height="19" viewBox="0 0 18 19" fill="none"
+                                <svg class="fill-current" width="25" height="24" viewBox="0 0 25 24" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <g clip-path="url(#clip0_130_9807)">
                                         <path d="M15.7501 0.55835H2.2501C1.29385 0.55835 0.506348 1.34585 0.506348 2.3021V7.53335C0.506348 8.4896 1.29385 9.2771 2.2501 9.2771H15.7501C16.7063 9.2771 17.4938 8.4896 17.4938 7.53335V2.3021C17.4938 1.34585 16.7063 0.55835 15.7501 0.55835ZM16.2563 7.53335C16.2563 7.8146 16.0313 8.0396 15.7501 8.0396H2.2501C1.96885 8.0396 1.74385 7.8146 1.74385 7.53335V2.3021C1.74385 2.02085 1.96885 1.79585 2.2501 1.79585H15.7501C16.0313 1.79585 16.2563 2.02085 16.2563 2.3021V7.53335Z" fill="" />
@@ -79,14 +78,14 @@
                     <!-- Menu Item People -->
                     @if(Auth()->user()->checkShowRole(2) || Auth()->user()->checkShowRole(3) || Auth()->user()->checkShowRole(4))
                         <li>
-                        <a class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
+                        <a class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-2xl text-white duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                             href="employees" @click.prevent="selected = (selected === 'People' ? '':'People')"
                             :class="{
                                 'bg-graydark dark:bg-meta-4': (selected === 'People') || (page === 'Employees' ||
                                     page === 'Delegates' || page === 'Costumers')
                             }">
 
-                            <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                            <svg class="fill-current" width="25" height="24" viewBox="0 0 25 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M9.0002 7.79065C11.0814 7.79065 12.7689 6.1594 12.7689 4.1344C12.7689 2.1094 11.0814 0.478149 9.0002 0.478149C6.91895 0.478149 5.23145 2.1094 5.23145 4.1344C5.23145 6.1594 6.91895 7.79065 9.0002 7.79065ZM9.0002 1.7719C10.3783 1.7719 11.5033 2.84065 11.5033 4.16252C11.5033 5.4844 10.3783 6.55315 9.0002 6.55315C7.62207 6.55315 6.49707 5.4844 6.49707 4.16252C6.49707 2.84065 7.62207 1.7719 9.0002 1.7719Z"
@@ -112,21 +111,21 @@
                             <ul class="mb-5.5 mt-4 text-xl flex flex-col gap-2.5 ltr:pl-6 rtl:pr-6">
                                 @if(Auth()->user()->checkShowRole(2))
                                     <li>
-                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
+                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-xl text-white duration-300 ease-in-out hover:text-white"
                                            href="/employees/2" :class="page === 'Employees' && '!text-white'">الموظفين
                                         </a>
                                     </li>
                                 @endif
                                 @if(Auth()->user()->checkShowRole(3))
                                     <li>
-                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
+                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-xl text-white duration-300 ease-in-out hover:text-white"
                                            href="/delegates/3" :class="page === 'Delegates' && '!text-white'">المندوبين
                                         </a>
                                     </li>
                                 @endif
                                 @if(Auth()->user()->checkShowRole(4))
                                     <li>
-                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
+                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-xl text-white duration-300 ease-in-out hover:text-white"
                                            href="/customers/4" :class="page === 'Customers' && '!text-white'">الزبائن
                                         </a>
                                     </li>
@@ -141,7 +140,7 @@
                     <!-- Menu Item Shipments -->
                     @if(Auth()->user()->checkShowRole(5) || Auth()->user()->checkShowRole(11))
                         <li>
-                            <a class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
+                            <a class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-2xl text-white duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                                href="Shipments" @click.prevent="selected = (selected === 'Shipments' ? '':'Shipments')"
                                :class="{
                                 'bg-graydark dark:bg-meta-4': (selected === 'Shipments') || (page === 'status1' ||
@@ -173,26 +172,26 @@
                                 <ul class="mb-5.5 mt-4 text-xl flex flex-col gap-2.5 ltr:pl-6 rtl:pr-6">
                                     @if(Auth()->user()->id_type_users != 2)
                                         <li>
-                                            <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                               href="{{ route('shipments.index', ['page_id' => 5, 'id_status' => 1]) }}" :class="page === 'status1' && '!text-white'">الشحنات الجديدة
+                                            <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-xl  text-white duration-300 ease-in-out hover:text-white"
+                                               href="{{ route('shipments.index', ['page_id' => 5, 'status_id' => 1]) }}" :class="page === 'status1' && '!text-white'">الشحنات الجديدة
                                             </a>
                                         </li>
                                     @endif
                                     @if(Auth()->user()->checkShowRole(11))
                                         <li>
-                                            <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
+                                            <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-xl text-white duration-300 ease-in-out hover:text-white"
                                                href="{{ route('statuses.index', ['page_id' => 11]) }}" :class="page === 'status2' && '!text-white'">الشحنات قيد التوصيل
                                             </a>
                                         </li>
                                     @endif
                                     <li>
-                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                           href="{{ route('shipments.index', ['page_id' => 5, 'id_status' => 3]) }}" :class="page === 'status3' && '!text-white'">الشحنات التي تم تسليمها
+                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-xl text-white duration-300 ease-in-out hover:text-white"
+                                           href="{{ route('shipments.index', ['page_id' => 5, 'status_id' => 3]) }}" :class="page === 'status3' && '!text-white'">الشحنات التي تم تسليمها
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                           href="{{ route('shipments.index', ['page_id' => 5, 'id_status' => 4]) }}" :class="page === 'status4' && '!text-white'">الشحنات التي تعذر تسليمها
+                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-xl text-white duration-300 ease-in-out hover:text-white"
+                                           href="{{ route('shipments.index', ['page_id' => 5, 'status_id' => 4]) }}" :class="page === 'status4' && '!text-white'">الشحنات التي تعذر تسليمها
                                         </a>
                                     </li>
 
@@ -203,10 +202,10 @@
                     @endif
                     <!-- Menu Item Shipments -->
 
-                    <!-- Menu Item SubCities -->
+                    <!-- Menu Item Regions -->
                     @if(Auth()->user()->checkShowRole(6))
                         <li>
-                        <a class=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
+                        <a class=" relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-2xl text-white duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                             href="/subCities/6" @click.once="selected = (selected === 'SubCities' ? '':'SubCities')"
                             :class="{
                                 'bg-graydark dark:bg-meta-4': (selected === 'SubCities') || (page === 'SubCities')
@@ -243,11 +242,11 @@
                         </a>
                     </li>
                     @endif
-                    <!-- Menu Item SubCities -->
+                    <!-- Menu Item Regions -->
                     <!-- Menu Item Settings -->
                     @if(Auth()->user()->checkShowRole(7) || Auth()->user()->checkShowRole(8))
                         <li>
-                        <a class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-xl text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
+                        <a class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-2xl text-white duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                             href="Settings" @click.prevent="selected = (selected === 'Settings' ? '':'Settings')"
                             :class="{
                                 'bg-graydark dark:bg-meta-4': (selected === 'Settings') || (page === 'Permission' ||
@@ -288,7 +287,7 @@
                             <ul class="mb-5.5 mt-4 text-xl flex flex-col gap-2.5 ltr:pl-6 rtl:pr-6">
                                 @if(Auth()->user()->checkShowRole(7))
                                     <li>
-                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
+                                        <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-xl text-white duration-300 ease-in-out hover:text-white"
                                             href="/roles/7" :class="page === 'Permission' && '!text-white'">
                                             الصلاحيات
                                         </a>
@@ -296,7 +295,7 @@
                                 @endif
                                 @if(Auth()->user()->checkShowRole(8))
                                     <li>
-                                <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
+                                <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-xl text-white duration-300 ease-in-out hover:text-white"
                                     href="/status/8" :class="page === 'TypeShipments' && '!text-white'">
                                     انواع حالات الشحنة
                                 </a>
@@ -314,9 +313,9 @@
             <!-- Others Group -->
             <div>
 
-                <h3 class="mb-4 ml-4 text-sm font-medium text-bodydark2"></h3>
+                <h3 class="mb-4 ml-4 text-sm font-medium text-white"></h3>
 
-{{--                <h3 class="mb-4 ml-4 text-sm font-medium text-bodydark2">OTHERS</h3>--}}
+{{--                <h3 class="mb-4 ml-4 text-sm font-medium text-white">OTHERS</h3>--}}
 
 
 

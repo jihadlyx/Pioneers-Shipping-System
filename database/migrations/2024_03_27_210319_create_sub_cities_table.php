@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sub_cities', function (Blueprint $table) {
-            $table->integer('id_city')->unsigned()->primary();
+        Schema::create('regions', function (Blueprint $table) {
+            $table->integer('region_id')->unsigned()->primary();
             $table->string('title', 50);
             $table->double("price");
-            $table->integer('id_branch')->unsigned();
+            $table->integer('branch_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('id_branch')->references('id_branch')->on('branches')->onDelete('cascade');
+            $table->foreign('branch_id')->references('branch_id')->on('branches')->onDelete('cascade');
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sub_cities');
+        Schema::dropIfExists('regions');
     }
 };

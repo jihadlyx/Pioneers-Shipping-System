@@ -14,11 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('shipments', function (Blueprint $table) {
-            $table->integer('id_ship')->unsigned()->primary();
-            $table->string('name_ship', 50);
-            $table->integer('id_customer')->unsigned();
-            $table->integer('id_status')->unsigned();
-            $table->integer('id_city')->unsigned();
+            $table->integer('ship_id')->unsigned()->primary();
+            $table->string('ship_name', 50);
+            $table->integer('customer_id')->unsigned();
+            $table->integer('status_id')->unsigned();
+            $table->integer('region_id')->unsigned();
             $table->double("ship_value");
             $table->bigInteger('phone_number');
             $table->bigInteger('phone_number2')->nullable();
@@ -28,9 +28,9 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
             // Adding foreign key constraint
-            $table->foreign('id_customer')->references('id_customer')->on('customers')->onDelete('cascade');
-            $table->foreign('id_status')->references('id_status')->on('type_ship_statuses')->onDelete('cascade');
-            $table->foreign('id_city')->references('id_city')->on('sub_cities')->onDelete('cascade');
+            $table->foreign('customer_id')->references('customer_id')->on('customers')->onDelete('cascade');
+            $table->foreign('status_id')->references('status_id')->on('type_ship_statuses')->onDelete('cascade');
+            $table->foreign('region_id')->references('region_id')->on('regions')->onDelete('cascade');
         });
     }
 

@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\CheckShowPermission;
 use App\Models\Customers;
-use App\Models\Delegate;
+use App\Models\DeliveryMen;
 use App\Models\PriceBranch;
 use App\Models\Shipments;
 use App\Models\StatusShipments;
-use App\Models\SubCities;
+use App\Models\Regions;
 use App\Traits\AuthorizationTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,48 +29,48 @@ class DashboardController extends Controller
     public function index()
     {
         $user = Auth()->user();
-        $branchId = $user->findUserByType(auth()->user()->id_type_users)->id_branch;
+        $branchId = $user->findUserByType(auth()->user()->id_type_users)->branch_id;
         if($user->id_type_users == 1){
 
             $ship1 = Shipments::whereHas('customer', function ($query) use ($branchId) {
-                $query->where('id_branch', $branchId);
+                $query->where('branch_id', $branchId);
             })
-                ->where('id_status', 1)->get();
+                ->where('status_id', 1)->get();
 
             $ship2 = Shipments::whereHas('customer', function ($query) use ($branchId) {
-                $query->where('id_branch', $branchId);
+                $query->where('branch_id', $branchId);
             })
-                ->where('id_status', 2)->get();
+                ->where('status_id', 2)->get();
 
             $ship3 = Shipments::whereHas('customer', function ($query) use ($branchId) {
-                $query->where('id_branch', $branchId);
+                $query->where('branch_id', $branchId);
             })
-                ->where('id_status', 3)->get();
+                ->where('status_id', 3)->get();
 
             $ship4 = Shipments::whereHas('customer', function ($query) use ($branchId) {
-                $query->where('id_branch', $branchId);
+                $query->where('branch_id', $branchId);
             })
-                ->where('id_status', 4)->get();
+                ->where('status_id', 4)->get();
         }
         elseif($user->id_type_users == 2){
-            $ship1 = StatusShipments::where('id_status', 1)
-                ->where('id_delegate', $user->pid)
+            $ship1 = StatusShipments::where('status_id', 1)
+                ->where('delivery_id', $user->pid)
                 ->get();
-            $ship2 = StatusShipments::where('status_shipments.id_status', 2)
-                ->join('shipments', 'status_shipments.id_ship', '=', 'shipments.id_ship')
-                ->where('id_delegate', $user->pid)
+            $ship2 = StatusShipments::where('shipment_on_service.status_id', 2)
+                ->join('shipments', 'shipment_on_service.ship_id', '=', 'shipments.ship_id')
+                ->where('delivery_id', $user->pid)
                 ->whereNotExists(function ($query) {
                     $query->select(DB::raw(1))
-                        ->from('status_shipments as ss2')
-                        ->whereRaw('ss2.id_ship = shipments.id_ship')
-                        ->whereRaw('ss2.id_status != 2');
+                        ->from('shipment_on_service as ss2')
+                        ->whereRaw('ss2.ship_id = shipments.ship_id')
+                        ->whereRaw('ss2.status_id != 2');
                 })
                 ->get();
-            $ship3 = StatusShipments::where('id_status', 3)
-                ->where('id_delegate', $user->pid)
+            $ship3 = StatusShipments::where('status_id', 3)
+                ->where('delivery_id', $user->pid)
                 ->get();
-            $ship4 = StatusShipments::where('id_status', 4)
-                ->where('id_delegate', $user->pid)
+            $ship4 = StatusShipments::where('status_id', 4)
+                ->where('delivery_id', $user->pid)
                 ->get();
         }
         else {
@@ -80,20 +80,23 @@ class DashboardController extends Controller
             $ship4 = $this->getShipmentsByStatus(4, $user->pid, $branchId);
 
         }
+
         return view('site.dashboard.dashboardView', compact('ship1', 'ship2', 'ship3', 'ship4'));
     }
 
     function getShipmentsByStatus($status, $customerId, $branchId) {
-        return Shipments::where('shipments.id_status', $status)
-            ->where('shipments.id_customer', $customerId)
-            ->join('customers', 'shipments.id_customer', '=', 'customers.id_customer')
-            ->where('customers.id_branch', $branchId)
+        return Shipments::where('shipments.status_id', $status)
+            ->where('shipments.customer_id', $customerId)
+            ->join('customers', 'shipments.customer_id', '=', 'customers.customer_id')
+            ->where('customers.branch_id', $branchId)
+            ->select('shipments.*', 'customers.address as customer_address')
             ->get();
     }
     function getShipmentsByStatusID($status, $branchId) {
-        return Shipments::where('shipments.id_status', $status)
-            ->join('customers', 'shipments.id_customer', '=', 'customers.id_customer')
-            ->where('customers.id_branch', $branchId)
+        return Shipments::where('shipments.status_id', $status)
+            ->join('customers', 'shipments.customer_id', '=', 'customers.customer_id')
+            ->where('customers.branch_id', $branchId)
+            ->select('shipments.*', 'customers.address as customer_address')
             ->get();
     }
 
@@ -128,35 +131,37 @@ class DashboardController extends Controller
     {
         $user = Auth()->user();
         $id_page = $this->id_page;
-        $prices_branches = PriceBranch::with('id_from_branch', $user->findUserByType($user->id_type_users)->id_branch);
-        $sub_cites = SubCities::all();
+        $prices_branches = PriceBranch::with('from_branch', $user->findUserByType($user->id_type_users)->branch_id);
+        $sub_cites = Regions::all();
         $isDelete = $this->checkDeleteRole($this->id_page);
         $isUpdate = $this->checkUpdateRole($this->id_page);
         $isEmployee = false;
 
-        $id_branch = $user->findUserByType($user->id_type_users)->id_branch;
+        $branch_id = $user->findUserByType($user->id_type_users)->branch_id;
         if($user->id_type_users == 1) {
             $isEmployee = true;
-            $shipments = Shipments::where('id_status', $id)
-                ->join('customers', 'shipments.id_customer', '=', 'customers.id_customer')
-                ->where('customers.id_branch', $id_branch)
+            $shipments = Shipments::where('status_id', $id)
+                ->join('customers', 'shipments.customer_id', '=', 'customers.customer_id')
+                ->where('customers.branch_id', $branch_id)
+                ->select('shipments.*', 'customers.address as customer_address')
                 ->get();
 
-            $delegates = Delegate::where('id_branch', $id_branch)->get();
-            $customers = Customers::where('id_branch', $id_branch)->get();
+            $delegates = DeliveryMen::where('branch_id', $branch_id)->get();
+            $customers = Customers::where('branch_id', $branch_id)->get();
         } elseif ($user->id_type_users == 2) {
-            $shipments = StatusShipments::where('id_status', $id)
-                    ->where('id_delegate', $user->pid)
+            $shipments = StatusShipments::where('status_id', $id)
+                    ->where('delivery_id', $user->pid)
                     ->get();
             $customers = [];
             $delegates = [];
         } else {
-            $shipments = Shipments::where('shipments.id_status', $id)
-                ->where('shipments.id_customer', $user->pid)
-                ->join('customers', 'shipments.id_customer', '=', 'customers.id_customer')
-                ->where('customers.id_branch', $id_branch)
+            $shipments = Shipments::where('shipments.status_id', $id)
+                ->where('shipments.customer_id', $user->pid)
+                ->join('customers', 'shipments.customer_id', '=', 'customers.customer_id')
+                ->where('customers.branch_id', $branch_id)
+                ->select('shipments.*', 'customers.address as customer_address')
                 ->get();
-            $customers = [Customers::where('id_customer', $user->pid)->first()];
+            $customers = [Customers::where('customer_id', $user->pid)->first()];
             $delegates = [];
         }
 

@@ -1,4 +1,4 @@
-<div id="EditDelegate{{ $delegate->id_delegate }}" x-transition=""
+<div id="EditDelegate{{ $delegate->delivery_id }}" x-transition=""
     class="modal hidden fixed left-0 top-0 z-99999 h-screen w-full justify-center overflow-y-scroll bg-black/80 px-4 py-5">
     <div
         class="relative m-auto w-full max-w-180 sm:max-w-230 rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10">
@@ -18,7 +18,7 @@
                 </svg>
             </button>
         </div>
-        <form action="{{ route('delegates.update', ['page_id' => $id_page, 'id_delegate' => $delegate->id_delegate]) }}" method="POST" class="needs-validation" novalidate>
+        <form action="{{ route('delegates.update', ['page_id' => $id_page, 'delivery_id' => $delegate->delivery_id]) }}" method="POST" class="needs-validation" novalidate>
             @csrf
             @method('PATCH')
             <div class="p-6.5">
@@ -27,7 +27,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم المندوب
                         </label>
-                        <input type="number" name="id_delegate" value="{{ $delegate->id_delegate }}" placeholder="ادخل رقم المندوب"
+                        <input type="number" name="delivery_id" value="{{ $delegate->delivery_id }}" placeholder="ادخل رقم المندوب"
                                class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                required maxlength="10" minlength="1"/>
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -38,7 +38,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             اسم المندوب
                         </label>
-                        <input type="text" name="name" placeholder="ادخل اسم المندوب" value="{{ $delegate->name_delegate }}"
+                        <input type="text" name="name" placeholder="ادخل اسم المندوب" value="{{ $delegate->delivery_name }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -74,14 +74,14 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             البريد الالكتروني
                         </label>
-                        <input type="email" name="email"  placeholder="ادخل البريد الالكتروني" value="{{ $delegate->user($delegate->id_delegate)->email }}"
+                        <input type="email" name="email"  placeholder="ادخل البريد الالكتروني" value="{{ $delegate->user($delegate->delivery_id)->email }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل البريد
                         </div>
                     </div>
-                    <div class="w-full xl:w-1/2 hidden" id="reset-{{ $delegate->id_delegate }}">
+                    <div class="w-full xl:w-1/2 hidden" id="reset-{{ $delegate->delivery_id }}">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             كلمة السر
                         </label>
@@ -114,9 +114,9 @@
                         تعديل المندوب
                     </button>
                     <div x-data="{ checkboxToggle: false }">
-                        <label for="checkboxLabel{{ $delegate->id_delegate }}" class="flex gap-2 cursor-pointer select-none items-center text-sm font-medium" @click="checkboxToggle = !checkboxToggle">
+                        <label for="checkboxLabel{{ $delegate->delivery_id }}" class="flex gap-2 cursor-pointer select-none items-center text-sm font-medium" @click="checkboxToggle = !checkboxToggle">
                             <div class="relative ">
-                                <input type="checkbox" data-set="reset-{{ $delegate->id_delegate }}" id="checkboxLabel{{ $delegate->id_delegate }}"
+                                <input type="checkbox" data-set="reset-{{ $delegate->delivery_id }}" id="checkboxLabel{{ $delegate->delivery_id }}"
                                        @change="checkboxToggle = !checkboxToggle" class="check-box sr-only" x-model="checkboxToggle" />
                                 <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
                                      class="mr-4 flex h-5 w-5 items-center justify-center rounded border">

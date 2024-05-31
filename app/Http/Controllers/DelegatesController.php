@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\CheckShowPermission;
 use App\Models\Branch;
-use App\Models\Delegate;
+use App\Models\DeliveryMen;
 use App\Traits\AuthorizationTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -36,17 +36,17 @@ class DelegatesController extends Controller
         $isShowTrash = $this->checkShowRole(10);
         $user = Auth()->user();
         if($isCreate) {
-            $delegates = Delegate::all();
+            $delegates = DeliveryMen::all();
         }
         else {
-            $delegates = Delegate::where('id_delegate', $user->id_pid)->get();
+            $delegates = DeliveryMen::where('delivery_id', $user->pid()())->get();
         }
         if($this->checkCreateRole(1)){
             $branches = Branch::all();
         } else {
             $branches = [$user->findUserByType($user->id_type_users)->branch];
         }
-        $maxDelegateId = Delegate::withTrashed()->max('id_delegate') ? Delegate::withTrashed()->max('id_delegate') + 1 : 1;
+        $maxDelegateId = DeliveryMen::withTrashed()->max('delivery_id') ? DeliveryMen::withTrashed()->max('delivery_id') + 1 : 1;
 
         return view('site.People.Delegates.delegatesView', compact('delegates', 'branches', 'isShowTrash', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'maxDelegateId'));
     }
@@ -71,26 +71,26 @@ class DelegatesController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'id_delegate' => ['required', 'numeric', 'unique:'.Delegate::class],
+                'delivery_id' => ['required', 'numeric', 'unique:'.DeliveryMen::class],
                 'name' => ['required', 'string', 'max:255', 'min:3'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
                 'password' => ['required'],
                 'address' => ['required', 'string', 'max:30'],
-                'id_branch' => ['required', 'numeric'],
-                'phone_number' => ['required', 'numeric', 'digits_between:10,12', 'unique:'.Delegate::class],
+                'branch_id' => ['required', 'numeric'],
+                'phone_number' => ['required', 'numeric', 'digits_between:10,12', 'unique:'.DeliveryMen::class],
                 'phone_number2' => ['nullable', 'numeric'] ,
             ]);
             DB::transaction(function () use ($request) {
 
-                Delegate::create([
-                    'id_delegate' => $request->id_delegate,
-                    'name_delegate' => $request->name,
+                DeliveryMen::create([
+                    'delivery_id' => $request->delivery_id,
+                    'delivery_name' => $request->name,
                     'address' => $request->address,
                     'phone_number' => $request->phone_number,
-                    'id_number' => 1,
+                    'number_id' => 1,
                     'phone_number2' => $request->phone_number2,
-                    'id_role' => 2,
-                    'id_branch' => $request->id_branch,
+                    'role_id' => 2,
+                    'branch_id' => $request->branch_id,
                 ]);
 
                 // إنشاء مستخدم
@@ -98,8 +98,8 @@ class DelegatesController extends Controller
                     'email' => $request->email,
                     'password' => Hash::make($request->password),
                     'id_type_users' => 2,
-                    'pid' => $request->id_delegate,
-                    'id_emp' => Auth()->user()->pid,
+                    'pid' => 2 . $request->delivery_id,
+                    'emp_id' => Auth()->user()->pid(),
                 ]);
             });
             return redirect()->route("delegates.index", ['page_id' => $this->page_id])
@@ -157,7 +157,7 @@ class DelegatesController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'id_delegate' => ['required', 'numeric'],
+                'delivery_id' => ['required', 'numeric'],
                 'name' => ['required', 'string', 'max:255', 'min:3'],
                 'email' => ['required', 'string', 'email', 'max:255'],
                 'password' => ['nullable'],
@@ -166,22 +166,22 @@ class DelegatesController extends Controller
                 'phone_number2' => ['nullable', 'numeric'] ,
             ]);
 
-            $delegate = Delegate::where("id_delegate", $id)->first();
+            $delegate = DeliveryMen::where("delivery_id", $id)->first();
 
             if ($delegate) {
                 $delegate->update([
-                    'id_delegate' => $request->id_delegate,
-                    'name_delegate' => $request->name,
+                    'delivery_id' => $request->delivery_id,
+                    'delivery_name' => $request->name,
                     'address' => $request->address,
                     'phone_number' => $request->phone_number,
                     'phone_number2' => $request->phone_number2,
                 ]);
 
                 $user = User::where('id_type_users', 2)
-                    ->where('pid', $id)->first();
+                    ->where('pid', 2 . $id)->first();
                 $user->update([
                     'email' => $request->email,
-                    'pid' => $request->id_delegate,
+                    'pid' => 2 . $request->delivery_id,
                 ]);
                 if($request->password){
                     if(Hash::make($request->password) != $user->password){
@@ -230,15 +230,15 @@ class DelegatesController extends Controller
      */
     public function destroy($page_id, $id)
     {
-        $delegate = Delegate::where("id_delegate", $id)->first();
+        $delegate = DeliveryMen::where("delivery_id", $id)->first();
 
         if($delegate) {
-            Delegate::destroy("id_delegate", $id);
+            DeliveryMen::destroy("delivery_id", $id);
 
             $user = User::where('id_type_users', 2)
-                ->where('pid', $id)->first();
+                ->where('pid', 2 . $id)->first();
 
-            User::destroy($user->id);
+            User::destroy($user->pid);
 
             return redirect()->route("delegates.index", ['page_id' => $this->page_id])
                 ->with([
@@ -262,7 +262,7 @@ class DelegatesController extends Controller
     public function getTrash() {
         $id_page = 10;
         $isUpdate = $this->checkUpdateRole(10);
-        $delegates = Delegate::onlyTrashed()->get();
+        $delegates = DeliveryMen::onlyTrashed()->get();
         return view('site.People.Delegates.trashView', compact('delegates', 'isUpdate', 'id_page'));
     }
 
@@ -272,11 +272,11 @@ class DelegatesController extends Controller
 
             foreach ($delegatesData as $delegateData) {
                 if (isset($delegateData['check']) && $delegateData['check'] === 'on') {
-                    $delegate = Delegate::onlyTrashed()->find($delegateData['id']);
+                    $delegate = DeliveryMen::onlyTrashed()->find($delegateData['id']);
                     if ($delegate) {
                         $delegate->restore();
                         $user = User::onlyTrashed()
-                            ->where('pid', $delegateData['id'])
+                            ->where('pid', 2 . $delegateData['id'])
                             ->where('id_type_users', 2)
                             ->first();
                         if ($user) {
@@ -312,11 +312,11 @@ class DelegatesController extends Controller
 
             foreach ($delegatesData as $delegateData) {
                 if (isset($delegateData['check']) && $delegateData['check'] === 'on') {
-                    $delegate = Delegate::onlyTrashed()->find($delegateData['id']);
+                    $delegate = DeliveryMen::onlyTrashed()->find($delegateData['id']);
                     if ($delegate) {
                         $delegate->forceDelete();
                         $user = User::onlyTrashed()
-                            ->where('pid', $delegateData['id'])
+                            ->where('pid', 2 . $delegateData['id'])
                             ->where('id_type_users', 2)
                             ->first();
                         if ($user) {

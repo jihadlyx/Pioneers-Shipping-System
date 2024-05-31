@@ -19,96 +19,96 @@ class PageTableSeeder extends Seeder
     public function run()
     {
         TypeShipStatus::create([
-            'id_status' => 1,
+            'status_id' => 1,
             'title' => 'قيد الموافقه'
         ]);
         TypeShipStatus::create([
-            'id_status' => 2,
+            'status_id' => 2,
             'title' => 'قيد التوصيل'
         ]);
         TypeShipStatus::create([
-            'id_status' => 3,
+            'status_id' => 3,
             'title' => 'تم التسليم'
         ]);
         TypeShipStatus::create([
-            'id_status' => 4,
+            'status_id' => 4,
             'title' => 'تعذر التوصيل'
         ]);
         Role::create([
-            'id_role'=> 0,
+            'role_id'=> 0,
             'title'=> "مبرمج",
-            'id_emp' => 1
+            'emp_id' => 1
         ]);
         Role::create([
-            'id_role'=> 1,
+            'role_id'=> 1,
             'title'=> "مدير",
-            'id_emp' => 1
+            'emp_id' => 1
         ]);
         Role::create([
-            'id_role'=> 2,
+            'role_id'=> 2,
             'title'=> "مندوب",
-            'id_emp' => 1
+            'emp_id' => 1
         ]);
         Role::create([
-            'id_role'=> 3,
+            'role_id'=> 3,
             'title'=> "زبون",
-            'id_emp' => 1
+            'emp_id' => 1
         ]);
         Page::create([
-            "id_page" => 9,
+            "page_id" => 9,
             "title" => 'الرئيسية',
             "path" => "/dashboard"
         ]);
         Page::create([
-            "id_page" => 1,
+            "page_id" => 1,
             "title" => 'الفروع',
             "path" => "/branches"
         ]);
 
         Page::create([
-            "id_page" => 2,
+            "page_id" => 2,
             "title" => 'الموظفين',
             "path" => "/employees"
         ]);
 
         Page::create([
-            "id_page" => 3,
+            "page_id" => 3,
             "title" => 'المندوبين',
             "path" => "/delegates"
         ]);
         Page::create([
-            "id_page" => 4,
+            "page_id" => 4,
             "title" => 'الزبائن',
             "path" => "/costumers"
         ]);
         Page::create([
-            "id_page" => 5,
+            "page_id" => 5,
             "title" => 'الشحنات',
             "path" => "/shipments"
         ]);
         Page::create([
-            "id_page" => 6,
+            "page_id" => 6,
             "title" => 'المدن و المناطق',
             "path" => "/subCities"
         ]);
         Page::create([
-            "id_page" => 7,
+            "page_id" => 7,
             "title" => 'الصلاحيات',
             "path" => "/roles"
         ]);
         Page::create([
-            "id_page" => 8,
+            "page_id" => 8,
             "title" => 'انواع حالات الشحنة',
             "path" => "/status"
         ]);
 
         Page::create([
-            "id_page" => 10,
+            "page_id" => 10,
             "title" => 'سلة المحذوفات',
             "path" => "/trash"
         ]);
         Page::create([
-            "id_page" => 11,
+            "page_id" => 11,
             "title" => 'حالات الشحنة',
             "path" => "/statusShipments"
         ]);
@@ -118,31 +118,31 @@ class PageTableSeeder extends Seeder
         foreach ($roles as $role) {
             foreach ($pages as $page) {
                 $maxMaterialRoleId = MaterialRole::max('id') ? MaterialRole::max('id') + 1 : 1;
-                if($role->id_role == 2) {
+                if($role->role_id == 2) {
                     MaterialRole::create([
                         'id' => $maxMaterialRoleId,
-                        'id_role' => $role->id_role,
-                        'id_page' => $page->id_page,
-                        'create' => $page->id_page == 5 || $page->id_page == 9? true : false,
-                        'update' => $page->id_page == 5 || $page->id_page == 9? true : false,
-                        'delete' => $page->id_page == 5 || $page->id_page == 9? true : false,
-                        'show' => $page->id_page == 5 || $page->id_page == 9? true : false,
+                        'role_id' => $role->role_id,
+                        'page_id' => $page->page_id,
+                        'create' => $page->page_id == 5 || $page->page_id == 9? true : false,
+                        'update' => $page->page_id == 5 || $page->page_id == 9? true : false,
+                        'delete' => $page->page_id == 5 || $page->page_id == 9? true : false,
+                        'show' => $page->page_id == 5 || $page->page_id == 9? true : false,
                     ]);
-                } elseif ($role->id_role == 3) {
+                } elseif ($role->role_id == 3) {
                     MaterialRole::create([
                         'id' => $maxMaterialRoleId,
-                        'id_role' => $role->id_role,
-                        'id_page' => $page->id_page,
-                        'create' => $page->id_page == 5 || $page->id_page == 9? true : false,
-                        'update' => $page->id_page == 5 || $page->id_page == 9 ? true : false,
-                        'delete' => $page->id_page == 5 || $page->id_page == 9 ? true : false,
-                        'show' => $page->id_page == 5 || $page->id_page == 9 ? true : false,
+                        'role_id' => $role->role_id,
+                        'page_id' => $page->page_id,
+                        'create' => $page->page_id == 5 || $page->page_id == 9? true : false,
+                        'update' => $page->page_id == 5 || $page->page_id == 9 ? true : false,
+                        'delete' => $page->page_id == 5 || $page->page_id == 9 ? true : false,
+                        'show' => $page->page_id == 5 || $page->page_id == 9 ? true : false,
                     ]);
                 } else {
                     MaterialRole::create([
                         'id' => $maxMaterialRoleId,
-                        'id_role' => $role->id_role,
-                        'id_page' => $page->id_page,
+                        'role_id' => $role->role_id,
+                        'page_id' => $page->page_id,
                         'create' => true,
                         'update' => true,
                         'delete' => true,

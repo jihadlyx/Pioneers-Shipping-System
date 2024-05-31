@@ -38,9 +38,9 @@
                                 d="M3.8104 0.459804C3.6078 0.307837 3.3292 0.333165 3.1773 0.510459L1.4296 2.58734C1.0009 3.09389 1.0009 3.85373 1.455 4.41094L3.2026 6.48782C3.2786 6.58913 3.4052 6.63978 3.5318 6.63978C3.6332 6.63978 3.7345 6.61445 3.8104 6.53847C3.9877 6.36118 4.0131 6.08257 3.8611 5.90528L2.2148 3.95504H16.2464C16.4997 3.95504 16.7023 3.75241 16.7023 3.49914C16.7023 3.24586 16.4997 3.04324 16.2464 3.04324H2.2148L3.8611 1.093C4.0131 0.890376 3.9877 0.61177 3.8104 0.459804ZM2.9903 2.68302H16.2464C16.6986 2.68302 17.0625 3.04692 17.0625 3.49914C17.0625 3.95136 16.6986 4.31525 16.2464 4.31525H2.9903L4.1346 5.67085C4.1349 5.67123 4.1352 5.67161 4.1356 5.67199C4.4275 6.01385 4.354 6.50432 4.0652 6.79318C3.8978 6.96055 3.6887 7 3.5318 7C3.3205 7 3.0797 6.91713 2.9216 6.71335L1.1793 4.64286L1.1762 4.63904C0.618 3.95682 0.6042 3.00293 1.1545 2.35478C1.1547 2.35453 1.155 2.35429 1.1552 2.35404L2.9016 0.278534L2.9038 0.276033C3.1903 -0.0583053 3.6861 -0.0837548 4.0266 0.17163L4.036 0.17867L4.0449 0.186306C4.3792 0.472882 4.4047 0.968616 4.1493 1.30913L4.143 1.31743L2.9903 2.68302Z"
                                 fill=""></path>
                         </svg>
-                        @if($id_status == 1)
+                        @if($status_id == 1)
                             <span class="hover:text-primary">الشحنات قيد الموافقة</span>
-                        @elseif($id_status == 3)
+                        @elseif($status_id == 3)
                             <span class="hover:text-primary">الشحنات التي تم تسليمها</span>
                         @else
                             <span class="hover:text-primary">الشحنات التي تعذر تسليمها</span>
@@ -54,19 +54,19 @@
     </div>
     <!-- Breadcrumb End -->
 
-    @if(Session::has('message'))
-        <div class="alert-{{ Session::get('message')["type"] }} flex  rounded-lg p-4 mb-4 text-md " role="alert">
-            <svg class="w-5 h-5 inline ltr:mr-3 rtl:ml-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-            <div>
-                <span class="font-medium">{{ Session::get('message')["title"] }} !</span> {{ Session::get('message')["text"] }}
-            </div>
-        </div>
-    @endif
+{{--    @if(Session::has('message'))--}}
+{{--        <div class="alert-{{ Session::get('message')["type"] }} flex  rounded-lg p-4 mb-4 text-md " role="alert">--}}
+{{--            <svg class="w-5 h-5 inline ltr:mr-3 rtl:ml-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>--}}
+{{--            <div>--}}
+{{--                <span class="font-medium">{{ Session::get('message')["title"] }} !</span> {{ Session::get('message')["text"] }}--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    @endif--}}
     <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div class="data-table-common data-table-one max-w-full overflow-x-auto">
             <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                 <div class="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-                    @if($id_status == 1)
+                    @if($status_id == 1)
                         @if($isCreate || $isShowTrash)
                             <div class="flex items-center gap-1 border-b border-stroke px-6.5 py-4 dark:border-strokedark">
                                 @if($isCreate)
@@ -83,6 +83,7 @@
                                         إضافة شحنة
                                     </button>
                                     @include('site.Shipments.modal.add')
+                                    @include('site.Shipments.modal.map')
                                 @endif
                                 @if($isShowTrash)
                                     <a href="{{ route('shipments.getTrash', ["page_id" => 10]) }}"
@@ -125,7 +126,7 @@
                         </label>
                     </div>
                     <div class="datatable-search">
-                        <input class="datatable-input" maxlength="55" placeholder="بحث..." type="search" title="بحث عن شحنة"
+                        <input  class="datatable-input input-address"  maxlength="55" placeholder="بحث..." type="search" title="بحث عن شحنة"
                             aria-controls="dataTableOne" />
                     </div>
                 </div>
@@ -324,7 +325,7 @@
                                 <td class="px-4 py-5 {{ Auth()->user()->id_type_users == 3 ? 'hidden' : '' }}">
                                     <div class="text-gray-100 flex items-center gap-1">
                                         @if($isUpdate)
-                                            <button data-target="EditShipment{{ $shipment->id_ship }}" title="تعديل" class="hover:text-primary">
+                                            <button data-target="EditShipment{{ $shipment->ship_id }}" title="تعديل" class="hover:text-primary">
                                                 <svg class="fill-current" width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g clip-path="url(#clip0_62_9787)">
                                                         <path d="M15.55 2.97499C15.55 2.77499 15.475 2.57499 15.325 2.42499C15.025 2.12499 14.725 1.82499 14.45 1.52499C14.175 1.24999 13.925 0.974987 13.65 0.724987C13.525 0.574987 13.375 0.474986 13.175 0.449986C12.95 0.424986 12.75 0.474986 12.575 0.624987L10.875 2.32499H2.02495C1.17495 2.32499 0.449951 3.02499 0.449951 3.89999V14C0.449951 14.85 1.14995 15.575 2.02495 15.575H12.15C13 15.575 13.725 14.875 13.725 14V5.12499L15.35 3.49999C15.475 3.34999 15.55 3.17499 15.55 2.97499ZM8.19995 8.99999C8.17495 9.02499 8.17495 9.02499 8.14995 9.02499L6.34995 9.62499L6.94995 7.82499C6.94995 7.79999 6.97495 7.79999 6.97495 7.77499L11.475 3.27499L12.725 4.49999L8.19995 8.99999ZM12.575 14C12.575 14.25 12.375 14.45 12.125 14.45H2.02495C1.77495 14.45 1.57495 14.25 1.57495 14V3.87499C1.57495 3.62499 1.77495 3.42499 2.02495 3.42499H9.72495L6.17495 6.99999C6.04995 7.12499 5.92495 7.29999 5.87495 7.49999L4.94995 10.3C4.87495 10.5 4.92495 10.675 5.02495 10.85C5.09995 10.95 5.24995 11.1 5.52495 11.1H5.62495L8.49995 10.15C8.67495 10.1 8.84995 9.97499 8.97495 9.84999L12.575 6.24999V14ZM13.5 3.72499L12.25 2.49999L13.025 1.72499C13.225 1.92499 14.05 2.74999 14.25 2.97499L13.5 3.72499Z" fill=""></path>
@@ -339,7 +340,7 @@
                                         @endif
                                         @if($shipment->id_status == 1 )
                                             @if($isDelete)
-                                                <button data-target="DeleteShipment{{ $shipment->id_ship }}" title="حذف" class=" hover:text-meta-1">
+                                                <button data-target="DeleteShipment{{ $shipment->ship_id }}" title="حذف" class=" hover:text-meta-1">
                                                     <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
                                                          fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path
@@ -358,7 +359,7 @@
                                                 </button>
                                             @endif
                                             @if($isEmployee)
-                                                <button data-target="translate{{ $shipment->id_ship }}" title="تسليم" class="hover:text-meta-3">
+                                                <button data-target="translate{{ $shipment->ship_id }}" title="تسليم" class="hover:text-meta-3">
                                                     <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M18.625 9.28125C18.5 9.0625 18.3125 8.90625 18.0937 8.78125L3.68747 0.718748C3.43747 0.593748 3.15622 0.531248 2.87497 0.562498C2.59372 0.593748 2.34372 0.687498 2.12497 0.874998C1.90622 1.0625 1.74997 1.3125 1.68747 1.5625C1.59372 1.84375 1.62497 2.125 1.71872 2.40625L4.40622 10L1.71872 17.5937C1.62497 17.875 1.62497 18.1562 1.68747 18.4062C1.74997 18.6875 1.90622 18.9062 2.12497 19.0937C2.34372 19.2812 2.59372 19.375 2.87497 19.4062C2.90622 19.4062 2.96872 19.4062 2.99997 19.4062C3.21872 19.4062 3.46872 19.3437 3.68747 19.2187L18.0937 11.1562C18.3125 11.0312 18.5 10.875 18.625 10.6562C18.75 10.4375 18.8125 10.1875 18.8125 9.96875C18.8125 9.75 18.75 9.5 18.625 9.28125ZM3.06247 1.96875L16.125 9.28125H5.65622L3.06247 1.96875ZM3.06247 18.0312L5.68747 10.7187H16.1562L3.06247 18.0312Z" fill=""></path>
                                                     </svg>
@@ -366,7 +367,7 @@
                                             @endif
                                         @endif
                                             <a title="طباعة"
-                                                href="{{ route('shipments.downloadShipmentData', ['page_id' => $id_page, 'id_ship' => $shipment->id_ship]) }}"
+                                                href="{{ route('shipments.downloadShipmentData', ['page_id' => $id_page, 'ship_id' => $shipment->ship_id]) }}"
                                                 onclick="() => printInvoice()"
                                                 class="hover:text-meta-6">
                                                 <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -376,21 +377,35 @@
                                                     <path d="M6.89102 15.3562H11.1098C11.4473 15.3562 11.7566 15.075 11.7566 14.7094C11.7566 14.3437 11.4754 14.0625 11.1098 14.0625H6.89102C6.55352 14.0625 6.24414 14.3437 6.24414 14.7094C6.24414 15.075 6.55352 15.3562 6.89102 15.3562Z" fill=""></path>
                                                 </svg>
                                             </a>
+                                            <button onclick="searchInGoogleMaps(event)" data-address="{{ $shipment->address }}" title="{{ $shipment->address }}" class=" hover:text-meta-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="20" height="20" viewBox="0 0 256 256" xml:space="preserve">
+                                                    <defs>
+                                                    </defs>
+                                                    <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
+                                                        <path d="M 48.647 69.718 c 13.692 0.652 24.265 4.924 24.265 10.098 C 72.912 85.44 60.415 90 45 90 s -27.912 -4.56 -27.912 -10.184 c 0 -5.173 10.573 -9.446 24.265 -10.098" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(221,200,47); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                        <path d="M 45 79.665 l 21.792 -6.211 c -3.033 -1.381 -7.032 -2.466 -11.622 -3.122 L 45 79.665 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(168,149,38); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                        <path d="M 45 0 C 30.802 0 19.291 11.51 19.291 25.709 c 0 20.07 21.265 33.961 25.709 53.956 C 48.304 53.11 48.304 26.555 45 0 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,49,64); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                        <path d="M 45 14.965 c -6.011 0 -10.885 4.873 -10.885 10.885 S 38.989 36.735 45 36.735 C 47.897 29.478 47.897 22.222 45 14.965 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                        <path d="M 45 0 c 14.198 0 25.709 11.51 25.709 25.709 c 0 20.07 -21.265 33.961 -25.709 53.956 V 0 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(199,34,46); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                        <path d="M 45 14.965 c 6.011 0 10.885 4.873 10.885 10.885 S 51.011 36.735 45 36.735 V 14.965 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(240,240,240); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                    </g>
+                                                </svg>
+                                            </button>
                                     </div>
                                 </td>
                                 <td>
-                                    {{ $shipment->id_ship }}
+                                    {{ $shipment->ship_id }}
                                 </td>
                                 <td>
                                     @if(Auth()->user()->id_type_users != 2)
-                                        {{ $shipment->name_ship }}
+                                        {{ $shipment->ship_name }}
                                     @else
-                                        {{ $shipment->shipment->name_ship }}
+                                        {{ $shipment->shipment->ship_name }}
                                     @endif
                                 </td>
                                 <td class="{{ Auth()->user()->id_type_users == 3 ? 'hidden' : '' }}">
                                     @if(Auth()->user()->id_type_users != 2)
-                                        {{ $shipment->customer->name_customer }}
+                                        {{ $shipment->customer->customer_name }}
                                         <h5 class="font-medium text-black dark:text-white">
                                             0{{ $shipment->phone_number }}
                                         </h5>
@@ -398,7 +413,7 @@
                                             0{{ $shipment->phone_number2 }}
                                         </h5>
                                     @else
-                                        {{ $shipment->shipment->customer->name_customer }}
+                                        {{ $shipment->shipment->customer->customer_name }}
                                         <h5 class="font-medium text-black dark:text-white">
                                             0{{ $shipment->shipment->phone_number }}
                                         </h5>
@@ -478,4 +493,76 @@
 
 @section('scripts')
     <script src="{{ asset('assets/js/table.js') }}"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWgSGAfZmwlW1y0C5m0WBXEcZ4pXmgCks&language=ar&region=LY&libraries=places&callback=initMap"
+        async
+        defer
+    ></script>
+    <script>
+        var map;
+        var marker;
+        var autocomplete;
+
+        function initMap() {
+            var libya = { lat: 26.3351, lng: 17.2283 };
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: libya,
+                zoom: 6,
+                mapTypeId: "roadmap",
+            });
+
+
+            autocomplete = new google.maps.places.Autocomplete(document.querySelector(".input-address"));
+            autocomplete.bindTo('bounds', map);
+
+            marker = new google.maps.Marker({
+                map: map,
+                draggable: true,
+                anchorPoint: new google.maps.Point(0, -29)
+            });
+
+            autocomplete.addListener('place_changed', function () {
+                marker.setVisible(false);
+                var place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    window.alert("لا توجد تفاصيل متاحة لهذا العنوان: '" + place.name + "'");
+                    return;
+                }
+                if (place.geometry.viewport) {
+                    map.fitBounds(place.geometry.viewport);
+                } else {
+                    map.setCenter(place.geometry.location);
+                    map.setZoom(17);
+                }
+                marker.setPosition(place.geometry.location);
+                marker.setVisible(true);
+            });
+
+        }
+
+        function openModal() {
+            var modal = document.getElementById("IPAddress");
+            modal.classList.add("flex");
+            modal.classList.remove("hidden");
+            setTimeout(() => {
+                google.maps.event.trigger(map, 'resize');  // إعادة تهيئة الخريطة
+                map.setCenter({ lat: 26.3351, lng: 17.2283 });
+            }, 100);  // الانتظار حتى يتم عرض النموذج بالكامل
+        }
+
+        function closeModal() {
+            var modal = document.getElementById("IPAddress");
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+        }
+
+        function copyAddress() {
+            let addressValue = document.querySelector('.input-address').value;
+            document.querySelector('input[name="address"]').value = addressValue;
+
+            closeModal();
+        }
+
+
+    </script>
 @endsection

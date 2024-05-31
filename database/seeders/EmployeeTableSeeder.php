@@ -20,39 +20,39 @@ class EmployeeTableSeeder extends Seeder
     public function run()
     {
         Branch::create([
-            "id_branch" => 1,
+            "branch_id" => 1,
             "title" => "فرع زليتن",
             'address' => 'وسط المدينة',
             'phone_number' => 911089052,
-            'state' => 1,
+            'status' => 1,
             'phone_number2' => null,
         ]);
         PriceBranch::create([
             'id' => 1,
-            'id_from_branch' => 1,
-            'id_to_branch' => 1,
+            'from_branch' => 1,
+            'to_branch' => 1,
             'price' => 0,
         ]);
 
         $emp = Employee::create([
-            'id_emp' => 1,
-            'name_emp' => "جهاد شرع الله",
+            'emp_id' => 1,
+            'emp_name' => "جهاد شرع الله",
             'address' => 'السبعة',
             'phone_number' => 911089052,
-            'id_number' => 1,
+            'number_id' => 1,
             'phone_number2' => null,
-            'id_role' => 0,
-            'id_branch' => 1,
+            'role_id' => 0,
+            'branch_id' => 1,
             'image' => null
         ]);
 
         // إنشاء مستخدم
         $user = User::create([
+            'pid' => 11,
             'email' => "jihad@gmail.com",
             'password' => Hash::make("123456"),
             'id_type_users' => 1,
-            'pid' => 1,
-            'id_emp' => 1
+            'emp_id' => 1
         ]);
     }
 }

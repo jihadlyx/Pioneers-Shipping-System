@@ -66,7 +66,7 @@
         <div class="data-table-common data-table-one max-w-full overflow-x-auto">
             <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                 <div class="flex items-center gap-1 border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-                    <a href="{{ route("branches.price.edit", ['page_id' => $page_id, 'id_branch' => $new_branch->id_branch]) }}" data-target="AddPrice"
+                    <a href="{{ route("branches.price.edit", ['page_id' => $page_id, 'branch_id' => $new_branch->branch_id]) }}" data-target="AddPrice"
                         class=" flex items-center gap-2 rounded bg-primary px-4.5 py-2 text-white hover:bg-opacity-80 font-bold border-b-4 border-blue-700 hover:border-blue-500 transition-transform hover:scale-95">
                         <svg class="fill-current icon-3d" width="16" height="16" viewBox="0 0 16 16" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
@@ -182,7 +182,7 @@
                         <tbody>
                             @foreach($branches as $index => $branch)
                                 @if($branch->toBranch != null && $branch->fromBranch != null )
-                                    @if($branch->toBranch->id_branch != $branch->fromBranch->id_branch)
+                                    @if($branch->toBranch->branch_id != $branch->fromBranch->branch_id)
                                     <tr data-index="{{ $index }}">
                                         <td class="px-4 py-5">
                                             <div class="text-gray-100 flex items-center gap-1">

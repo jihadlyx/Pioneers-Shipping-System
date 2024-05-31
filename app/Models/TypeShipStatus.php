@@ -12,15 +12,15 @@ class TypeShipStatus extends Model
     use SoftDeletes;
 
     protected $table = 'type_ship_statuses';
-    protected $primaryKey = 'id_status'; // تحديد مفتاح رئيسي مخصص
+    protected $primaryKey = 'status_id'; // تحديد مفتاح رئيسي مخصص
 
     protected $fillable = [
-        'id_status',
+        'status_id',
         'title',
     ];
     public function shipments()
     {
-        return $this->hasMany(Shipments::class, 'id_status');
+        return $this->hasMany(Shipments::class, 'status_id');
     }
     public function isHasMany() {
         if ($this->shipments()->count() <= 0) {

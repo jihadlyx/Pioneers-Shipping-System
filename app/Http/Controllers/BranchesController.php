@@ -31,12 +31,12 @@ class BranchesController extends Controller
         $isUpdate = $this->checkUpdateRole($this->page_id);
         $isShowTrash = $this->checkShowRole(10);
 
-        $maxBranchId = Branch::withTrashed()->max('id_branch') ? Branch::withTrashed()->max('id_branch') + 1 : 1;
+        $maxBranchId = Branch::withTrashed()->max('branch_id') ? Branch::withTrashed()->max('branch_id') + 1 : 1;
 
         if($isCreate) {
             $branches = Branch::all();
         } else {
-            $branches = Branch::where("id_branch", auth()->user()->findUserByType(auth()->user()->id_type_users)->id_branch)->get();
+            $branches = Branch::where("branch_id", auth()->user()->findUserByType(auth()->user()->id_type_users)->branch_id)->get();
         }
         return view('site.Branches.branchesView', compact('branches', 'maxBranchId', 'isCreate', 'isUpdate', 'isDelete', 'isShowTrash', 'id_page'));
     }
@@ -61,19 +61,19 @@ class BranchesController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'id_branch' => ['required', 'numeric', 'unique:'.Branch::class],
+                'branch_id' => ['required', 'numeric', 'unique:'.Branch::class],
                 'title' => ['required', 'string', 'max:20', 'unique:'.Branch::class],
                 'address' => ['required', 'string', 'max:30'],
                 'phone_number' => ['required', 'numeric', 'digits_between:10,12', 'unique:'.Branch::class],
                 'phone_number2' => ['nullable', 'numeric'] ,
             ]);
-            $idBranch = $request->id_branch;
+            $idBranch = $request->branch_id;
             Branch::create([
-                "id_branch" => $idBranch,
+                "branch_id" => $idBranch,
                 "title" => $request->title,
                 'address' => $request->address,
                 'phone_number' => $request->phone_number,
-                'state' => 0,
+                'status' => 0,
                 'phone_number2' => $request->phone_number2,
             ]);
             $branches = Branch::all();
@@ -81,21 +81,21 @@ class BranchesController extends Controller
                 $maxId = PriceBranch::withTrashed()->max('id') ? PriceBranch::withTrashed()->max('id') + 1 : 1;
                 PriceBranch::create([
                     'id' => $maxId,
-                    'id_from_branch' => $idBranch,
-                    'id_to_branch' => $branch->id_branch,
+                    'from_branch' => $idBranch,
+                    'to_branch' => $branch->branch_id,
                     'price' => 0,
                 ]);
-                if($branch->id_branch != $idBranch) {
+                if($branch->branch_id != $idBranch) {
                     PriceBranch::create([
                         'id' => $maxId + 1,
-                        'id_from_branch' => $branch->id_branch, // Assuming authenticated user has a branch
-                        'id_to_branch' => $idBranch,
+                        'from_branch' => $branch->branch_id, // Assuming authenticated user has a branch
+                        'to_branch' => $idBranch,
                         'price' => 0,
                     ]);
                 }
             }
 
-            return redirect()->route("branches.price.show", ['page_id' => $this->page_id, 'id_branch' => $request->id_branch]);
+            return redirect()->route("branches.price.show", ['page_id' => $this->page_id, 'branch_id' => $request->branch_id]);
         } catch (ValidationException $e) {
             return redirect()->route('branches.index', ['page_id' => $this->page_id])
                 ->with([
@@ -140,14 +140,14 @@ class BranchesController extends Controller
     public function translate(Request $request, $id_page, $id) {
         try {
             $validatedData = $request->validate([
-                'id_branch' => ['required', 'numeric'],
-                'state' => ['required', 'numeric'],
+                'branch_id' => ['required', 'numeric'],
+                'status' => ['required', 'numeric'],
             ]);
-            $branch = Branch::where("id_branch", $id)->first();
+            $branch = Branch::where("branch_id", $id)->first();
 
             if($branch) {
                 $branch->update([
-                    "state" => $request->state,
+                    "status" => $request->status,
                 ]);
                 return redirect()->route("branches.index", ['page_id' => $this->page_id])
                     ->with([
@@ -182,17 +182,17 @@ class BranchesController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'id_branch' => ['required', 'numeric'],
+                'branch_id' => ['required', 'numeric'],
                 'title' => ['required', 'string', 'max:20'],
                 'address' => ['required', 'string', 'max:30'],
                 'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
                 'phone_number2' => ['nullable', 'numeric'] ,
             ]);
-            $branch = Branch::where("id_branch", $id)->first();
+            $branch = Branch::where("branch_id", $id)->first();
 
             if($branch) {
                 $branch->update([
-                    "id_branch" => $request->id_branch,
+                    "branch_id" => $request->branch_id,
                     "title" => $request->title,
                     'address' => $request->address,
                     'phone_number' => $request->phone_number,
@@ -237,15 +237,15 @@ class BranchesController extends Controller
      */
     public function destroy($page_id, $id)
     {
-        $branch = Branch::where("id_branch", $id)->first();
+        $branch = Branch::where("branch_id", $id)->first();
 
         if($branch) {
             $branch->update([
-                'state' => 0,
+                'status' => 0,
             ]);
-            Branch::destroy("id_branch", $id);
-            $branches = PriceBranch::where('id_from_branch', $id)
-                ->orWhere('id_to_branch', $id)->get();
+            Branch::destroy("branch_id", $id);
+            $branches = PriceBranch::where('from_branch', $id)
+                ->orWhere('to_branch', $id)->get();
             foreach ($branches as $item) {
                 if($item)
                     PriceBranch::destroy("id", $item->id);
@@ -287,11 +287,11 @@ class BranchesController extends Controller
                 if ($branch) {
                     if(isset($branchData['check']) && $branchData['check'] === 'on') {
                         $branch->update([
-                            'state' => 1,
+                            'status' => 1,
                         ]);
                         $branch->restore();
-                        $branches = PriceBranch::onlyTrashed()->where('id_from_branch', $branch->id_branch)
-                            ->orWhere('id_to_branch', $branch->id_branch)->get();
+                        $branches = PriceBranch::onlyTrashed()->where('from_branch', $branch->branch_id)
+                            ->orWhere('to_branch', $branch->branch_id)->get();
                         foreach ($branches as $item) {
                             if($item)
                                 $item->restore();
@@ -332,8 +332,8 @@ class BranchesController extends Controller
                     $branch = Branch::onlyTrashed()->find($branchData['id']);
                     if ($branch) {
                         $branch->forceDelete();
-                        $branches = PriceBranch::onlyTrashed()->where('id_from_branch', $branch->id_branch)
-                            ->orWhere('id_to_branch', $branch->id_branch)->get();
+                        $branches = PriceBranch::onlyTrashed()->where('from_branch', $branch->branch_id)
+                            ->orWhere('to_branch', $branch->branch_id)->get();
                         foreach ($branches as $item) {
                             if($item)
                                 $item->forceDelete();

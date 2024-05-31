@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Middleware\CheckShowPermission;
 use App\Models\Branch;
 use App\Models\Customers;
-use App\Models\Delegate;
+use App\Models\DeliveryMen;
 use App\Models\PriceBranch;
 use App\Models\Shipments;
 use App\Models\StatusShipments;
-use App\Models\SubCities;
+use App\Models\Regions;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use App\Traits\AuthorizationTrait;
@@ -31,7 +31,7 @@ class ShipmentsController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index($id_page, $id_status)
+    public function index($id_page, $status_id)
     {
         $id_page = $this->page_id;
         $isDelete = $this->checkDeleteRole($this->page_id);
@@ -40,37 +40,39 @@ class ShipmentsController extends Controller
         $isShowTrash = $this->checkShowRole(10);
         $user = Auth()->user();
         $isEmployee = $user->id_type_users == 1 ? true : false;
-        $id_branch = $user->findUserByType($user->id_type_users)->id_branch;
+        $id_branch = $user->findUserByType($user->id_type_users)->branch_id;
         if($user->id_type_users == 1) {
             $isEmployee = true;
-            $shipments = Shipments::where('id_status', $id_status)
-                ->join('customers', 'shipments.id_customer', '=', 'customers.id_customer')
-                ->where('customers.id_branch', $id_branch)
+            $shipments = Shipments::where('shipments.status_id', $status_id)
+                ->join('customers', 'shipments.customer_id', '=', 'customers.customer_id')
+                ->where('customers.branch_id', $id_branch)
+                ->select('shipments.*', 'customers.address as customer_address')
                 ->get();
 
-            $delegates = Delegate::where('id_branch', $id_branch)->get();
-            $customers = Customers::where('id_branch', $id_branch)->get();
+            $delegates = DeliveryMen::where('branch_id', $id_branch)->get();
+            $customers = Customers::where('branch_id', $id_branch)->get();
         } elseif ($user->id_type_users == 2) {
-            $shipments = StatusShipments::where('id_status', $id_status)->get();
+            $shipments = StatusShipments::where('status_id', $status_id)->get();
             $customers = [];
             $delegates = [];
         } else {
-            $shipments = Shipments::where('shipments.id_status', $id_status)
-                ->where('shipments.id_customer', $user->pid)
-                ->join('customers', 'shipments.id_customer', '=', 'customers.id_customer')
-                ->where('customers.id_branch', $id_branch)
+            $shipments = Shipments::where('shipments.status_id', $status_id)
+                ->where('shipments.customer_id', $user->pid())
+                ->join('customers', 'shipments.customer_id', '=', 'customers.customer_id')
+                ->where('customers.branch_id', $id_branch)
+                ->select('shipments.*', 'customers.address as customer_address')
                 ->get();
-            $customers = [Customers::where('id_customer', $user->pid)->first()];
+            $customers = [Customers::where('customer_id', $user->pid())->first()];
             $delegates = [];
         }
 
-        $prices_branches = PriceBranch::with('id_from_branch', $user->findUserByType($user->id_type_users)->id_branch);
-        $sub_cites = SubCities::all();
+        $prices_branches = PriceBranch::with('from_branch', $user->findUserByType($user->id_type_users)->branch_id);
+        $sub_cites = Regions::all();
 
 
-        $maxShipmentId = Shipments::withTrashed()->max('id_ship') ? Shipments::withTrashed()->max('id_ship') + 1 : 1;
+        $maxShipmentId = Shipments::withTrashed()->max('ship_id') ? Shipments::withTrashed()->max('ship_id') + 1 : 1;
 
-        return view('site.shipments.shipmentsView', compact('shipments', 'isShowTrash', 'id_status', 'prices_branches', 'delegates', 'isEmployee', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'maxShipmentId', 'customers', 'sub_cites'));
+        return view('site.shipments.shipmentsView', compact('shipments', 'isShowTrash', 'status_id', 'prices_branches', 'delegates', 'isEmployee', 'isCreate', 'isUpdate', 'isDelete', 'id_page', 'maxShipmentId', 'customers', 'sub_cites'));
     }
 
 
@@ -94,11 +96,11 @@ class ShipmentsController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'id_ship' => ['required', 'numeric', 'unique:'.Shipments::class],
-                'name_ship' => ['required', 'string', 'max:50', 'min:3'],
+                'ship_id' => ['required', 'numeric', 'unique:'.Shipments::class],
+                'ship_name' => ['required', 'string', 'max:50', 'min:3'],
                 'recipient_name' => ['required', 'string', 'max:40', 'min:3'],
-                'id_customer' => ['required', 'numeric'],
-                'id_city' => ['required', 'numeric'],
+                'customer_id' => ['required', 'numeric'],
+                'region_id' => ['required', 'numeric'],
                 'ship_value' => ['required', 'numeric', 'min:1'],
                 'address' => ['required', 'string', 'max:30'],
                 'notes' => ['nullable', 'string', 'max:50'],
@@ -106,11 +108,11 @@ class ShipmentsController extends Controller
                 'phone_number2' => ['nullable', 'numeric'] ,
             ]);
             Shipments::create([
-                'id_ship' => $request->id_ship,
+                'ship_id' => $request->ship_id,
                 'name_ship' => $request->name_ship,
-                'id_customer' => $request->id_customer,
-                'id_status' => 1,
-                'id_city' => $request->id_city,
+                'customer_id' => $request->customer_id,
+                'status_id' => 1,
+                'region_id' => $request->region_id,
                 'ship_value' => $request->ship_value,
                 'phone_number' => $request->phone_number,
                 'phone_number2' => $request->phone_number2,
@@ -118,7 +120,7 @@ class ShipmentsController extends Controller
                 'notes' => $request->notes,
                 'recipient_name' => $request->recipient_name,
             ]);
-            return redirect()->route("shipments.index", ['page_id' => $this->page_id, 'id_status' => 1])
+            return redirect()->route("shipments.index", ['page_id' => $this->page_id, 'status_id' => 1])
                 ->with([
                     "message" => [
                         "type" => "success",
@@ -127,7 +129,7 @@ class ShipmentsController extends Controller
                     ]
                 ]);
         } catch (ValidationException $e) {
-            return redirect()->route('shipments.index', ['page_id' => $this->page_id, 'id_status' => 1])
+            return redirect()->route('shipments.index', ['page_id' => $this->page_id, 'status_id' => 1])
                 ->with([
                     "message" => [
                         "type" => "error",
@@ -171,25 +173,25 @@ class ShipmentsController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'id_ship' => ['required', 'numeric', 'unique:'.Shipments::class],
+                'ship_id' => ['required', 'numeric', 'unique:'.Shipments::class],
                 'name_ship' => ['required', 'string', 'max:50', 'min:3'],
                 'recipient_name' => ['required', 'string', 'max:40', 'min:3'],
-                'id_customer' => ['required', 'numeric'],
-                'id_city' => ['required', 'numeric'],
+                'customer_id' => ['required', 'numeric'],
+                'region_id' => ['required', 'numeric'],
                 'ship_value' => ['required', 'numeric', 'min:1'],
                 'address' => ['required', 'string', 'max:30'],
                 'notes' => ['nullable', 'string', 'max:50'],
                 'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
                 'phone_number2' => ['nullable', 'numeric'] ,
             ]);
-        $shipment = Shipments::where("id_ship", $id)->first();
+        $shipment = Shipments::where("ship_id", $id)->first();
 
         if($shipment) {
             $shipment->update([
                 'name_ship' => $request->name_ship,
-                'id_customer' => $request->id_customer,
-                'id_status' => 1,
-                'id_city' => $request->id_city,
+                'customer_id' => $request->customer_id,
+                'status_id' => 1,
+                'region_id' => $request->region_id,
                 'ship_value' => $request->ship_value,
                 'phone_number' => $request->phone_number,
                 'phone_number2' => $request->phone_number2,
@@ -197,7 +199,7 @@ class ShipmentsController extends Controller
                 'notes' => $request->notes,
                 'recipient_name' => $request->recipient_name,
             ]);
-            return redirect()->route("shipments.index", ['page_id' => $this->page_id, 'id_status' => 1])
+            return redirect()->route("shipments.index", ['page_id' => $this->page_id, 'status_id' => 1])
                 ->with([
                     "message" => [
                         "type" => "success",
@@ -207,7 +209,7 @@ class ShipmentsController extends Controller
                 ]);
 
         }
-        return redirect()->route('shipments.index', ['page_id' => $this->page_id, 'id_status' => 1])
+        return redirect()->route('shipments.index', ['page_id' => $this->page_id, 'status_id' => 1])
             ->with([
                 "message" => [
                     "type" => "error",
@@ -216,7 +218,7 @@ class ShipmentsController extends Controller
                 ]
             ]);
         } catch (ValidationException $e) {
-            return redirect()->route('shipments.index', ['page_id' => $this->page_id, 'id_status' => 1])
+            return redirect()->route('shipments.index', ['page_id' => $this->page_id, 'status_id' => 1])
                 ->with([
                     "message" => [
                         "type" => "error",
@@ -235,12 +237,12 @@ class ShipmentsController extends Controller
      */
     public function destroy($page_id, $id)
     {
-        $shipment = Shipments::where("id_ship", $id)->first();
+        $shipment = Shipments::where("ship_id", $id)->first();
 
         if($shipment) {
-            Shipments::destroy("id_ship", $id);
+            Shipments::destroy("ship_id", $id);
 
-            return redirect()->route("shipments.index", ['page_id' => $this->page_id, 'id_status' => 1])
+            return redirect()->route("shipments.index", ['page_id' => $this->page_id, 'status_id' => 1])
                 ->with([
                     "message" => [
                         "type" => "error",
@@ -249,7 +251,7 @@ class ShipmentsController extends Controller
                     ]
                 ]);
         }
-        return redirect()->route('shipments.index', ['page_id' => $this->page_id, 'id_status' => 1])
+        return redirect()->route('shipments.index', ['page_id' => $this->page_id, 'status_id' => 1])
             ->with([
                 "message" => [
                     "type" => "error",
@@ -262,7 +264,7 @@ class ShipmentsController extends Controller
     public function downloadShipmentData($id_page,$id)
     {
         // العثور على الشحنة باستخدام المعرف
-        $shipment = Shipments::where('id_ship', $id)->first();
+        $shipment = Shipments::where('ship_id', $id)->first();
         $branches = Branch::where('state' , 1)->get();
         if (!$shipment) {
             abort(404); // يمكنك تعديل هذا بحسب احتياجاتك

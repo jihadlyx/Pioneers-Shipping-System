@@ -12,11 +12,11 @@ class Role extends Model
     use SoftDeletes;
 
     protected $table = "roles";
-    protected $primaryKey = 'id_role';
+    protected $primaryKey = 'role_id';
     protected $fillable = [
-        "id_role",
+        "role_id",
         "title",
-        'id_emp'
+        'emp_id'
     ];
 
     public function isHasMany() {
@@ -27,21 +27,21 @@ class Role extends Model
     }
     public function employee()
     {
-        return $this->belongsTo(Employee::class, 'id_emp');
+        return $this->belongsTo(Employee::class, 'emp_id');
     }
 
     public function employees()
     {
-        return $this->hasMany(Employee::class, 'id_role');
+        return $this->hasMany(Employee::class, 'role_id');
     }
 
     public function delegates()
     {
-        return $this->hasMany(Delegate::class, 'id_role');
+        return $this->hasMany(DeliveryMen::class, 'role_id');
     }
 
     public function customers()
     {
-        return $this->hasMany(Customers::class, 'id_role');
+        return $this->hasMany(Customers::class, 'role_id');
     }
 }

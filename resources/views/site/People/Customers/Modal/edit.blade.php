@@ -1,4 +1,4 @@
-<div id="EditCustomer{{ $customer->id_customer }}" x-transition=""
+<div id="EditCustomer{{ $customer->customer_id }}" x-transition=""
     class="modal hidden fixed left-0 top-0 z-99999 h-screen w-full justify-center overflow-y-scroll bg-black/80 px-4 py-5">
     <div
         class="relative m-auto w-full max-w-180 sm:max-w-230 rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10">
@@ -16,7 +16,7 @@
                 </svg>
             </button>
         </div>
-        <form action="{{ route('customers.update', ['page_id' => $id_page, 'id_customer' => $customer->id_customer]) }}" method="POST" class="needs-validation" novalidate>
+        <form action="{{ route('customers.update', ['page_id' => $id_page, 'customer_id' => $customer->customer_id]) }}" method="POST" class="needs-validation" novalidate>
             @csrf
             @method('PATCH')
             <div class="p-6.5">
@@ -25,7 +25,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم الزبون
                         </label>
-                        <input type="number" name="id_customer" value="{{ $customer->id_customer }}" placeholder="ادخل رقم الزبون"
+                        <input type="number" name="customer_id" value="{{ $customer->customer_id }}" placeholder="ادخل رقم الزبون"
                                class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                required maxlength="10" minlength="1"/>
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -36,7 +36,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             اسم الزبون
                         </label>
-                        <input type="text" name="name" placeholder="ادخل اسم الزبون" value="{{ $customer->name_customer }}"
+                        <input type="text" name="name" placeholder="ادخل اسم الزبون" value="{{ $customer->customer_name }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -70,14 +70,14 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             البريد الالكتروني
                         </label>
-                        <input type="email" name="email" placeholder="ادخل البريد الالكتروني" value="{{ $customer->user($customer->id_customer)->email }}"
+                        <input type="email" name="email" placeholder="ادخل البريد الالكتروني" value="{{ $customer->user($customer->customer_id)->email }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل البريد
                         </div>
                     </div>
-                    <div class="w-full xl:w-1/2 hidden" id="reset-{{ $customer->id_customer }}">
+                    <div class="w-full xl:w-1/2 hidden" id="reset-{{ $customer->customer_id }}">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             كلمة السر
                         </label>
@@ -110,9 +110,9 @@
                         تعديل الزبون
                     </button>
                     <div x-data="{ checkboxToggle: false }">
-                        <label for="checkboxLabel{{ $customer->id_customer }}" class="flex gap-2 cursor-pointer select-none items-center text-sm font-medium" @click="checkboxToggle = !checkboxToggle">
+                        <label for="checkboxLabel{{ $customer->customer_id }}" class="flex gap-2 cursor-pointer select-none items-center text-sm font-medium" @click="checkboxToggle = !checkboxToggle">
                             <div class="relative ">
-                                <input type="checkbox" data-set="reset-{{ $customer->id_customer }}" id="checkboxLabel{{ $customer->id_customer }}"
+                                <input type="checkbox" data-set="reset-{{ $customer->customer_id }}" id="checkboxLabel{{ $customer->customer_id }}"
                                        @change="checkboxToggle = !checkboxToggle" class="check-box sr-only" x-model="checkboxToggle" />
                                 <div :class="checkboxToggle && 'border-primary bg-gray dark:bg-transparent'"
                                      class="mr-4 flex h-5 w-5 items-center justify-center rounded border">

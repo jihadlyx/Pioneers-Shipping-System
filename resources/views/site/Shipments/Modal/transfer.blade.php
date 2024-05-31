@@ -1,4 +1,4 @@
-<div id="translate{{ $shipment->id_ship }}" x-transition=""
+<div id="translate{{ $shipment->ship_id }}" x-transition=""
      class="fixed modal left-0 top-0 z-999999 hidden h-full min-h-screen w-full items-center justify-center bg-black/90 px-4 py-5">
 
     <div class="fixed overflow-y-auto">
@@ -29,14 +29,14 @@
                         <form action="{{ route('status.shipments.store', ['page_id' => 11]) }}" method="POST" class="needs-validation" novalidate>
                             @csrf
                             <div class="p-3.5">
-                                <input type="number" name="id_ship" value="{{ $shipment->id_ship }}" class="hidden" />
+                                <input type="number" name="ship_id" value="{{ $shipment->ship_id }}" class="hidden" />
                                 <div class="mb-4.5 w-full">
 
                                     <label class="mb-3 text-right block text-xl font-medium text-black dark:text-white">
                                         المندوب
                                     </label>
                                     <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
-                                        <select name="id_delegate"
+                                        <select name="delivery_id"
                                                 class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                 :class="isOptionSelected && 'text-black dark:text-white'"
                                                 @change.once="isOptionSelected = true" required>
@@ -44,7 +44,7 @@
                                                 اختر
                                             </option>
                                             @foreach($delegates as $delegate)
-                                                <option value="{{ $delegate->id_delegate }}" class="text-body"> {{ $delegate->name_delegate }} </option>
+                                                <option value="{{ $delegate->delivery_id }}" class="text-body"> {{ $delegate->delivery_name }} </option>
                                             @endforeach
                                         </select>
                                         <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">

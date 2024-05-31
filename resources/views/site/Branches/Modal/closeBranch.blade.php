@@ -1,4 +1,4 @@
-<div id="translate{{ $branch->id_branch }}" x-transition=""
+<div id="translate{{ $branch->branch_id }}" x-transition=""
      class="fixed modal left-0 top-0 z-999999 hidden h-full min-h-screen w-full items-center justify-center bg-black/90 px-4 py-5">
 
     <div class="fixed overflow-y-auto">
@@ -9,7 +9,7 @@
                  x-transition:leave="ease-in duration-200"
                  x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                  x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 x-description="Modal panel, show/hide based on modal state."
+                 x-description="Modal panel, show/hide based on modal status."
                  class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                 <div class="p-4 sm:p-10 text-center overflow-y-auto">
                     <!-- Icon -->
@@ -26,35 +26,35 @@
                         " {{ $branch->title }} "
                     </h3>
                     <div class="btns-close-modale mt-6 flex flex-col justify-center gap-y-4">
-                        <form action="{{ route('branches.translate', ['page_id' => 1, 'id_branch' => $branch->id_branch]) }}" method="POST" class="needs-validation" novalidate>
+                        <form action="{{ route('branches.translate', ['page_id' => 1, 'branch_id' => $branch->branch_id]) }}" method="POST" class="needs-validation" novalidate>
                             @csrf
                             @method('PATCH')
                             <div class="p-3.5">
-                                <input type="number" name="id_branch" value="{{ $branch->id_branch }}" class="hidden" />
+                                <input type="number" name="branch_id" value="{{ $branch->branch_id }}" class="hidden" />
                                 <div class="mb-4.5 w-full">
 
                                     <label class="mb-3 text-right block text-xl font-medium text-black dark:text-white">
                                         حالة الفرع
                                     </label>
                                     <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
-                                        <select name="state"
+                                        <select name="status"
                                                 class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                 :class="isOptionSelected && 'text-black dark:text-white'"
                                                 @change.once="isOptionSelected = true" required>
                                             <option value="" disabled selected class="text-body">
                                                 اختر
                                             </option>
-                                            @if($branch->state != 1)
+                                            @if($branch->status != 1)
                                                 <option value="1" class="text-body">
                                                      نشط
                                                 </option>
                                             @endif
-                                            @if($branch->state != 0)
+                                            @if($branch->status != 0)
                                                 <option value="0" class="text-body">
                                                     غير نشط
                                                 </option>
                                             @endif
-                                            @if($branch->state != 3)
+                                            @if($branch->status != 3)
                                                 <option value="3" class="text-body">
                                                     مغلق
                                                 </option>

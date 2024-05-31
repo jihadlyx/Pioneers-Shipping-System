@@ -6,20 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SubCities extends Model
+class Regions extends Model
 {
 
     use HasFactory;
     use SoftDeletes;
 
-    protected $primaryKey = 'id_city'; // تحديد مفتاح رئيسي مخصص
+    protected $primaryKey = 'region_id';
 
 
     protected $fillable = [
-        'id_city',
+        'region_id',
         'title',
         'price',
-        'id_branch'
+        'branch_id'
     ];
 
     public function isHasMany() {
@@ -30,17 +30,17 @@ class SubCities extends Model
     }
     public function shipments()
     {
-        return $this->hasMany(Shipments::class, 'id_city');
+        return $this->hasMany(Shipments::class, 'region_id');
     }
     public function branch()
     {
-        return $this->belongsTo(Branch::class, 'id_branch');
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
     public function getPrice()
     {
         $branch = Auth()->user()->findUserByType(Auth()->user()->id_type_users)->branch;
-        $price_branch = PriceBranch::where('id_from_branch', $branch->id_branch)
-                            ->where('id_to_branch', $this->id_branch)
+        $price_branch = PriceBranch::where('from_branch', $branch->branch_id)
+                            ->where('to_branch', $this->branch_id)
                             ->first();
         if($price_branch){
             $price = $price_branch->price;

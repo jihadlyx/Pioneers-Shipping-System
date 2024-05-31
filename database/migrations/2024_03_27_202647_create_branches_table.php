@@ -14,13 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('branches', function (Blueprint $table) {
-            $table->integer('id_branch')->unsigned()->primary();
+            $table->integer('branch_id')->unsigned()->primary();
             $table->string('title', 20);
             $table->string('address', 30);
             $table->bigInteger('phone_number');
 //            $table->bigInteger('phone_number')->digits_between(10, 14);
             $table->bigInteger('phone_number2')->nullable();
-            $table->boolean('state');
+            $table->boolean('status');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -128,7 +128,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <form id="UpdateMaterialRoles" action="{{ route('materialRoles.edit', ['id_role' => $id, 'page_id' => 7]) }}" method="POST">
+                        <form id="UpdateMaterialRoles" action="{{ route('materialRoles.edit', ['role_id' => $id, 'page_id' => 7]) }}" method="POST">
                             @csrf
                             @method("PATCH")
                             @foreach($materialRoles as $index => $role)

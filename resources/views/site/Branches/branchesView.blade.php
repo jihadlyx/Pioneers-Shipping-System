@@ -45,14 +45,18 @@
         </nav>
     </div>
     <!-- Breadcrumb End -->
-    @if(Session::has('message'))
-        <div class="alert-{{ Session::get('message')["type"] }} flex rounded-lg p-4 mb-4 text-md"  role="alert">
-            <svg class="w-5 h-5 inline ltr:mr-3 rtl:ml-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-            <div>
-                <span class="font-medium">{{ Session::get('message')["title"] }} !</span> {{ Session::get('message')["text"] }}
-            </div>
-        </div>
-    @endif
+{{--    @if(Session::has('message'))--}}
+{{--        <div class="alert-{{ Session::get('message')["type"] }} flex rounded-lg p-4 mb-4 text-md"  role="alert">--}}
+{{--            <svg class="w-5 h-5 inline ltr:mr-3 rtl:ml-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>--}}
+{{--            <div>--}}
+{{--                <span class="font-medium">{{ Session::get('message')["title"] }} !</span> {{ Session::get('message')["text"] }}--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    @endif--}}
+
+{{--    @if(Session::has('message'))--}}
+{{--    @endif--}}
+
 
     <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div class="data-table-common data-table-one max-w-full overflow-x-auto">
@@ -185,7 +189,7 @@
                                     <td class="px-4 py-5 h-full">
                                         <div class="text-gray-100 flex items-center gap-1">
                                             @if($isUpdate)
-                                                <button data-target="EditBranch{{ $branch->id_branch }}"
+                                                <button data-target="EditBranch{{ $branch->branch_id }}"
                                                         title="تعديل" class="hover:text-primary">
                                                     <svg class="fill-current " width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <g clip-path="url(#clip0_62_9787)">
@@ -201,7 +205,7 @@
                                                 </button>
                                             @endif
                                             @if($isDelete && $branch->isHasMany())
-                                                    <button data-target="DeleteBranch{{ $branch->id_branch }}" title="حذف" class="hover:text-meta-1 button-icon">
+                                                    <button data-target="DeleteBranch{{ $branch->branch_id }}" title="حذف" class="hover:text-meta-1 button-icon">
                                                         <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
                                                              fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <path
@@ -220,7 +224,7 @@
                                                     </button>
                                              @endif
                                             @if($branch->hasValidShipments() && $branch->isHasMany())
-                                                <button data-target="translate{{ $branch->id_branch }}" title="تغيير حالة الفرع" class="hover:text-meta-3">
+                                                <button data-target="translate{{ $branch->branch_id }}" title="تغيير حالة الفرع" class="hover:text-meta-3">
                                                     <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M18.625 9.28125C18.5 9.0625 18.3125 8.90625 18.0937 8.78125L3.68747 0.718748C3.43747 0.593748 3.15622 0.531248 2.87497 0.562498C2.59372 0.593748 2.34372 0.687498 2.12497 0.874998C1.90622 1.0625 1.74997 1.3125 1.68747 1.5625C1.59372 1.84375 1.62497 2.125 1.71872 2.40625L4.40622 10L1.71872 17.5937C1.62497 17.875 1.62497 18.1562 1.68747 18.4062C1.74997 18.6875 1.90622 18.9062 2.12497 19.0937C2.34372 19.2812 2.59372 19.375 2.87497 19.4062C2.90622 19.4062 2.96872 19.4062 2.99997 19.4062C3.21872 19.4062 3.46872 19.3437 3.68747 19.2187L18.0937 11.1562C18.3125 11.0312 18.5 10.875 18.625 10.6562C18.75 10.4375 18.8125 10.1875 18.8125 9.96875C18.8125 9.75 18.75 9.5 18.625 9.28125ZM3.06247 1.96875L16.125 9.28125H5.65622L3.06247 1.96875ZM3.06247 18.0312L5.68747 10.7187H16.1562L3.06247 18.0312Z" fill=""></path>
                                                     </svg>
@@ -239,10 +243,10 @@
                                         {{ $branch->address }}
                                     </td>
                                     <td>
-                                        <p class="inline-flex rounded-full {{ $branch->state == 1 ? 'bg-success text-success' : 'bg-danger text-danger' }} bg-opacity-10 px-3 py-1 text-md font-medium">
-                                            @if($branch->state == 1)
+                                        <p class="inline-flex rounded-full {{ $branch->status == 1 ? 'bg-success text-success' : 'bg-danger text-danger' }} bg-opacity-10 px-3 py-1 text-md font-medium">
+                                            @if($branch->status == 1)
                                                 نشط
-                                            @elseif($branch->state == 0)
+                                            @elseif($branch->status == 0)
                                                 غير نشط
                                             @else
                                                 مغلق
@@ -253,7 +257,7 @@
                                     <td>
                                         <button type="submit"
                                                 class="flex w-fit justify-center rounded bg-primary p-3  text-gray hover:bg-opacity-90 font-bold border-b-4 border-blue-700 hover:border-blue-500 transition-transform hover:scale-95">
-                                            <a href="{{ route('branches.view.index', ['page_id' => $id_page, 'id_branch' => $branch->id_branch]) }}">
+                                            <a href="{{ route('branches.view.index', ['page_id' => $id_page, 'branch_id' => $branch->branch_id]) }}">
                                                 سعر التوصيل
                                             </a>
                                         </button>

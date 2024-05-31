@@ -56,12 +56,12 @@ class MaterialRolesController extends Controller
     public function show($page_id, $id)
     {
         $user = Auth()->user()->findUserByType(auth()->user()->id_type_users);
-        if($user->id_role == 0)
-            $materialRoles = MaterialRole::where('id_role', $id)->get();
+        if($user->role_id == 0)
+            $materialRoles = MaterialRole::where('role_id', $id)->get();
         else
         {
-            $user_roles = MaterialRole::where('id_role', $user->id_role)->get();
-            $roles = MaterialRole::where('id_role', $id)->get();
+            $user_roles = MaterialRole::where('role_id', $user->role_id)->get();
+            $roles = MaterialRole::where('role_id', $id)->get();
             $materialRoles = [];
             foreach($user_roles as $index => $role) {
                 if($role->show == 1){
@@ -71,7 +71,7 @@ class MaterialRolesController extends Controller
         }
 //            return $materialRoles;
 
-        $title = Role::where('id_role', $id)->first()->title;
+        $title = Role::where('role_id', $id)->first()->title;
 
         return view('site.settings.Roles.MaterialRoles.materialRolesView', compact('materialRoles', 'title', 'id'));
     }

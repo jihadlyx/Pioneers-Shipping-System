@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('pages', function (Blueprint $table) {
-            $table->integer('id_page')->unsigned()->primary();
+            $table->integer('page_id')->unsigned()->primary();
             $table->string('title', 50);
             $table->string('path', 70);
             $table->timestamps();

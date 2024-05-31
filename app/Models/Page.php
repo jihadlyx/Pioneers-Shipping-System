@@ -11,6 +11,6 @@ class Page extends Model
     use HasFactory;
 
     protected $table = "pages";
-    protected $primaryKey = 'id_page';
-    protected $fillable = ["id_page", "title", "path"];
+    protected $primaryKey = 'page_id';
+    protected $fillable = ["page_id", "title", "path"];
 }

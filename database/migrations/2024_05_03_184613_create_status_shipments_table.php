@@ -13,19 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('status_shipments', function (Blueprint $table) {
+        Schema::create('shipment_on_service', function (Blueprint $table) {
             $table->integer("id")->unsigned()->primary();
-            $table->integer('id_ship')->unsigned();
-            $table->integer('id_status')->unsigned();
-            $table->integer('id_delegate')->unsigned();
-            $table->foreignId('id_user');
+            $table->integer('ship_id')->unsigned();
+            $table->integer('status_id')->unsigned();
+            $table->integer('delivery_id')->unsigned();
+            $table->foreignId('id_user')->unsigned();;
             $table->date('date_update');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('id_status')->references('id_status')->on('type_ship_statuses')->onDelete('cascade');
-            $table->foreign('id_ship')->references('id_ship')->on('shipments')->onDelete('cascade');
-            $table->foreign('id_delegate')->references('id_delegate')->on('delegates')->onDelete('cascade');
+            $table->foreign('id_user')->references('pid')->on('users')->onDelete('cascade');
+            $table->foreign('status_id')->references('status_id')->on('type_ship_statuses')->onDelete('cascade');
+            $table->foreign('ship_id')->references('ship_id')->on('shipments')->onDelete('cascade');
+            $table->foreign('delivery_id')->references('delivery_id')->on('delegates')->onDelete('cascade');
 
         });
     }
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('status_shipments');
+        Schema::dropIfExists('shipment_on_service');
     }
 };

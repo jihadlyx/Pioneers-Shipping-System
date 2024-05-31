@@ -1,4 +1,4 @@
-<div id="translate{{ $shipment->id_ship }}" x-transition=""
+<div id="translate{{ $shipment->ship_id }}" x-transition=""
      class="fixed modal left-0 top-0 z-999999 hidden h-full min-h-screen w-full items-center justify-center bg-black/90 px-4 py-5">
 
     <div class="fixed overflow-y-auto">

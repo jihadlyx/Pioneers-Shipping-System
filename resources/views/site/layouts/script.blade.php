@@ -37,7 +37,18 @@
         window.print();
     }
 
+    function searchInGoogleMaps(e) {
+        let button = e.target.closest('button');
+        let addressValue = button.getAttribute('data-address');
+        if (addressValue &&  addressValue.trim() !== "") {
+            let encodedAddress = encodeURIComponent(addressValue);
+            let googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
 
+            window.open(googleMapsUrl, '_blank');
+        } else {
+            alert("يرجى إدخال العنوان أولاً");
+        }
+    }
 </script>
 
 <script>

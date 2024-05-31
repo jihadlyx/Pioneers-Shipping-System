@@ -11,17 +11,17 @@ class MaterialRole extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'material_roles';
+    protected $table = 'permissions';
     protected $primaryKey = 'id';
-    protected $fillable = ['id', 'id_role', 'id_page', 'create', 'update', 'delete', 'show'];
+    protected $fillable = ['id', 'role_id', 'page_id', 'create', 'update', 'delete', 'show'];
 
     public function role()
     {
-        return $this->belongsTo(Role::class, 'id_role');
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     public function page()
     {
-        return $this->belongsTo(Page::class, 'id_page');
+        return $this->belongsTo(Page::class, 'page_id');
     }
 }

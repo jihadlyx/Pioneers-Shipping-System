@@ -46,14 +46,14 @@
 </div>
     <!-- Breadcrumb End -->
 
-@if(Session::has('message'))
-<div class="alert-{{ Session::get('message')["type"] }} flex  rounded-lg p-4 mb-4 text-md " role="alert">
-<svg class="w-5 h-5 inline ltr:mr-3 rtl:ml-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-<div>
-    <span class="font-medium">{{ Session::get('message')["title"] }} !</span> {{ Session::get('message')["text"] }}
-</div>
-</div>
-@endif
+{{--@if(Session::has('message'))--}}
+    {{--<div class="alert-{{ Session::get('message')["type"] }} flex  rounded-lg p-4 mb-4 text-md " role="alert">--}}
+    {{--<svg class="w-5 h-5 inline ltr:mr-3 rtl:ml-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>--}}
+    {{--<div>--}}
+    {{--    <span class="font-medium">{{ Session::get('message')["title"] }} !</span> {{ Session::get('message')["text"] }}--}}
+    {{--</div>--}}
+    {{--</div>--}}
+{{--@endif--}}
 <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
     <div class="data-table-common data-table-one max-w-full overflow-x-auto">
         <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
@@ -83,12 +83,13 @@
                         <tr>
                             @if($isUpdate)
                                 <th data-sortable="true" style="width: 10.549511854951188%">
-                                <a href="#" class="datatable-sorter">
-                                    <div class="flex items-center gap-1.5">
-                                        <p>#</p>
-                                    </div>
-                                </a>
-                            </th>
+                                    <a href="#" class="datatable-sorter">
+                                        <div class="flex items-center gap-1.5">
+                                            <p>#</p>
+                                        </div>
+                                    </a>
+
+                                </th>
                             @endif
                             <th data-sortable="true" style="width: 8.549511854951188%">
                                 <a href="#" class="datatable-sorter">
@@ -270,14 +271,14 @@
                     <tbody>
                     <span class="hidden"> {{ $id_row = 0 }} </span>
                     @foreach($shipments as $index => $shipment)
-                        @if($id_row != $shipment->id_ship)
-                            <span class="hidden"> {{ $id_row =  $shipment->id_ship }} </span>
+                        @if($id_row != $shipment->ship_id)
+                            <span class="hidden"> {{ $id_row =  $shipment->ship_id }} </span>
                             <tr data-index="{{ $index }}">
                                 @if($isUpdate)
                                     <td class="px-4 py-5">
                                         <div class="text-gray-100 flex items-center gap-1">
                                             @if($isUpdate)
-                                                <button data-target="EditShipment{{ $shipment->id_ship }}" title="تعديل" class="hover:text-primary">
+                                                <button data-target="EditShipment{{ $shipment->ship_id }}" title="تعديل" class="hover:text-primary">
                                                     <svg class="fill-current" width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <g clip-path="url(#clip0_62_9787)">
                                                             <path d="M15.55 2.97499C15.55 2.77499 15.475 2.57499 15.325 2.42499C15.025 2.12499 14.725 1.82499 14.45 1.52499C14.175 1.24999 13.925 0.974987 13.65 0.724987C13.525 0.574987 13.375 0.474986 13.175 0.449986C12.95 0.424986 12.75 0.474986 12.575 0.624987L10.875 2.32499H2.02495C1.17495 2.32499 0.449951 3.02499 0.449951 3.89999V14C0.449951 14.85 1.14995 15.575 2.02495 15.575H12.15C13 15.575 13.725 14.875 13.725 14V5.12499L15.35 3.49999C15.475 3.34999 15.55 3.17499 15.55 2.97499ZM8.19995 8.99999C8.17495 9.02499 8.17495 9.02499 8.14995 9.02499L6.34995 9.62499L6.94995 7.82499C6.94995 7.79999 6.97495 7.79999 6.97495 7.77499L11.475 3.27499L12.725 4.49999L8.19995 8.99999ZM12.575 14C12.575 14.25 12.375 14.45 12.125 14.45H2.02495C1.77495 14.45 1.57495 14.25 1.57495 14V3.87499C1.57495 3.62499 1.77495 3.42499 2.02495 3.42499H9.72495L6.17495 6.99999C6.04995 7.12499 5.92495 7.29999 5.87495 7.49999L4.94995 10.3C4.87495 10.5 4.92495 10.675 5.02495 10.85C5.09995 10.95 5.24995 11.1 5.52495 11.1H5.62495L8.49995 10.15C8.67495 10.1 8.84995 9.97499 8.97495 9.84999L12.575 6.24999V14ZM13.5 3.72499L12.25 2.49999L13.025 1.72499C13.225 1.92499 14.05 2.74999 14.25 2.97499L13.5 3.72499Z" fill=""></path>
@@ -291,14 +292,14 @@
                                                 </button>
                                             @endif
                                             @if($isUpdate)
-                                                <button data-target="translate{{ $shipment->id_ship }}" title="تسليم" class="hover:text-primary">
+                                                <button data-target="translate{{ $shipment->ship_id }}" title="تسليم" class="hover:text-primary">
                                                     <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M18.625 9.28125C18.5 9.0625 18.3125 8.90625 18.0937 8.78125L3.68747 0.718748C3.43747 0.593748 3.15622 0.531248 2.87497 0.562498C2.59372 0.593748 2.34372 0.687498 2.12497 0.874998C1.90622 1.0625 1.74997 1.3125 1.68747 1.5625C1.59372 1.84375 1.62497 2.125 1.71872 2.40625L4.40622 10L1.71872 17.5937C1.62497 17.875 1.62497 18.1562 1.68747 18.4062C1.74997 18.6875 1.90622 18.9062 2.12497 19.0937C2.34372 19.2812 2.59372 19.375 2.87497 19.4062C2.90622 19.4062 2.96872 19.4062 2.99997 19.4062C3.21872 19.4062 3.46872 19.3437 3.68747 19.2187L18.0937 11.1562C18.3125 11.0312 18.5 10.875 18.625 10.6562C18.75 10.4375 18.8125 10.1875 18.8125 9.96875C18.8125 9.75 18.75 9.5 18.625 9.28125ZM3.06247 1.96875L16.125 9.28125H5.65622L3.06247 1.96875ZM3.06247 18.0312L5.68747 10.7187H16.1562L3.06247 18.0312Z" fill=""></path>
                                                     </svg>
                                                 </button>
                                             @endif
                                             <a title="طباعة"
-                                               href="{{ route('shipments.downloadShipmentData', ['page_id' => $id_page, 'id_ship' => $shipment->id_ship]) }}"
+                                               href="{{ route('shipments.downloadShipmentData', ['page_id' => $id_page, 'ship_id' => $shipment->ship_id]) }}"
                                                onclick="() => printInvoice()"
                                                class="hover:text-meta-6">
                                                 <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -308,21 +309,35 @@
                                                     <path d="M6.89102 15.3562H11.1098C11.4473 15.3562 11.7566 15.075 11.7566 14.7094C11.7566 14.3437 11.4754 14.0625 11.1098 14.0625H6.89102C6.55352 14.0625 6.24414 14.3437 6.24414 14.7094C6.24414 15.075 6.55352 15.3562 6.89102 15.3562Z" fill=""></path>
                                                 </svg>
                                             </a>
+                                            <button onclick="searchInGoogleMaps(event)" data-address="{{ $shipment->shipment->address }}" title="{{ $shipment->address }}" class=" hover:text-meta-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="20" height="20" viewBox="0 0 256 256" xml:space="preserve">
+                                                        <defs>
+                                                        </defs>
+                                                            <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
+                                                                <path d="M 48.647 69.718 c 13.692 0.652 24.265 4.924 24.265 10.098 C 72.912 85.44 60.415 90 45 90 s -27.912 -4.56 -27.912 -10.184 c 0 -5.173 10.573 -9.446 24.265 -10.098" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(221,200,47); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                                <path d="M 45 79.665 l 21.792 -6.211 c -3.033 -1.381 -7.032 -2.466 -11.622 -3.122 L 45 79.665 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(168,149,38); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                                <path d="M 45 0 C 30.802 0 19.291 11.51 19.291 25.709 c 0 20.07 21.265 33.961 25.709 53.956 C 48.304 53.11 48.304 26.555 45 0 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,49,64); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                                <path d="M 45 14.965 c -6.011 0 -10.885 4.873 -10.885 10.885 S 38.989 36.735 45 36.735 C 47.897 29.478 47.897 22.222 45 14.965 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                                <path d="M 45 0 c 14.198 0 25.709 11.51 25.709 25.709 c 0 20.07 -21.265 33.961 -25.709 53.956 V 0 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(199,34,46); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                                <path d="M 45 14.965 c 6.011 0 10.885 4.873 10.885 10.885 S 51.011 36.735 45 36.735 V 14.965 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(240,240,240); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                            </g>
+                                                    </svg>
+                                                </button>
                                         </div>
                                     </td>
                                 @endif
                                 <td>
-                                    {{ $shipment->id_ship }}
+                                    {{ $shipment->ship_id }}
                                 </td>
                                 <td>
                                     {{ $shipment->shipment->name_ship }}
                                 </td>
                                 <td class="{{ Auth()->user()->id_type_users == 3 ? 'hidden' : '' }}">
-                                    {{ $shipment->shipment->customer->name_customer }}
+                                    {{ $shipment->shipment->customer->customer_name }}
                                 </td>
                                 <td>
                                     @if(Auth()->user()->id_type_users != 2)
-                                        {{ $shipment->customer->name_customer }}
+                                        {{ $shipment->customer->customer_name }}
                                         <h5 class="font-medium text-black dark:text-white">
                                             0{{ $shipment->phone_number }}
                                         </h5>
@@ -330,7 +345,7 @@
                                             0{{ $shipment->phone_number2 }}
                                         </h5>
                                     @else
-                                        {{ $shipment->shipment->customer->name_customer }}
+                                        {{ $shipment->shipment->customer->customer_name }}
                                         <h5 class="font-medium text-black dark:text-white">
                                             0{{ $shipment->shipment->phone_number }}
                                         </h5>
@@ -340,7 +355,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <p class="inline-flex rounded-full @if($shipment->id_status == 3) bg-success text-success @elseif($shipment->id_status == 4) bg-danger text-danger @else bg-warning text-warning @endif  bg-opacity-10 px-3 py-1 text-md font-medium">
+                                    <p class="inline-flex rounded-full @if($shipment->status_id == 3) bg-success text-success @elseif($shipment->status_id == 4) bg-danger text-danger @else bg-warning text-warning @endif  bg-opacity-10 px-3 py-1 text-md font-medium">
                                         {{ $shipment->state->title }}
                                     </p>
                                 </td>
@@ -351,7 +366,7 @@
                                     {{ $shipment->shipment->address }}
                                 </td>
                                 <td class="text-center">
-                                    {{ $shipment->delegate->name_delegate }}
+                                    {{ $shipment->delegate->delivery_name }}
                                     <h6 class="font-medium text-black dark:text-white">0{{ $shipment->delegate->phone_number }}</h6>
                                 </td>
                                 {{--                        @include('site.Shipments.modal.edit')--}}

@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('price_branch', function (Blueprint $table) {
+        Schema::create('prices', function (Blueprint $table) {
             $table->integer("id")->unsigned()->primary();
-            $table->integer('id_from_branch')->unsigned();
-            $table->integer('id_to_branch')->unsigned();
+            $table->integer('from_branch')->unsigned();
+            $table->integer('to_branch')->unsigned();
             $table->double("price");
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('id_from_branch')->references('id_branch')->on('branches')->onDelete('cascade');
-            $table->foreign('id_to_branch')->references('id_branch')->on('branches')->onDelete('cascade');
+            $table->foreign('from_branch')->references('branch_id')->on('branches')->onDelete('cascade');
+            $table->foreign('to_branch')->references('branch_id')->on('branches')->onDelete('cascade');
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('price_branch');
+        Schema::dropIfExists('prices');
     }
 };

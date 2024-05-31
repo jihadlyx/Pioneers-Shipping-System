@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Middleware\CheckShowPermission;
 use App\Models\Branch;
 use App\Models\PriceBranch;
-use App\Models\SubCities;
+use App\Models\Regions;
 use App\Traits\AuthorizationTrait;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -33,9 +33,9 @@ class SubCitiesController extends Controller
         $isCreate = $this->checkCreateRole($this->page_id);
         $isUpdate = $this->checkUpdateRole($this->page_id);
         $isShowTrash = $this->checkShowRole(10);
-        $maxcityId = SubCities::withTrashed()->max('id_city') ? SubCities::withTrashed()->max('id_city') + 1 : 1;
+        $maxcityId = Regions::withTrashed()->max('region_id') ? Regions::withTrashed()->max('region_id') + 1 : 1;
 
-        $cities = SubCities::all();
+        $cities = Regions::all();
         if($this->checkCreateRole(1)){
             $branches = Branch::all();
         } else {
@@ -64,16 +64,16 @@ class SubCitiesController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'id_city' => ['required', 'numeric', 'unique:'.SubCities::class],
+                'region_id' => ['required', 'numeric', 'unique:'.Regions::class],
                 'title' => ['required', 'string', 'max:30'],
                 'price' => ['required', 'numeric', 'max:9999'],
 
             ]);
 
-            SubCities::create([
-                "id_city" => $request->id_city,
+            Regions::create([
+                "region_id" => $request->region_id,
                 "title" => $request->title,
-                'id_branch' => $request->id_branch,
+                'branch_id' => $request->branch_id,
                 'price' => $request->price
 
             ]);
@@ -130,12 +130,12 @@ class SubCitiesController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'id_city' => ['required', 'numeric'],
+                'region_id' => ['required', 'numeric'],
                 'title' => ['required', 'string', 'max:30'],
                 'price' => ['required', 'numeric', 'max:9999'],
 
             ]);
-            $city = SubCities::where("id_city", $id)->first();
+            $city = Regions::where("region_id", $id)->first();
 
             if($city) {
                 $city->update([
@@ -183,10 +183,10 @@ class SubCitiesController extends Controller
      */
     public function destroy($page_id,$id)
     {
-        $city = SubCities::where("id_city", $id)->first();
+        $city = Regions::where("region_id", $id)->first();
 
         if($city) {
-            SubCities::destroy("id_city", $id);
+            Regions::destroy("region_id", $id);
             return redirect()->route("subCities.index", ['page_id' => $this->page_id])
                 ->with([
                     "message" => [
@@ -208,7 +208,7 @@ class SubCitiesController extends Controller
     public function getTrash() {
         $id_page = 10;
         $isUpdate = $this->checkUpdateRole(10);
-        $cities = SubCities::onlyTrashed()->get();
+        $cities = Regions::onlyTrashed()->get();
         return view('site.SubCities.trashView', compact('cities', 'isUpdate', 'id_page'));
     }
     public function restore(Request $request, $id_page) {
@@ -217,7 +217,7 @@ class SubCitiesController extends Controller
 
             // تكرار عبر كل منطقة فرعية واستعادتها
             foreach ($subCitiesData as $subCityData) {
-                $subCity = SubCities::onlyTrashed()->find($subCityData['id']);
+                $subCity = Regions::onlyTrashed()->find($subCityData['id']);
                 if ($subCity) {
                     if(isset($subCityData['check']) && $subCityData['check'] === 'on') {
                         $subCity->restore();
@@ -252,7 +252,7 @@ class SubCitiesController extends Controller
 
             foreach ($subCitiesData as $subCityData) {
                 if (isset($subCityData['check']) && $subCityData['check'] === 'on') {
-                    $subCity = SubCities::onlyTrashed()->find($subCityData['id']);
+                    $subCity = Regions::onlyTrashed()->find($subCityData['id']);
                     if ($subCity) {
                         $subCity->forceDelete();
                     }

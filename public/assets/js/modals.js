@@ -21,6 +21,13 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    const buttonModel = document.getElementById('btn-close-modal')
+    if(buttonModel){
+        buttonModel.addEventListener('click', () => {
+            let modal = document.getElementById('modal-id');
+            closeModal(modal);
+        })
+    }
     const btnCloses2 = document.querySelectorAll('.btn-close-2');
     btnCloses2.forEach((close) => {
         close.addEventListener("click", () => {

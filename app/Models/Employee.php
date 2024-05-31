@@ -11,31 +11,31 @@ class Employee extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $primaryKey = 'id_emp'; // تحديد مفتاح رئيسي مخصص
+    protected $primaryKey = 'emp_id'; // تحديد مفتاح رئيسي مخصص
 
     protected $fillable = [
-        'id_emp',
-        'name_emp',
+        'emp_id',
+        'emp_name',
         'phone_number',
         'phone_number2',
         'address',
         'image',
-        'id_number',
-        'id_branch',
-        'id_role'
+        'number_id',
+        'branch_id',
+        'role_id'
     ];
 
     // تعريف العلاقة مع جدول branches
     public function branch()
     {
-        return $this->belongsTo(Branch::class, 'id_branch');
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
     public function role()
     {
-        return $this->belongsTo(Role::class, 'id_role');
+        return $this->belongsTo(Role::class, 'role_id');
     }
     public function user($pid)
     {
-        return User::where('pid', $pid)->where("id_type_users", 1)->first();
+        return User::where('pid', 1 . $pid)->where("id_type_users", 1)->first();
     }
 }

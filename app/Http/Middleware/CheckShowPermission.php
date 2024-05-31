@@ -25,7 +25,7 @@ class CheckShowPermission
             $page_id = $request->route('page_id');
             $path = strtolower($request->path());
 
-            $path_page = Page::where('id_page', $page_id)
+            $path_page = Page::where('page_id', $page_id)
                 ->first();
 
             if($path_page) {
@@ -37,33 +37,33 @@ class CheckShowPermission
             // التحقق من نوع المستخدم
             switch ($user->id_type_users) {
                 case 1:
-                    $employee = DB::table('Employees')->where('id_emp', $user->pid)->first();
+                    $employee = DB::table('Employees')->where('emp_id', $user->pid())->first();
                     if (!$employee) {
                         return abort(403, 'Unauthorized action.1');
                     }
-                    $role_id = $employee->id_role;
+                    $role_id = $employee->role_id;
                     break;
                 case 2:
-                    $delegate = DB::table('Delegates')->where('id_delegate', $user->pid)->first();
+                    $delegate = DB::table('Delegates')->where('delivery_id', $user->pid())->first();
                     if (!$delegate) {
                         return abort(403, 'Unauthorized action.2');
                     }
-                    $role_id = $delegate->id_role;
+                    $role_id = $delegate->role_id;
                     break;
                 case 3:
-                    $customer = DB::table('Customers')->where('id_customer', $user->pid)->first();
+                    $customer = DB::table('Customers')->where('customer_id', $user->pid())->first();
                     if (!$customer) {
                         return abort(403, 'Unauthorized action.3');
                     }
-                    $role_id = $customer->id_role;
+                    $role_id = $customer->role_id;
                     break;
                 default:
                     return abort(403, 'Unauthorized action.4');
             }
 
             // التحقق من صلاحية المواد للمستخدم
-            $materialRole = MaterialRole::where('id_role', $role_id)
-                ->where('id_page', $page_id)
+            $materialRole = MaterialRole::where('role_id', $role_id)
+                ->where('page_id', $page_id)
                 ->first();
 
             if($materialRole) {

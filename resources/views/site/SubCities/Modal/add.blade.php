@@ -24,7 +24,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم المدينة أو المنطقة
                         </label>
-                        <input type="number" name="id_city" value="{{ $maxcityId }}"   placeholder="ادخل رقم المدينة أو المنطقة"
+                        <input type="number" name="region_id" value="{{ $maxcityId }}"   placeholder="ادخل رقم المدينة أو المنطقة"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required maxlength="10" minlength="1" />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -36,7 +36,7 @@
                             الفرع
                         </label>
                         <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
-                            <select name="id_branch"
+                            <select name="branch_id"
                                 class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 :class="isOptionSelected && 'text-black dark:text-white'"
                                 @change.once="isOptionSelected = true" required>
@@ -44,7 +44,7 @@
                                     اختر
                                 </option>
                                 @foreach($branches as $branch)
-                                    <option value="{{ $branch->id_branch }}" class="text-body"> {{ $branch->title }} </option>
+                                    <option value="{{ $branch->branch_id }}" class="text-body"> {{ $branch->title }} </option>
                                 @endforeach
                             </select>
                             <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">

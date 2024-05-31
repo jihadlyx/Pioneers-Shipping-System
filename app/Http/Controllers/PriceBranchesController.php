@@ -17,11 +17,11 @@ class PriceBranchesController extends Controller
     public function index($page_id, $id)
     {
         $this->id_page = $page_id;
-        $branches = PriceBranch::where("id_from_branch", $id)->get();
+        $branches = PriceBranch::where("from_branch", $id)->get();
         if (!$branches) {
 
         }
-        $new_branch = Branch::where("id_branch", $id)->first();
+        $new_branch = Branch::where("branch_id", $id)->first();
 
         return view('site.Branches.DeliveryPrices.pricesView', compact('branches', 'new_branch', 'page_id'));
     }
@@ -47,14 +47,14 @@ class PriceBranchesController extends Controller
         // Validate the request data
 //        $request->validate([
 //            'prices' => 'required|array',
-//            'prices.*.id_to_branch' => 'required|exists:branches,id',
+//            'prices.*.to_branch' => 'required|exists:branches,id',
 //            'prices.*.price' => 'required|numeric',
 //        ]);
 
         // Loop through the prices array and create PriceBranch records
         foreach ($request->prices as $price) {
-            $branch = PriceBranch::where('id_from_branch', $id)
-                ->where('id_to_branch', $price['id_to_branch'])
+            $branch = PriceBranch::where('from_branch', $id)
+                ->where('to_branch', $price['to_branch'])
                 ->first();
             if($branch) {
                 $branch->update([
@@ -66,15 +66,15 @@ class PriceBranchesController extends Controller
                 $p = $price['price'];
                 PriceBranch::create([
                     'id' => $maxBranchId,
-                    'id_from_branch' => $id, // Assuming authenticated user has a branch
-                    'id_to_branch' => $price['id_to_branch'],
+                    'from_branch' => $id, // Assuming authenticated user has a branch
+                    'to_branch' => $price['to_branch'],
                     'price' => $p,
                 ]);
-                if($price['id_to_branch'] != $id) {
+                if($price['to_branch'] != $id) {
                     PriceBranch::create([
                         'id' => $maxBranchId + 1,
-                        'id_from_branch' => $price['id_to_branch'], // Assuming authenticated user has a branch
-                        'id_to_branch' => $id,
+                        'from_branch' => $price['to_branch'], // Assuming authenticated user has a branch
+                        'to_branch' => $id,
                         'price' => $p,
                     ]);
                 }
@@ -82,8 +82,8 @@ class PriceBranchesController extends Controller
             }
 
         }
-        $branch = Branch::where("id_branch", $id)->update([
-            'state' => 1,
+        $branch = Branch::where("branch_id", $id)->update([
+            'status' => 1,
         ]);
 
         return redirect()->route('branches.index', ['page_id' => $id_page])
@@ -106,7 +106,7 @@ class PriceBranchesController extends Controller
     {
         $this->id_page = $page_id;
         $branches = Branch::all();
-        $new_branch = Branch::where("id_branch", $id)->first();
+        $new_branch = Branch::where("branch_id", $id)->first();
 
         return view('site.Branches.DeliveryPrices.addFormPrices', compact('branches', 'new_branch', 'page_id'));
     }
@@ -120,8 +120,8 @@ class PriceBranchesController extends Controller
     public function edit($page_id, $id)
     {
         $this->id_page = $page_id;
-        $branches = PriceBranch::where("id_from_branch", $id)->get();
-        $new_branch = Branch::where("id_branch", $id)->first();
+        $branches = PriceBranch::where("from_branch", $id)->get();
+        $new_branch = Branch::where("branch_id", $id)->first();
 
         return view('site.Branches.DeliveryPrices.addFormPrices', compact('branches', 'new_branch', 'page_id'));
     }

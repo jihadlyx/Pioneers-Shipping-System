@@ -1,4 +1,4 @@
-<div id="EditShipment{{ $shipment->id_ship }}" x-transition=""
+<div id="EditShipment{{ $shipment->ship_id }}" x-transition=""
     class="modal hidden fixed left-0 top-0 z-99999 h-screen w-full justify-center overflow-y-scroll bg-black/80 px-4 py-5">
     <div
         class="relative m-auto w-full max-w-180 sm:max-w-230 rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10">
@@ -18,7 +18,7 @@
                 </svg>
             </button>
         </div>
-        <form action="{{ route('shipments.update', ['page_id' => $id_page, 'id_ship' => $shipment->id_ship]) }}" method="POST" class="needs-validation" novalidate>
+        <form action="{{ route('shipments.update', ['page_id' => $id_page, 'ship_id' => $shipment->ship_id]) }}" method="POST" class="needs-validation" novalidate>
             @csrf
             @method('PATCH')
             <div class="p-6.5">
@@ -27,7 +27,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             اسم الشحنة
                         </label>
-                        <input type="text" name="name_ship" placeholder="ادخل اسم الشحنة" value="{{ $shipment->name_ship }}"
+                        <input type="text" name="ship_name" placeholder="ادخل اسم الشحنة" value="{{ $shipment->ship_name }}"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -39,18 +39,18 @@
                             الزبون
                         </label>
                         <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
-                            <select name="id_customer"
+                            <select name="customer_id"
                                     class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     :class="isOptionSelected && 'text-black dark:text-white'"
                                     @change.once="isOptionSelected = true" required>
                                 @if($id_page == 11)
-                                    <option value="{{ $shipment->id_customer }}" class="text-body"> {{ $shipment->customer->name_customer }} </option>
+                                    <option value="{{ $shipment->customer_id }}" class="text-body"> {{ $shipment->customer->name_customer }} </option>
                                 @else
                                     <option value="" disabled selected class="text-body">
                                         اختر
                                     </option>
                                     @foreach($customers as $customer)
-                                        <option value="{{ $customer->id_customer }}" @if($customer->id_customer == $shipment->id_customer) selected @endif class="text-body"> {{ $customer->name_customer }} </option>
+                                        <option value="{{ $customer->customer_id }}" @if($customer->customer_id == $shipment->customer_id) selected @endif class="text-body"> {{ $customer->name_customer }} </option>
                                     @endforeach
                                 @endif
                             </select>
@@ -121,7 +121,7 @@
                             مكان التوصيل
                         </label>
                         <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
-                            <select name="id_city"
+                            <select name="region_id"
                                 class="relative custom-select z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 :class="isOptionSelected && 'text-black dark:text-white'"
                                 @change.once="isOptionSelected = true" required>
@@ -129,7 +129,7 @@
                                     اختر
                                 </option>
                                 @foreach($sub_cites as $city)
-                                    <option value="{{ $city->id_city}}"  @if($city->id_city == $shipment->id_city) selected @endif class="text-body" > {{ $city->branch->title  .' - ' . $city->title . '  ' . $city->getPrice()  }} </option>
+                                    <option value="{{ $city->region_id}}"  @if($city->region_id == $shipment->region_id) selected @endif class="text-body" > {{ $city->branch->title  .' - ' . $city->title . '  ' . $city->getPrice()  }} </option>
                                 @endforeach
                             </select>
                             <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">

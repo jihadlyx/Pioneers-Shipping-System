@@ -11,38 +11,37 @@ class StatusShipments extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'status_shipments';
-    protected $primaryKey = 'id_status'; // تحديد مفتاح رئيسي مخصص
+    protected $table = 'shipment_on_service';
 
     protected $fillable = [
         'id',
-        'id_ship',
-        'id_status',
-        'id_delegate',
+        'ship_id',
+        'status_id',
+        'delivery_id',
         'id_user',
         'date_update'
     ];
     public function shipment()
     {
-        return $this->belongsTo(Shipments::class, 'id_ship');
+        return $this->belongsTo(Shipments::class, 'ship_id');
     }
     public function city()
     {
-        return $this->belongsTo(SubCities::class, 'id_city');
+        return $this->belongsTo(Regions::class, 'id_city');
     }
 
     public function state()
     {
-        return $this->belongsTo(TypeShipStatus::class, 'id_status');
+        return $this->belongsTo(TypeShipStatus::class, 'status_id');
     }
 
     public function customer()
     {
-        return $this->belongsTo(Customers::class, 'id_customer');
+        return $this->belongsTo(Customers::class, 'customer_id');
     }
     public function delegate()
     {
-        return $this->belongsTo(Delegate::class, 'id_delegate');
+        return $this->belongsTo(DeliveryMen::class, 'delivery_id');
     }
 
 }

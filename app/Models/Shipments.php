@@ -12,49 +12,49 @@ class Shipments extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $primaryKey = 'id_ship'; // تحديد مفتاح رئيسي مخصص
+    protected $primaryKey = 'ship_id'; // تحديد مفتاح رئيسي مخصص
 
     protected $fillable = [
-        'id_ship',
-        'name_ship',
-        'id_customer',
-        'id_status',
-        'id_city',
+        'ship_id',
+        'ship_name',
+        'customer_id',
+        'status_id',
+        'region_id',
         'ship_value',
         'phone_number',
         'phone_number2',
         'address',
         'notes',
-        'recipient_name'
+        'name_recipient'
     ];
 
     public function city()
     {
-        return $this->belongsTo(SubCities::class, 'id_city');
+        return $this->belongsTo(Regions::class, 'region_id');
     }
 
     public function state()
     {
-        return $this->belongsTo(TypeShipStatus::class, 'id_status');
+        return $this->belongsTo(TypeShipStatus::class, 'status_id');
     }
 
     public function customer()
     {
-        return $this->belongsTo(Customers::class, 'id_customer');
+        return $this->belongsTo(Customers::class, 'customer_id');
     }
 
     public function statusShipment($id_statue)
     {
-        return StatusShipments::where('id_ship', $this->id_ship)
-            ->where('id_status', $id_statue)
+        return StatusShipments::where('ship_id', $this->ship_id)
+            ->where('status_id', $id_statue)
             ->first();
     }
 
     public function getPrice()
     {
-        $branch = $this->city->id_branch;
-        $price_branch = PriceBranch::where('id_from_branch', $this->customer->id_branch)
-            ->where('id_to_branch', $branch)
+        $branch = $this->city->branch_id;
+        $price_branch = PriceBranch::where('from_branch', $this->customer->branch_id)
+            ->where('to_branch', $branch)
             ->first();
         if($price_branch){
             $price = $price_branch->price;
@@ -67,8 +67,8 @@ class Shipments extends Model
 
     public function generateQrCode()
     {
-        $data = "المعرّف: {$this->id_ship},"
-            . "الاسم: {$this->name_ship},"
+        $data = "المعرّف: {$this->ship_id},"
+            . "الاسم: {$this->ship_name},"
             . "اسم العميل: {$this->customer->name_customer},"
             . "الحالة: {$this->state->title},"
             . "اسم المدينة: {$this->city->title},"

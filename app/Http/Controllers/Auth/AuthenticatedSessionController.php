@@ -29,7 +29,6 @@ class AuthenticatedSessionController extends Controller
         $authenticated = $request->authenticate();
         if ($authenticated) {
             $request->session()->regenerate();
-
             // Redirect to the intended page on successful login
             return redirect()->route('dashboard.index', ['page_id' => 9]);
         }

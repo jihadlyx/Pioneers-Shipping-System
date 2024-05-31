@@ -25,11 +25,11 @@
                         </label>
                         <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
                             <select
-                                name="id_from_branch"
+                                name="from_branch"
                                 class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 :class="isOptionSelected && 'text-black dark:text-white'"
                                 @change.once="isOptionSelected = true" required>
-                                <option value="{{ $branch->id_from_branch }}" selected class="text-body">
+                                <option value="{{ $branch->from_branch }}" selected class="text-body">
                                     {{ $branch->fromBranch->title }}
                                 </option>
                             </select>
@@ -54,11 +54,11 @@
                         </label>
                         <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
                             <select
-                                name="id_to_branch"
+                                name="to_branch"
                                 class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 :class="isOptionSelected && 'text-black dark:text-white'"
                                 @change.once="isOptionSelected = true" required>
-                                <option value="{{ $branch->id_to_branch }}" selected class="text-body">
+                                <option value="{{ $branch->to_branch }}" selected class="text-body">
                                     {{ $branch->toBranch->title }}
                                 </option>
                             </select>

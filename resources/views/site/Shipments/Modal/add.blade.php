@@ -1,5 +1,5 @@
 <div id="AddShipment" x-transition=""
-    class="modal hidden fixed left-0 top-0 z-99999 h-screen w-full justify-center overflow-y-scroll bg-black/80 px-4 py-5">
+    class="modal hidden absolute left-0 top-0 z-999 h-screen w-full justify-center overflow-y-scroll bg-black/80 px-4 py-5">
     <div
         class="relative m-auto w-full max-w-180 sm:max-w-230 rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10">
         <div class=" flex items-center justify-between">
@@ -7,6 +7,7 @@
                 الشحنات
 
             </h2>
+
             <button data-target="SaveChanging"
                 class="btn-modal-close absolute ltr:right-1 rtl:left-1 top-1 ltr:sm:right-5 rtl:sm:left-5 sm:top-5">
                 <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -17,6 +18,7 @@
                 </svg>
             </button>
         </div>
+
         <form action="{{ route('shipments.store', ['page_id' => 5]) }}" method="POST" class="needs-validation" novalidate>
             @csrf
             <div class="p-6.5">
@@ -25,7 +27,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             رقم الشحنة
                         </label>
-                        <input type="number" name="id_ship" value="{{ $maxShipmentId }}" placeholder="ادخل رقم الشحنة"
+                        <input type="number" name="ship_id" value="{{ $maxShipmentId }}" placeholder="ادخل رقم الشحنة"
                                class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                required maxlength="10" minlength="1" />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -36,7 +38,7 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             اسم الشحنة
                         </label>
-                        <input type="text" name="name_ship" placeholder="ادخل اسم الشحنة"
+                        <input type="text" name="ship_name" placeholder="ادخل اسم الشحنة"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required maxlength="50" minlength="3"/>
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
@@ -48,7 +50,7 @@
                             الزبون
                         </label>
                         <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
-                            <select name="id_customer"
+                            <select name="customer_id"
                                 class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 :class="isOptionSelected && 'text-black dark:text-white'"
                                 @change.once="isOptionSelected = true" required>
@@ -56,7 +58,7 @@
                                     اختر
                                 </option>
                                 @foreach($customers as $customer)
-                                    <option value="{{ $customer->id_customer }}" @if(Auth()->user()->id_type_users == 3) selected @endif class="text-body"> {{ $customer->name_customer }} </option>
+                                    <option value="{{ $customer->customer_id }}" @if(Auth()->user()->id_type_users == 3) selected @endif class="text-body"> {{ $customer->name_customer }} </option>
                                 @endforeach
                             </select>
                             <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">
@@ -126,7 +128,7 @@
                             مكان التوصيل
                         </label>
                         <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
-                            <select name="id_city"
+                            <select name="region_id"
                                     class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     :class="isOptionSelected && 'text-black dark:text-white'"
                                     @change.once="isOptionSelected = true" required>
@@ -134,7 +136,7 @@
                                     اختر
                                 </option>
                                 @foreach($sub_cites as $city)
-                                    <option value="{{ $city->id_city }}" class="text-body">
+                                    <option value="{{ $city->region_id }}" class="text-body">
                                         {{ $city->branch->title .' - ' . $city->title . '  ' . $city->getPrice() }}
                                     </option>
                                 @endforeach
@@ -158,13 +160,14 @@
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             العنوان التفصيلي
                         </label>
-                        <input type="text" name="address" placeholder="ادخل العنوان"
+                        <input type="text" name="address" id="" placeholder="ادخل العنوان"
                             class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                             required maxlength="30" minlength="5"/>
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل العنوان
                         </div>
                     </div>
+
                     <div class="mb-4.5 w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             ملاحظة
@@ -179,10 +182,16 @@
                 </div>
             </div>
             <div class="flex items-center justify-between">
-                <button type="submit"
-                        class="save-data modal-show flex transition-transform hover:scale-95 items-center gap-2 text-white hover:bg-opacity-80 rounded bg-primary px-4.5 py-2 font-bold border-b-4 border-blue-700 hover:border-blue-500">
-                    إضافة شحنة جديدة
-                </button>
+                <div class="mb-4.5 flex items-center gap-6 ">
+                    <button type="submit"
+                            class="save-data modal-show flex transition-transform hover:scale-95 items-center gap-2 text-white hover:bg-opacity-80 rounded bg-primary px-4.5 py-2 font-bold border-b-4 border-blue-700 hover:border-blue-500">
+                        إضافة شحنة جديدة
+                    </button>
+                    <button type="button" onclick="openModal()"
+                            class="modal-show flex transition-transform hover:scale-95 items-center gap-2 text-white hover:bg-opacity-80 rounded bg-primary px-4.5 py-2 font-bold border-b-4 border-blue-700 hover:border-blue-500">
+                        تحديد موقع المستلم
+                    </button>
+                </div>
                 <div class="flex items-center gap-2 text-lg">
                     <span class="text-meta-1">*</span> حقول الزامية
                 </div>

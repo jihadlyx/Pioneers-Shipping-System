@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('material_roles', function (Blueprint $table) {
-            $table->integer("id")->unsigned()->primary();
-            $table->integer('id_role')->unsigned();
-            $table->integer('id_page')->unsigned();
+        Schema::create('permissions', function (Blueprint $table) {
+            $table->integer('id')->unsigned()->primary();
+            $table->integer('role_id')->unsigned();
+            $table->integer('page_id')->unsigned();
             $table->boolean('create');
             $table->boolean('update');
             $table->boolean('delete');
@@ -24,10 +24,10 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('id_role')->references('id_role')->on('roles')->onDelete('cascade');
-            $table->foreign('id_page')->references('id_page')->on('pages')->onDelete('cascade');
-
+            $table->foreign('role_id')->references('role_id')->on('roles')->onDelete('cascade');
+            $table->foreign('page_id')->references('page_id')->on('pages')->onDelete('cascade');
         });
+
     }
 
     /**
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('material_roles');
+        Schema::dropIfExists('permissions');
     }
 };

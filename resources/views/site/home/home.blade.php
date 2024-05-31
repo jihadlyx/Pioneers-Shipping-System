@@ -18,12 +18,10 @@
 >
     <!-- navbar -->
     <nav class="w-full fixed top-0 bg-white px-5  z-10 dark:bg-slate-900">
-        <div class="container mx-auto py-5 flex flex-row-reverse items-center justify-between">
+        <div class="container mx-auto  flex flex-row-reverse items-center justify-between">
             <div class="flex items-center gap-2">
-                <span class="text-2xl font-bold text-indigo-900 dark:text-white"
-                >شركة الفارس</span
-                >
-                <img class="w-8" src=" {{ asset('assets/images/img/logo.png') }}" alt="" />
+                <img src="{{ asset('assets/images/logo/light-logo.png') }}" class="w-20 dark:hidden flex" alt="Logo" />
+                <img src="{{ asset('assets/images/logo/dark-logo.png') }}" class="w-20 dark:flex hidden" alt="Logo" />
             </div>
             <ul
                 class="hidden md:flex flex-row-reverse gap-10 text-gray-600 dark:text-gray-100 font-bold text-md uppercase"
@@ -40,10 +38,17 @@
                 <li class="hover:text-blue-500 transition-transform hover:scale-105">
                     <a href="#contact">اتصل بنا</a>
                 </li>
-                <li class="hover:text-blue-500 transition-transform hover:scale-105">
+                <li class="hidden hover:text-blue-500 transition-transform hover:scale-105">
                     <a
                         class="bg-indigo-600 text-white text-xl px-3 py-2 rounded-md font-semibold w-fit"
                         href="{{ route("register") }}"
+                    >انشاء حساب</a
+                    >
+                </li>
+                <li class="hover:text-blue-500 transition-transform hover:scale-105">
+                    <a
+                        class="bg-indigo-600 text-white text-xl px-3 py-2 rounded-md font-semibold w-fit"
+                        href="{{ route("login") }}"
                     >تسجيل</a
                     >
                 </li>

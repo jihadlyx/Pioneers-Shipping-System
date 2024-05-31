@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\CheckShowPermission;
-use App\Models\SubCities;
+use App\Models\Regions;
 use App\Models\TypeShipStatus;
 use App\Traits\AuthorizationTrait;
 use Illuminate\Http\Request;
@@ -32,7 +32,7 @@ class TypeStatusController extends Controller
         $isUpdate = $this->checkUpdateRole($this->page_id);
 
 
-        $maxTypeStateId = TypeShipStatus::max('id_status') ? TypeShipStatus::max('id_status') + 1 : 1;
+        $maxTypeStateId = TypeShipStatus::max('status_id') ? TypeShipStatus::max('status_id') + 1 : 1;
 
         $status = TypeShipStatus::all();
         return view('site.Settings.TypeStatus.typeStatusView', compact('status', 'maxTypeStateId', 'isCreate', 'isUpdate', 'isDelete', 'id_page'));
@@ -64,7 +64,7 @@ class TypeStatusController extends Controller
             'title' => ['required', 'string', 'max:30'],
             ]);
             TypeShipStatus::create([
-                "id_status" => $request->id_status,
+                "status_id" => $request->status_id,
                 "title" => $request->title,
             ]);
 
@@ -123,7 +123,7 @@ class TypeStatusController extends Controller
                 'id_city' => ['required', 'numeric', 'unique:'.TypeShipStatus::class],
                 'title' => ['required', 'string', 'max:30'],
             ]);
-            $state = TypeShipStatus::where("id_status", $id)->first();
+            $state = TypeShipStatus::where("status_id", $id)->first();
 
             if($state) {
                 $state->update([
@@ -166,9 +166,9 @@ class TypeStatusController extends Controller
      */
     public function destroy($page_id,$id)
     {
-        $state = TypeShipStatus::where("id_status", $id)->first();
+        $state = TypeShipStatus::where("status_id", $id)->first();
         if($state) {
-            TypeShipStatus::destroy("id_status", $id);
+            TypeShipStatus::destroy("status_id", $id);
             return redirect()->route("status.index", ['page_id' => $this->page_id])
                 ->with([
                     "message" => [

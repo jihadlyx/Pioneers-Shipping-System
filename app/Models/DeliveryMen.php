@@ -6,36 +6,37 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Delegate extends Model
+class DeliveryMen extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $primaryKey = 'id_delegate'; // تحديد مفتاح رئيسي مخصص
+    protected $table = "delivery_men";
+    protected $primaryKey = 'delivery_id'; // تحديد مفتاح رئيسي مخصص
 
     protected $fillable = [
-        'id_delegate',
-        'name_delegate',
+        'delivery_id',
+        'delivery_name',
         'phone_number',
         'phone_number2',
         'address',
-        'id_number',
-        'id_branch',
-        'id_role'
+        'number_id',
+        'branch_id',
+        'role_id'
     ];
 
     // تعريف العلاقة مع جدول branches
     public function branch()
     {
-        return $this->belongsTo(Branch::class, 'id_branch');
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
     public function role()
     {
-        return $this->belongsTo(Role::class, 'id_role');
+        return $this->belongsTo(Role::class, 'role_id');
     }
     public function user($pid)
     {
-        return User::where('pid', $pid)->where("id_type_users", 2)->first();
+        return User::where('pid', 2 . $pid)->where("id_type_users", 2)->first();
     }
 
     public function isHasMany() {
@@ -47,6 +48,6 @@ class Delegate extends Model
 
     public function statusShip()
     {
-        return $this->hasMany(StatusShipments::class, 'id_delegate');
+        return $this->hasMany(StatusShipments::class, 'delivery_id');
     }
 }
