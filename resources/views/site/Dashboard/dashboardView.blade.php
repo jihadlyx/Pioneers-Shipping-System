@@ -46,7 +46,7 @@
                 <h4 class="text-title-lg font-bold text-black dark:text-white">
                     {{ $ship2->count() }}
                 </h4>
-                <span class="text-3xl font-medium">عدد الشحنات قيد التوصيل</span>
+                <span class="text-3xl font-medium dark:text-white">عدد الشحنات قيد التوصيل</span>
             </div>
 
             <span class="flex -translate-y-22.5 items-center gap-1 text-lg font-medium text-meta-3">
@@ -73,7 +73,7 @@
                 <h4 class="text-title-lg font-bold text-black dark:text-white">
                     {{ $ship3->count() }}
                 </h4>
-                <span class="text-3xl font-medium">عدد الشحنات التي تم تسليمها</span>
+                <span class="text-3xl font-medium dark:text-white">عدد الشحنات التي تم تسليمها</span>
             </div>
 
             <span class="flex -translate-y-22.5 items-center gap-1 text-lg font-medium text-meta-3">
@@ -100,7 +100,7 @@
                 <h4 class="text-title-lg font-bold text-black dark:text-white">
                     {{ $ship4->count() }}
                 </h4>
-                <span class="text-3xl font-medium">عدد الشحنات التي تعذر تسليمها</span>
+                <span class="text-3xl font-medium dark:text-white">عدد الشحنات التي تعذر تسليمها</span>
             </div>
 
             <span class="flex -translate-y-22.5 items-center gap-1 text-lg font-medium text-meta-3">
