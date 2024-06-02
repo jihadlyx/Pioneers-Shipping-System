@@ -18,14 +18,14 @@ return new class extends Migration
             $table->integer('ship_id')->unsigned();
             $table->integer('status_id')->unsigned();
             $table->integer('delivery_id')->unsigned();
-            $table->foreignId('id_user')->unsigned();;
+            $table->integer('id_user')->unsigned();;
             $table->date('date_update');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('id_user')->references('pid')->on('users')->onDelete('cascade');
             $table->foreign('status_id')->references('status_id')->on('type_ship_statuses')->onDelete('cascade');
             $table->foreign('ship_id')->references('ship_id')->on('shipments')->onDelete('cascade');
-            $table->foreign('delivery_id')->references('delivery_id')->on('delegates')->onDelete('cascade');
+            $table->foreign('delivery_id')->references('delivery_id')->on('delivery_men')->onDelete('cascade');
 
         });
     }
