@@ -44,7 +44,7 @@ class CheckDeletePermission
                     $role_id = $employee->role_id;
                     break;
                 case 2:
-                    $delegate = DB::table('Delegates')->where('delivery_id', $user->pid())->first();
+                    $delegate = DB::table('delivery_men')->where('delivery_id', $user->pid())->first();
                     if (!$delegate) {
                         return abort(403, 'Unauthorized action.2');
                     }

@@ -17,13 +17,14 @@ class ProfileController extends Controller
 {
     public function index () {
         $user = Auth()->user()->findUserByType(auth()->user()->id_type_users);
-        if(auth()->user()->id_type_users == 1) {
-            $name = $user->name_emp;
-        } elseif(auth()->user()->id_type_users == 2) {
-            $name = $user->name_delegate;
-        } else {
-            $name = $user->name_customer;
-        }
+//        if(auth()->user()->id_type_users == 1) {
+//            $name = $user->emp_name;
+//        } elseif(auth()->user()->id_type_users == 2) {
+//            $name = $user->name_delegate;
+//        } else {
+//            $name = $user->name_customer;
+//        }
+        $name = Auth()->user()->getName();
         return view('site.Profile.profileView', compact('user', 'name'));
     }
     /**

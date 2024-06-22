@@ -23,7 +23,7 @@
 
                     <h3 class="mb-2 text-2xl font-bold text-gray-800">
                         اختر مندوب لتسليمه الشحنه
-                        " {{ $shipment->name_ship }} "
+                        " {{ $shipment->ship_name }} "
                     </h3>
                     <div class="btns-close-modale mt-6 flex flex-col justify-center gap-y-4">
                         <form action="{{ route('status.shipments.store', ['page_id' => 11]) }}" method="POST" class="needs-validation" novalidate>

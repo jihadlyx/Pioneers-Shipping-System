@@ -80,6 +80,7 @@ class CostumersController extends Controller
                 'password' => ['required'],
                 'address' => ['required', 'string', 'max:30'],
                 'branch_id' => ['required', 'numeric'],
+                'number_id' => ['required', 'numeric'],
                 'phone_number' => ['required', 'numeric', 'digits_between:10,12', 'unique:'.Customers::class],
                 'phone_number2' => ['nullable', 'numeric'] ,
                 'photo' => ['nullable'],
@@ -91,7 +92,7 @@ class CostumersController extends Controller
                     'customer_name' => $request->name,
                     'address' => $request->address,
                     'phone_number' => $request->phone_number,
-                    'number_id' => 1,
+                    'number_id' => $request->number_id,
                     'phone_number2' => $request->phone_number2,
                     'role_id' => 3,
                     'branch_id' => $request->branch_id,
@@ -103,7 +104,7 @@ class CostumersController extends Controller
                     'password' => Hash::make($request->password),
                     'id_type_users' => 3,
                     'pid' => 3 . $request->customer_id,
-                    'id_emp' => Auth()->user()->pid(),
+                    'emp_id' => Auth()->user()->pid(),
                 ]);
 
             });
@@ -164,7 +165,7 @@ class CostumersController extends Controller
                 'customer_id' => ['required', 'numeric'],
                 'name' => ['required', 'string', 'max:255', 'min:3'],
                 'email' => ['required', 'string', 'email'],
-                'password' => ['nullable'],
+                'number_id' => ['required', 'numeric'],
                 'address' => ['required', 'string', 'max:30'],
                 'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
                 'phone_number2' => ['nullable', 'numeric'],
@@ -176,12 +177,13 @@ class CostumersController extends Controller
                     'customer_id' => $id,
                     'customer_name' => $request->name,
                     'address' => $request->address,
+                    'number_id' => $request->number_id,
                     'phone_number' => $request->phone_number,
                     'phone_number2' => $request->phone_number2 == '0' ? null : $request->phone_number2,
                 ]);
 
                 $user = User::where('id_type_users', 3)
-                    ->where('pid', $id)->first();
+                    ->where('pid', 3 . $id)->first();
                 $user->update([
                     'email' => $request->email,
                     'pid' => 3 . $id,

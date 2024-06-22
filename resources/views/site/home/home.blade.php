@@ -9,7 +9,7 @@
     />
 {{--    <link rel="stylesheet" href="./css/style.css" />--}}
     @vite('resources/css/app.css')
-    <title>Tailwind Portfolio</title>
+    <title>شركة ناقل</title>
 </head>
 <body class="font-nunito" x-data="{ dropdownOpen: false }">
 <!-- into section -->
@@ -26,17 +26,12 @@
             <ul
                 class="hidden md:flex flex-row-reverse gap-10 text-gray-600 dark:text-gray-100 font-bold text-md uppercase"
             >
-                <li class="hover:text-blue-500 transition-transform hover:scale-105">
+                <li class="text-blue-500  transition-transform hover:scale-105">
                     <a href="#">الرئيسية</a>
                 </li>
                 <li class="hover:text-blue-500 transition-transform hover:scale-105">
-                    <a href="#about">حول</a>
-                </li>
-                <li class="hover:text-blue-500 transition-transform hover:scale-105" >
-                    <a href="#services">الخدمات</a>
-                </li>
-                <li class="hover:text-blue-500 transition-transform hover:scale-105">
-                    <a href="#contact">اتصل بنا</a>
+                    <a href="whatsapp://send?phone=+218911089052&">
+                        اتصل بنا</a>
                 </li>
                 <li class="hidden hover:text-blue-500 transition-transform hover:scale-105">
                     <a
@@ -72,12 +67,6 @@
                     <a id="hLink" href="#">الرئيسية</a>
                 </li>
                 <li>
-                    <a id="hLink" href="#about">حول</a>
-                </li>
-                <li>
-                    <a id="hLink" href="#services">الخدمات</a>
-                </li>
-                <li>
                     <a id="hLink" href="#contact">اتصل بنا</a>
                 </li>
                 <li class="hover:text-blue-500 transition-transform hover:scale-105">
@@ -105,16 +94,16 @@
     <div
         class="absolute top-1/3 right-5 text-end text-xl sm:right-10 sm:text-4xl md:right-1/4 md:text-6xl lg:right-5 xl:right-30 xl:text-7xl font-bold"
     >
-        <span class="text-gray-600">شركة الفارس</span>
+        <span class="text-gray-600">شركة ناقل</span>
         <p class="text-red-500">للشحن والتوصيل</p>
     </div>
     <!-- texts -->
     <div
         class="hidden lg:flex text-end flex-col gap-5 rounded-md shadow-lg absolute top-0 bottom-0 m-auto left-10 bg-white dark:bg-slate-900 dark:shadow-slate-800 p-6 h-fit w-1/3"
     >
-        <h1 class="text-4xl font-bold text-indigo-900">شركة الفارس</h1>
+        <h1 class="text-4xl font-bold text-indigo-900">شركة ناقل</h1>
         <p class="text-gray-400">
-            الفارس واحدة من شركات الشحن الرائدة في ليبيا، قدمت لسنوات عديدة خدمات متميزة في الشحن البري من خلال توفير أسطول ضخم ومتنوع من الشاحنات.
+            ناقل واحدة من شركات الشحن الرائدة في ليبيا، قدمت لسنوات عديدة خدمات متميزة في الشحن البري من خلال توفير أسطول ضخم ومتنوع من الشاحنات.
         </p>
 {{--        <a--}}
 {{--            class="bg-indigo-600 text-white text-xl px-3 py-2 rounded-md font-semibold w-fit"--}}

@@ -10,6 +10,7 @@ use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\MaterialRolesController;
 use App\Http\Controllers\PriceBranchesController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ShipmentsController;
 use App\Http\Controllers\StatusShipmentsController;
@@ -78,6 +79,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/shipments/{page_id}/{status_id}', [DashboardController::class, 'show'])->name('dashboard.show');
 //      Status
         Route::get('/status/{page_id}', [TypeStatusController::class, 'index'])->name('status.index');
+//      Reports
+        Route::get('/reports/{page_id}', [ReportsController::class, 'index'])->name('reports.index');
+        Route::get('/reports/{page_id}/{delivery_id}', [ReportsController::class, 'show'])->name('reports.show');
 
     });
 

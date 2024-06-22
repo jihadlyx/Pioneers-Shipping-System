@@ -69,6 +69,7 @@ class DelegatesController extends Controller
      */
     public function store(Request $request)
     {
+//        return $request;
         try {
             $validatedData = $request->validate([
                 'delivery_id' => ['required', 'numeric', 'unique:'.DeliveryMen::class],
@@ -77,6 +78,8 @@ class DelegatesController extends Controller
                 'password' => ['required'],
                 'address' => ['required', 'string', 'max:30'],
                 'branch_id' => ['required', 'numeric'],
+                'number_id' => ['required', 'numeric', 'unique:'.DeliveryMen::class],
+                'piece_delivery_price' => ['required', 'numeric', 'digits_between:1,8'],
                 'phone_number' => ['required', 'numeric', 'digits_between:10,12', 'unique:'.DeliveryMen::class],
                 'phone_number2' => ['nullable', 'numeric'] ,
             ]);
@@ -87,9 +90,10 @@ class DelegatesController extends Controller
                     'delivery_name' => $request->name,
                     'address' => $request->address,
                     'phone_number' => $request->phone_number,
-                    'number_id' => 1,
+                    'number_id' => $request->number_id,
                     'phone_number2' => $request->phone_number2,
                     'role_id' => 2,
+                    'piece_delivery_price' => $request->piece_delivery_price,
                     'branch_id' => $request->branch_id,
                 ]);
 
@@ -162,6 +166,8 @@ class DelegatesController extends Controller
                 'email' => ['required', 'string', 'email', 'max:255'],
                 'password' => ['nullable'],
                 'address' => ['required', 'string', 'max:30'],
+                'number_id' => ['required', 'numeric'],
+                'piece_delivery_price' => ['required', 'numeric', 'min:1', 'max:4'],
                 'phone_number' => ['required', 'numeric', 'digits_between:10,12'],
                 'phone_number2' => ['nullable', 'numeric'] ,
             ]);
@@ -173,8 +179,10 @@ class DelegatesController extends Controller
                     'delivery_id' => $request->delivery_id,
                     'delivery_name' => $request->name,
                     'address' => $request->address,
+                    'number_id' => $request->number_id,
                     'phone_number' => $request->phone_number,
                     'phone_number2' => $request->phone_number2,
+                    'piece_delivery_price' => $request->piece_delivery_price,
                 ]);
 
                 $user = User::where('id_type_users', 2)

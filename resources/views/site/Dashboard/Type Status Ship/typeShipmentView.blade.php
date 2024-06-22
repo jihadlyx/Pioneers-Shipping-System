@@ -343,9 +343,9 @@
                                 </td>
                                 <td>
                                     @if(Auth()->user()->id_type_users == 2)
-                                        {{ $shipment->shipment->name_ship }}
+                                        {{ $shipment->shipment->ship_name }}
                                     @else
-                                        {{ $shipment->name_ship }}
+                                        {{ $shipment->ship_name }}
                                     @endif
                                 </td>
                                 @if(Auth()->user()->id_type_users != 3)

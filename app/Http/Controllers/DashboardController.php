@@ -54,11 +54,11 @@ class DashboardController extends Controller
         }
         elseif($user->id_type_users == 2){
             $ship1 = StatusShipments::where('status_id', 1)
-                ->where('delivery_id', $user->pid)
+                ->where('delivery_id', $user->pid())
                 ->get();
             $ship2 = StatusShipments::where('shipment_on_service.status_id', 2)
                 ->join('shipments', 'shipment_on_service.ship_id', '=', 'shipments.ship_id')
-                ->where('delivery_id', $user->pid)
+                ->where('delivery_id', $user->pid())
                 ->whereNotExists(function ($query) {
                     $query->select(DB::raw(1))
                         ->from('shipment_on_service as ss2')
@@ -67,17 +67,17 @@ class DashboardController extends Controller
                 })
                 ->get();
             $ship3 = StatusShipments::where('status_id', 3)
-                ->where('delivery_id', $user->pid)
+                ->where('delivery_id', $user->pid())
                 ->get();
             $ship4 = StatusShipments::where('status_id', 4)
-                ->where('delivery_id', $user->pid)
+                ->where('delivery_id', $user->pid())
                 ->get();
         }
         else {
-            $ship1 = $this->getShipmentsByStatus(1, $user->pid, $branchId);
-            $ship2 = $this->getShipmentsByStatus(2, $user->pid, $branchId);
-            $ship3 = $this->getShipmentsByStatus(3, $user->pid, $branchId);
-            $ship4 = $this->getShipmentsByStatus(4, $user->pid, $branchId);
+            $ship1 = $this->getShipmentsByStatus(1, $user->pid(), $branchId);
+            $ship2 = $this->getShipmentsByStatus(2, $user->pid(), $branchId);
+            $ship3 = $this->getShipmentsByStatus(3, $user->pid(), $branchId);
+            $ship4 = $this->getShipmentsByStatus(4, $user->pid(), $branchId);
 
         }
 
@@ -150,18 +150,18 @@ class DashboardController extends Controller
             $customers = Customers::where('branch_id', $branch_id)->get();
         } elseif ($user->id_type_users == 2) {
             $shipments = StatusShipments::where('status_id', $id)
-                    ->where('delivery_id', $user->pid)
+                    ->where('delivery_id', $user->pid())
                     ->get();
             $customers = [];
             $delegates = [];
         } else {
             $shipments = Shipments::where('shipments.status_id', $id)
-                ->where('shipments.customer_id', $user->pid)
+                ->where('shipments.customer_id', $user->pid())
                 ->join('customers', 'shipments.customer_id', '=', 'customers.customer_id')
                 ->where('customers.branch_id', $branch_id)
                 ->select('shipments.*', 'customers.address as customer_address')
                 ->get();
-            $customers = [Customers::where('customer_id', $user->pid)->first()];
+            $customers = [Customers::where('customer_id', $user->pid())->first()];
             $delegates = [];
         }
 

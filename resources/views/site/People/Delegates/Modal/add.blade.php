@@ -69,6 +69,17 @@
                     </div>
                     <div class="w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                            رقم الهوية
+                        </label>
+                        <input type="number" name="number_id" step="1" placeholder="ادخل رقم الهوية"
+                               class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                               required maxlength="8" minlength="1" />
+                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
+                            الرجاء ادخال رقم الهوية
+                        </div>
+                    </div>
+                    <div class="w-full xl:w-1/2">
+                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             البريد الالكتروني
                         </label>
                         <input type="email" name="email" placeholder="ادخل البريد الالكتروني"
@@ -78,20 +89,31 @@
                             الرجاء ادخل حقل البريد
                         </div>
                     </div>
+                </div>
+                <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
                     <div class="w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             كلمة السر
                         </label>
                         <input type="password" name="password" placeholder="ادخل كلمة السر"
-                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required maxlength="255" minlength="6"/>
+                               class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                               required maxlength="255" minlength="6"/>
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل كلمة السر
                         </div>
                     </div>
-                </div>
-                <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
-                    <div class="mb-4.5 w-full xl:w-1/3">
+                    <div class="w-full xl:w-1/2">
+                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                            سعر توصيل كل قطعة
+                        </label>
+                        <input type="number" name="piece_delivery_price" step="1" placeholder="ادخل سعر توصيل كل قطعة"
+                               class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                               required maxlength="4" minlength="1" />
+                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
+                            الرجاء ادخال سعر توصيل كل قطعة
+                        </div>
+                    </div>
+                    <div class="mb-4.5 w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             الفرع
                         </label>
@@ -128,7 +150,9 @@
                             الرجاء اختيار فرع صالح
                         </div>
                     </div>
-                    <div class="mb-4.5 w-full xl:w-1/3">
+                </div>
+                <div class="mb-2.5 flex flex-col gap-6 xl:flex-row">
+                    <div class=" w-full xl:w-1/3">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             العنوان
                         </label>

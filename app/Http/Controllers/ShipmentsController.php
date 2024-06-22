@@ -109,7 +109,7 @@ class ShipmentsController extends Controller
             ]);
             Shipments::create([
                 'ship_id' => $request->ship_id,
-                'name_ship' => $request->name_ship,
+                'ship_name' => $request->ship_name,
                 'customer_id' => $request->customer_id,
                 'status_id' => 1,
                 'region_id' => $request->region_id,
@@ -174,7 +174,7 @@ class ShipmentsController extends Controller
         try {
             $validatedData = $request->validate([
                 'ship_id' => ['required', 'numeric', 'unique:'.Shipments::class],
-                'name_ship' => ['required', 'string', 'max:50', 'min:3'],
+                'ship_name' => ['required', 'string', 'max:50', 'min:3'],
                 'recipient_name' => ['required', 'string', 'max:40', 'min:3'],
                 'customer_id' => ['required', 'numeric'],
                 'region_id' => ['required', 'numeric'],
@@ -188,7 +188,7 @@ class ShipmentsController extends Controller
 
         if($shipment) {
             $shipment->update([
-                'name_ship' => $request->name_ship,
+                'ship_name' => $request->ship_name,
                 'customer_id' => $request->customer_id,
                 'status_id' => 1,
                 'region_id' => $request->region_id,
@@ -265,7 +265,7 @@ class ShipmentsController extends Controller
     {
         // العثور على الشحنة باستخدام المعرف
         $shipment = Shipments::where('ship_id', $id)->first();
-        $branches = Branch::where('state' , 1)->get();
+        $branches = Branch::where('status' , 1)->get();
         if (!$shipment) {
             abort(404); // يمكنك تعديل هذا بحسب احتياجاتك
         }

@@ -41,59 +41,81 @@ class ForgotPasswordController extends Controller
     }
     public function sendResetLinkEmail(Request $request)
     {
-        $user = User::where('email', $request->email)->first();
+        try {
+            $user = User::where('email', $request->email)->first();
 
-        if (!$user) {
-            return redirect()->route('password.sendLink')
-                ->with([
-                    "message" => [
-                        "type" => "error",
-                        "title" => "حدث خطأ ما",
-                        "text" => "يرجى التأكد من بريدك الإلكتروني"
-                    ]
-                ]);
-        }
-        else {
-            $passwordReset = PasswordResets::where("email", $user->email)->first();
-            if($passwordReset) {
-                if (Carbon::now()->gt($passwordReset->expires_at)) {
-                    // الـ token انتهى
-                    $passwordReset->destroy('email', $user->email);
+            if (!$user) {
+                return redirect()->route('password.sendLink')
+                    ->with([
+                        "message" => [
+                            "type" => "error",
+                            "title" => "حدث خطأ ما",
+                            "text" => "يرجى التأكد من بريدك الإلكتروني"
+                        ]
+                    ]);
+            } else {
+                $passwordReset = PasswordResets::where("email", $user->email)->first();
+                if ($passwordReset) {
+                    if (Carbon::now()->gt($passwordReset->expires_at)) {
+                        // الـ token انتهى
+                        $passwordReset->destroy('email', $user->email);
 
-                    $token = sha1(time().$user->email);
+                        $token = sha1(time() . $user->email);
+                        PasswordResets::create([
+                            'email' => $user->email,
+                            'token' => $token,
+                            'expires_at' => Carbon::now()->addMinutes(2),
+                        ]);
+                    } else {
+                        return redirect()->route('password.sendLink')
+                            ->with([
+                                "message" => [
+                                    "type" => "error",
+                                    "title" => "لقد تم ارسال رسالة الى بريدك",
+                                    "text" => "يرجى التحقق من بريدك او المحاولة في وقت لاحق"
+                                ]
+                            ]);
+                    }
+                } else {
+                    $token = sha1(time() . $user->email);
                     PasswordResets::create([
                         'email' => $user->email,
                         'token' => $token,
                         'expires_at' => Carbon::now()->addMinutes(2),
-                    ]);;
-                } else
-                {
+                    ]);
+                }
+
+                try {
+                    // Send email
+                    Mail::to($user->email)->send(new ResetPasswordEmail($user));
+                    $msg = 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني';
+                    return view('site.auth.Reset Password.mailSuccess', compact('msg'));
+                } catch (\Exception $e) {
+                    PasswordResets::destroy('email', $user->email);
+                    $msg = 'يوجد خطأ في عملية الإرسال: ' ;
                     return redirect()->route('password.sendLink')
                         ->with([
                             "message" => [
                                 "type" => "error",
-                                "title" => "لقد تم ارسال رسالة الى برديك",
-                                "text" => "يرجى التحقق من بريدك او المحاولة في وقت لاحق"
+                                "title" => "$msg",
+                                "text" => $e->getMessage()
                             ]
                         ]);
                 }
-
             }
-            else {
-                $token = sha1(time().$user->email);
-                PasswordResets::create([
-                    'email' => $user->email,
-                    'token' => $token,
-                    'expires_at' => Carbon::now()->addMinutes(2),
-                ]);;
-
-            }
-
-            // Send email
-            Mail::to($user->email)->send(new ResetPasswordEmail($user));
-            $msg = 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني';
-            return view('site.auth.Reset Password.mailSuccess', compact('msg'));
+        } catch (ValidationException $e) {
+            PasswordResets::destroy('email', $user->email);
+            $msg = 'يوجد خطأ في عملية الإرسال: ' ;
+            return redirect()->route('password.sendLink')
+                ->with([
+                    "message" => [
+                        "type" => "error",
+                        "title" => "$msg",
+                        "text" => $e->getMessage()
+                    ]
+                ]);
         }
+
 
 
     }

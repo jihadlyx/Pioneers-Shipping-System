@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             <button type="submit"
-                                    class="save-data py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-meta-5 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm">
+                                    class="save-data py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-meta-5 text-white focus:outline-none focus:ring-2 focus:ring-meta-5 focus:ring-offset-2 transition-all text-sm">
                                 حفظ
                             </button>
                         </form>

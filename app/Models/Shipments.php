@@ -25,7 +25,7 @@ class Shipments extends Model
         'phone_number2',
         'address',
         'notes',
-        'name_recipient'
+        'recipient_name'
     ];
 
     public function city()

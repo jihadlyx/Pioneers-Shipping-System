@@ -24,7 +24,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        $branches = Branch::where('state', 1)->get();
+        $branches = Branch::where('status', 1)->get();
         return view('site.auth.Register.registerView', compact('branches'));
     }
 
@@ -48,14 +48,14 @@ class RegisteredUserController extends Controller
         DB::transaction(function () use ($request) {
             $maxCustomerId = Customers::withTrashed()->max('id_customer') ? Customers::withTrashed()->max('id_customer') + 1 : 1;
             Customers::create([
-                'id_customer' => $maxCustomerId,
-                'name_customer' => $request->name,
+                'customer_id' => $maxCustomerId,
+                'customer_name' => $request->name,
                 'address' => $request->address,
                 'phone_number' => $request->phone_number,
-                'id_number' => 1,
+                'number_id' => 1,
                 'phone_number2' => $request->phone_number2,
-                'id_role' => 3,
-                'id_branch' => $request->id_branch,
+                'role_id' => 3,
+                'branch_id' => $request->id_branch,
             ]);
 
             // إنشاء مستخدم
@@ -63,11 +63,11 @@ class RegisteredUserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'id_type_users' => 3,
-                'pid' => $maxCustomerId,
-                'id_emp' => $maxCustomerId,
+                'pid' => '3' . $maxCustomerId,
+                'emp_id' => $maxCustomerId,
             ]);
             $user = User::where('id_type_users', 3)
-                ->where('pid', $maxCustomerId)
+                ->where('pid', '3' . $maxCustomerId)
                 ->first();
 
             event(new Registered($user));

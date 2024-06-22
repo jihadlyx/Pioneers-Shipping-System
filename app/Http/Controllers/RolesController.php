@@ -36,7 +36,7 @@ class RolesController extends Controller
         if($user->role_id == 0)
             $roles = Role::all();
         else
-            $roles = Role::where('id_emp', $user->id_emp)
+            $roles = Role::where('emp_id', $user->emp_id)
                 ->whereNot('role_id', $user->role_id)
                 ->get();
 
@@ -75,7 +75,7 @@ class RolesController extends Controller
             $role = Role::create([
                 'role_id'=> $request->role_id,
                 'title'=> $request->title,
-                'id_emp' => Auth()->user()->pid,
+                'emp_id' => Auth()->user()->pid(),
             ]);
 
             if($role) {

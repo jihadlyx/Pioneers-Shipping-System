@@ -22,6 +22,7 @@ class DeliveryMen extends Model
         'address',
         'number_id',
         'branch_id',
+        'piece_delivery_price',
         'role_id'
     ];
 

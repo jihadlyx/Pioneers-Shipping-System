@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('number_id');
             $table->integer('branch_id')->unsigned();
             $table->integer('role_id');
+            $table->double('piece_delivery_price');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('branch_id')->references('branch_id')->on('branches')->onDelete('cascade');

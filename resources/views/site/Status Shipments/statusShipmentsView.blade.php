@@ -330,7 +330,7 @@
                                     {{ $shipment->ship_id }}
                                 </td>
                                 <td>
-                                    {{ $shipment->shipment->name_ship }}
+                                    {{ $shipment->shipment->ship_name }}
                                 </td>
                                 <td class="{{ Auth()->user()->id_type_users == 3 ? 'hidden' : '' }}">
                                     {{ $shipment->shipment->customer->customer_name }}

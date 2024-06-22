@@ -157,6 +157,23 @@
                                     <a href="#" class="datatable-sorter">
                                         <div class="flex items-center gap-1.5">
                                             <p> رقم الهاتف </p>
+                                            <div class="inline-flex flex-col space-y-[2px]">
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                         viewBox="0 0 10 5" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 0L0 5H10L5 0Z" fill=""></path>
+                                                    </svg>
+                                                </span>
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                         viewBox="0 0 10 5" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                            </div>
                                         </div>
                                     </a>
                                 </th>
@@ -164,6 +181,23 @@
                                     <a href="#" class="datatable-sorter">
                                         <div class="flex items-center gap-1.5">
                                             <p>العنوان </p>
+                                            <div class="inline-flex flex-col space-y-[2px]">
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                         viewBox="0 0 10 5" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 0L0 5H10L5 0Z" fill=""></path>
+                                                    </svg>
+                                                </span>
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                         viewBox="0 0 10 5" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                            </div>
                                         </div>
                                     </a>
                                 </th>
@@ -171,6 +205,23 @@
                                     <a href="#" class="datatable-sorter">
                                         <div class="flex items-center gap-1.5">
                                             <p> الحالة </p>
+                                            <div class="inline-flex flex-col space-y-[2px]">
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                         viewBox="0 0 10 5" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 0L0 5H10L5 0Z" fill=""></path>
+                                                    </svg>
+                                                </span>
+                                                <span class="inline-block">
+                                                    <svg class="fill-current" width="10" height="5"
+                                                         viewBox="0 0 10 5" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                            </div>
                                         </div>
                                     </a>
                                 </th>
@@ -204,7 +255,7 @@
 
                                                 </button>
                                             @endif
-                                            @if($isDelete && $branch->isHasMany())
+                                            @if($isDelete && $branch->status != 1 && $branch->isHasMany())
                                                     <button data-target="DeleteBranch{{ $branch->branch_id }}" title="حذف" class="hover:text-meta-1 button-icon">
                                                         <svg class="fill-current" width="20" height="20" viewBox="0 0 18 18"
                                                              fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -120,14 +120,14 @@
                 <table class="datatable-table table w-full table-auto" id="dataTableOne">
                     <thead>
                         <tr>
-                            <th data-sortable="true" style="width: 15.549511854951188%">
+                            <th data-sortable="true" style="width: 10.549511854951188%">
                                 <a href="#" class="datatable-sorter">
                                     <div class="flex items-center gap-1.5">
                                         <p>#</p>
                                     </div>
                                 </a>
                             </th>
-                            <th data-sortable="true" style="width: 18.549511854951188%">
+                            <th data-sortable="true" style="width: 15.549511854951188%">
                                 <a href="#" class="datatable-sorter">
                                     <div class="flex items-center gap-1.5">
                                         <p class="text-xl">الاسم</p>
@@ -155,6 +155,30 @@
                                 <a href="#" class="datatable-sorter">
                                     <div class="flex items-center gap-1.5">
                                         <p class="text-xl">رقم الهاتف</p>
+                                        <div class="inline-flex flex-col space-y-[2px]">
+                                            <span class="inline-block">
+                                                <svg class="fill-current" width="10" height="5"
+                                                    viewBox="0 0 10 5" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M5 0L0 5H10L5 0Z" fill=""></path>
+                                                </svg>
+                                            </span>
+                                            <span class="inline-block">
+                                                <svg class="fill-current" width="10" height="5"
+                                                    viewBox="0 0 10 5" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M5 5L10 0L-4.37114e-07 8.74228e-07L5 5Z" fill="">
+                                                    </path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </th>
+                            <th data-sortable="true" style="width: 10.086471408647142%">
+                                <a href="#" class="datatable-sorter">
+                                    <div class="flex items-center gap-1.5">
+                                        <p class="text-xl">رقم الهوية</p>
                                         <div class="inline-flex flex-col space-y-[2px]">
                                             <span class="inline-block">
                                                 <svg class="fill-current" width="10" height="5"
@@ -302,6 +326,9 @@
                             <td class="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                                 <h5 class="font-medium text-black dark:text-white">0{{ $employee->phone_number }}</h5>
                                 <h5 class="font-medium {{ $employee->phone_number2 ? '' : 'hidden' }} text-black dark:text-white">0{{ $employee->phone_number2 }}</h5>
+                            </td>
+                            <td>
+                                {{ $employee->number_id }}
                             </td>
                             <td>
                                 {{ $employee->branch->title }}

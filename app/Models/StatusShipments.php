@@ -27,7 +27,7 @@ class StatusShipments extends Model
     }
     public function city()
     {
-        return $this->belongsTo(Regions::class, 'id_city');
+        return $this->belongsTo(Regions::class, 'region_id');
     }
 
     public function state()

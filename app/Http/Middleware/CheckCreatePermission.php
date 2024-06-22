@@ -45,7 +45,7 @@ class CheckCreatePermission
                     $role_id = $employee->role_id;
                     break;
                 case 2:
-                    $delegate = DB::table('Delegates')->where('delivery_id', $user->pid())->first();
+                    $delegate = DB::table('delivery_men')->where('delivery_id', $user->pid())->first();
                     if (!$delegate) {
                         $msg = "403, إجراء غير مصرح به 2";
                         return redirect()->route('site.Pages.errorView', compact('msg'));

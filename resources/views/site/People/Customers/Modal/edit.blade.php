@@ -68,6 +68,17 @@
                     </div>
                     <div class="w-full xl:w-1/2">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
+                            رقم الهوية
+                        </label>
+                        <input type="number" name="number_id" value="{{ $customer->number_id }}" step="1" placeholder="ادخل رقم الهوية"
+                               class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                               required maxlength="8" minlength="1" />
+                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
+                            الرجاء ادخال رقم الهوية
+                        </div>
+                    </div>
+                    <div class="w-full xl:w-1/2">
+                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             البريد الالكتروني
                         </label>
                         <input type="email" name="email" placeholder="ادخل البريد الالكتروني" value="{{ $customer->user($customer->customer_id)->email }}"
@@ -77,25 +88,15 @@
                             الرجاء ادخل حقل البريد
                         </div>
                     </div>
-                    <div class="w-full xl:w-1/2 hidden" id="reset-{{ $customer->customer_id }}">
-                        <label class="mb-3 block text-xl font-medium text-black dark:text-white">
-                            كلمة السر
-                        </label>
-                        <input type="password" name="password" placeholder="ادخل كلمة السر الجديدة"
-                               class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                               maxlength="255" minlength="6" required/>
-                        <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
-                            الرجاء ادخل حقل كلمة السر
-                        </div>
-                    </div>
-
-                    <div class="mb-4.5 w-full xl:w-1/2">
+                </div>
+                <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                    <div class="mb-4.5 w-full xl:w-1/3">
                         <label class="mb-3 block text-xl font-medium text-black dark:text-white">
                             العنوان
                         </label>
                         <input type="text" name="address" placeholder="ادخل العنوان" value="{{ $customer->address }}"
-                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                            required />
+                               class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                               required />
                         <div class="invalid-feedback pr-4 text-red-500 mt-1 text-sm">
                             الرجاء ادخل حقل العنوان
                         </div>
@@ -109,7 +110,7 @@
                             class="save-data flex w-fit items-center justify-center gap-2 rounded bg-meta-3 px-4.5 py-2.5 text-white font-bold border-b-4 border-green-700 hover:border-green-500 transition-transform hover:scale-95">
                         تعديل الزبون
                     </button>
-                    <div x-data="{ checkboxToggle: false }">
+                    <div class="hidden" x-data="{ checkboxToggle: false }">
                         <label for="checkboxLabel{{ $customer->customer_id }}" class="flex gap-2 cursor-pointer select-none items-center text-sm font-medium" @click="checkboxToggle = !checkboxToggle">
                             <div class="relative ">
                                 <input type="checkbox" data-set="reset-{{ $customer->customer_id }}" id="checkboxLabel{{ $customer->customer_id }}"

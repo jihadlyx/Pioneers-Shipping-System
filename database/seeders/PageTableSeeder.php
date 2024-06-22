@@ -112,6 +112,11 @@ class PageTableSeeder extends Seeder
             "title" => 'حالات الشحنة',
             "path" => "/statusShipments"
         ]);
+        Page::create([
+            "page_id" => 12,
+            "title" => 'التقارير',
+            "path" => "/reports"
+        ]);
 
         $pages = Page::all();
         $roles = Role::all();

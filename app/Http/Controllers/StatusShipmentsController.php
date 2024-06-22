@@ -116,7 +116,7 @@ class StatusShipmentsController extends Controller
                 'ship_id' => $request->ship_id,
                 'delivery_id' => $request->delivery_id,
                 'status_id' => 2,
-                'id_user' => Auth()->user()->id,
+                'id_user' => Auth()->user()->pid(),
                 'date_update' => date("Y-m-d"),
             ]);
             $ship = Shipments::where('ship_id', $request->ship_id)->first();
@@ -184,7 +184,7 @@ class StatusShipmentsController extends Controller
             'ship_id' => $ship->ship_id,
             'delivery_id' => $ship->delivery_id,
             'status_id' => $request->state,
-            'id_user' => Auth()->user()->id,
+            'id_user' => Auth()->user()->pid(),
             'date_update' => date("Y-m-d"),
         ]);
         $ship = Shipments::where('ship_id', $ship->ship_id)->first();
