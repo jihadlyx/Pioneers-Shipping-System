@@ -43,9 +43,11 @@ class RolesController extends Controller
         $isDelete = $this->checkDeleteRole($this->page_id);
         $isCreate = $this->checkCreateRole($this->page_id);
         $isUpdate = $this->checkUpdateRole($this->page_id);
-        $isShowTrash = $this->checkShowRole(10);
 
-        return view('site.Settings.Roles.rolesView', compact('roles','isShowTrash', 'maxRoleId', 'isDelete', 'isUpdate', 'isCreate', 'page_id'));
+        $isShowTrash = $this->checkShowRole(10);
+        $isUpdateTrash = $this->checkUpdateRole(10);
+
+        return view('site.Settings.Roles.rolesView', compact('roles', 'isUpdateTrash','isShowTrash', 'maxRoleId', 'isDelete', 'isUpdate', 'isCreate', 'page_id'));
     }
 
     /**
@@ -219,9 +221,9 @@ class RolesController extends Controller
 
     public function getTrash() {
         $id_page = 10;
-        $isUpdate = $this->checkUpdateRole(10);
+        $isUpdateTrash = $this->checkUpdateRole(10);
         $roles = Role::onlyTrashed()->get();
-        return view('site.Settings.Roles.trashView', compact('roles', 'isUpdate', 'page_id'));
+        return view('site.Settings.Roles.trashView', compact('roles', 'isUpdateTrash', 'id_page'));
     }
 
     public function restore(Request $request, $id_page) {

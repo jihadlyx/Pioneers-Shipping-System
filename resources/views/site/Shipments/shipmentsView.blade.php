@@ -71,8 +71,8 @@
                             <div class="flex items-center gap-1 border-b border-stroke px-6.5 py-4 dark:border-strokedark">
                                 @if($isCreate)
                                     <button data-target="AddShipment"
-                                            class="modal-show flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80">
-                                        <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                            class="modal-show flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-bold border-b-4 border-blue-700 hover:border-blue-500 transition-transform hover:scale-95 text-white hover:bg-opacity-80">
+                                        <svg class="fill-current icon-3d" width="16" height="16" viewBox="0 0 16 16" fill="none"
 
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path

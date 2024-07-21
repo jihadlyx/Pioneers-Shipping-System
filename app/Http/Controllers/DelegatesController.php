@@ -103,7 +103,7 @@ class DelegatesController extends Controller
                     'password' => Hash::make($request->password),
                     'id_type_users' => 2,
                     'pid' => 2 . $request->delivery_id,
-                    'emp_id' => Auth()->user()->pid(),
+                    'user_id' => Auth()->user()->pid,
                 ]);
             });
             return redirect()->route("delegates.index", ['page_id' => $this->page_id])

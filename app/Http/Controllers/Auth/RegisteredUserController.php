@@ -41,12 +41,12 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required'],
             'address' => ['required', 'string', 'max:30'],
-            'id_branch' => ['required', 'numeric'],
+            'branch_id' => ['required', 'numeric'],
             'phone_number' => ['required', 'numeric', 'digits_between:10,12', 'unique:'.Customers::class],
         ]);
 
         DB::transaction(function () use ($request) {
-            $maxCustomerId = Customers::withTrashed()->max('id_customer') ? Customers::withTrashed()->max('id_customer') + 1 : 1;
+            $maxCustomerId = Customers::withTrashed()->max('customer_id') ? Customers::withTrashed()->max('customer_id') + 1 : 1;
             Customers::create([
                 'customer_id' => $maxCustomerId,
                 'customer_name' => $request->name,
@@ -55,7 +55,7 @@ class RegisteredUserController extends Controller
                 'number_id' => 1,
                 'phone_number2' => $request->phone_number2,
                 'role_id' => 3,
-                'branch_id' => $request->id_branch,
+                'branch_id' => $request->branch_id,
             ]);
 
             // إنشاء مستخدم
@@ -64,7 +64,7 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
                 'id_type_users' => 3,
                 'pid' => '3' . $maxCustomerId,
-                'emp_id' => $maxCustomerId,
+                'user_id' => '3' . $maxCustomerId,
             ]);
             $user = User::where('id_type_users', 3)
                 ->where('pid', '3' . $maxCustomerId)

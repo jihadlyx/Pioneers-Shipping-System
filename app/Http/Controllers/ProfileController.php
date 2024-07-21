@@ -42,11 +42,11 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
         try {
             $validatedData = $request->validate([
-                'name' => ['required', 'string', 'max:255', 'min:3'],
+                'name' => ['required', 'string', 'max:255', 'min:2'],
                 'email' => ['required', 'string', 'email', 'max:255'],
                 'password' => ['nullable'],
                 'address' => ['required', 'string', 'max:30'],
@@ -56,21 +56,21 @@ class ProfileController extends Controller
             $user = Auth()->user()->findUserByType(auth()->user()->id_type_users);
             if(auth()->user()->id_type_users == 1) {
                 $user->update([
-                    'name_emp' => $request->name,
+                    'emp_name' => $request->name,
                     'address' => $request->address,
                     'phone_number' => $request->phone_number,
                     'phone_number2' => $request->phone_number2,
                 ]);
             } elseif(auth()->user()->id_type_users == 2) {
                 $user->update([
-                    'name_delegate' => $request->name,
+                    'delivery_name' => $request->name,
                     'address' => $request->address,
                     'phone_number' => $request->phone_number,
                     'phone_number2' => $request->phone_number2,
                 ]);
             } else {
                 $user->update([
-                    'name_customer' => $request->name,
+                    'customer_name' => $request->name,
                     'address' => $request->address,
                     'phone_number' => $request->phone_number,
                     'phone_number2' => $request->phone_number2,

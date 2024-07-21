@@ -58,7 +58,7 @@
                                     اختر
                                 </option>
                                 @foreach($customers as $customer)
-                                    <option value="{{ $customer->customer_id }}" @if(Auth()->user()->id_type_users == 3) selected @endif class="text-body"> {{ $customer->name_customer }} </option>
+                                    <option value="{{ $customer->customer_id }}" @if(Auth()->user()->id_type_users == 3) selected @endif class="text-body"> {{ $customer->customer_name }} </option>
                                 @endforeach
                             </select>
                             <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">

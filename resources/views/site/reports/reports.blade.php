@@ -59,7 +59,7 @@
 
             <div class="mb-10 flex flex-wrap items-center justify-between gap-3.5">
                 <div>
-                    <img class="hidden !print:flex" width="100px" src="{{ asset('assets/images/logo/light-logo.png') }}" />
+                    <img class="hidden print:flex" width="100px" src="{{ asset('assets/images/logo/light-logo.png') }}" />
                 </div>
                 <button id="btn-print" class="inline-flex print:hidden items-center gap-2.5 rounded bg-meta-3 px-4 py-2 font-medium text-white hover:bg-opacity-90">
                     <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -91,25 +91,17 @@
                         ارسال الى :
                     </p>
                     <h4 class="mb-3 text-xl font-bold text-black dark:text-white">
-                        @if(isset($sendTo))
-                            {{ $sendTo->delivery_name }}
-                        @else
-                            {{ $user->getName() }}
-                        @endif
+                        {{ $sendTo['name'] }}
                     </h4>
-                    <a href="#" class="text-lg block"><span class="font-bold text-black dark:text-white">الهاتف :</span>
-                        @if(isset($sendTo))
-                            0{{ $sendTo->phone_number }}
-                        @else
-                            0{{ $user->findUserByType($user->id_type_users)->phone_number }}
-                        @endif
-                        </a>
-                    <span class="mt-1.5 text-lg block"><span class="font-bold  text-black dark:text-white">العنوان :</span>
-                        @if(isset($sendTo))
-                            {{ $sendTo->address }}
-                        @else
-                            {{ $user->findUserByType($user->id_type_users)->address }}
-                        @endif
+
+                    <a href="#" class="text-lg block">
+                        <span class="font-bold text-black dark:text-white">الهاتف :</span>
+                        0{{ $sendTo['phone_number'] }}
+                    </a>
+
+                    <span class="mt-1.5 text-lg block">
+                        <span class="font-bold text-black dark:text-white">العنوان :</span>
+                        {{ $sendTo['address'] }}
                     </span>
                 </div>
             </div>
@@ -158,14 +150,14 @@
                         <!-- table header start -->
                         <div class="grid grid-cols-12 border-b border-stroke py-3.5 pl-5 pr-6 dark:border-strokedark">
                             @if($user->id_type_users != 2)
-                                <div class="col-span-3">
+                                <div class="col-span-2">
                                     <h5 class="font-medium text-black dark:text-white">
                                         اسم المندوب
                                     </h5>
                                 </div>
                             @endif
                             @if($user->id_type_users != 3)
-                                <div class="col-span-3">
+                                <div class="col-span-2">
                                     <h5 class="font-medium text-black dark:text-white">
                                         اسم الزبون
                                     </h5>
@@ -183,7 +175,13 @@
                                     {{ $user->id_type_users == 3 ? 'سعر الشحنة' : 'سعر التوصيل' }}
                                 </h5>
                             </div>
-
+                            @if($user->id_type_users == 1)
+                                <div class="col-span-2">
+                                    <h5 class="font-medium text-black dark:text-white">
+                                        تكلفة توصيل المندوب
+                                    </h5>
+                                </div>
+                            @endif
                             <div class="{{ $user->id_type_users == 1 ? 'col-span-2' : 'col-span-3' }}">
                                 <h5 class="text-right font-medium text-black dark:text-white">
                                     التاريخ
@@ -196,12 +194,12 @@
                         @foreach($reports as $report)
                             <div class="grid grid-cols-12 border-b border-stroke py-3.5 pl-5 pr-6 dark:border-strokedark">
                                 @if($user->id_type_users != 2)
-                                    <div class="col-span-3">
+                                    <div class="col-span-2">
                                         <p class="font-medium">{{ $report->delegate->delivery_name }}</p>
                                     </div>
                                 @endif
                                 @if($user->id_type_users != 3)
-                                    <div class="col-span-3">
+                                    <div class="col-span-2">
                                         <p class="font-medium">{{ $report->shipment->customer->customer_name }}</p>
                                     </div>
                                 @endif
@@ -215,11 +213,17 @@
                                         @elseif($user->id_type_users == 2)
                                             {{ $report->delegate->piece_delivery_price  }}
                                         @else
-                                            {{ $prices  }}
+                                            {{ $report->shipment->ship_value }}
                                         @endif
                                         دينار
                                     </p>
                                 </div>
+                                @if($user->id_type_users == 1)
+                                    <div class="{{ $user->id_type_users == 1 ? 'col-span-2' : 'col-span-3' }}">
+                                        <p class="font-medium">{{ $report->delegate->piece_delivery_price }}</p>
+                                    </div>
+                                @endif
+
                                 <div class="{{ $user->id_type_users == 1 ? 'col-span-2' : 'col-span-3' }}">
                                     <p class="font-medium">{{ $report->date_update }}</p>
                                 </div>
@@ -238,15 +242,11 @@
                                 <span> {{ $prices  }} دينار </span>
                             </p>
 
-                            @if($user->id_type_users == 1)
+                            @if($user->id_type_users == 1 && isset($price_delivery))
                                 <p class="flex justify-between font-medium text-black dark:text-white">
                                     <span> سعر التوصيل </span>
                                     <span>
-                                        @if(isset($sendTo))
-                                            {{ $prices }} دينار
-                                        @else
-                                            {{ $reports->count() * $reports[0]->delegate->piece_delivery_price }} دينار
-                                        @endif
+                                        {{ $price_delivery }}  دينار
                                         </span>
                                 </p>
                             @endif
@@ -257,11 +257,11 @@
                         </span>
                             <span class="font-bold text-meta-3">
                             @if($user->id_type_users == 1)
-                                    @if(isset($sendTo))
-                                        {{ $prices }}
-                                    @else
-                                        {{ $prices - ( $reports->count() * $reports[0]->delegate->piece_delivery_price ) }}
-                                    @endif
+                                @if(isset($price_delivery))
+                                    {{ $prices - $price_delivery }}
+                                @else
+                                    {{ $prices }}
+                                @endif
                             @elseif($user->id_type_users == 2)
                                 {{ $prices  }}
                             @else

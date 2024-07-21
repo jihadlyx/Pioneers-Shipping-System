@@ -52,7 +52,7 @@ class EmployeeTableSeeder extends Seeder
             'email' => "jihad@gmail.com",
             'password' => Hash::make("123456"),
             'id_type_users' => 1,
-            'emp_id' => 1
+            'user_id' => 11
         ]);
     }
 }

@@ -173,7 +173,7 @@ class ShipmentsController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'ship_id' => ['required', 'numeric', 'unique:'.Shipments::class],
+//                'ship_id' => ['required', 'numeric', 'unique:'.Shipments::class],
                 'ship_name' => ['required', 'string', 'max:50', 'min:3'],
                 'recipient_name' => ['required', 'string', 'max:40', 'min:3'],
                 'customer_id' => ['required', 'numeric'],
@@ -269,6 +269,7 @@ class ShipmentsController extends Controller
         if (!$shipment) {
             abort(404); // يمكنك تعديل هذا بحسب احتياجاتك
         }
+        session()->forget('message');
         return view('site.shipments.modal.print', compact('shipment', 'branches'));
     }
 

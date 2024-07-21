@@ -114,16 +114,16 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                     الفرع
                                 </label>
                                 <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent dark:bg-form-input">
-                                    <select name="id_branch"
+                                    <select name="branch_id"
                                             class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                             :class="isOptionSelected && 'text-black dark:text-white'"
                                             @change.once="isOptionSelected = true" required>
-                                            <option value="" disabled selected class="text-body">
-                                                اختر
-                                            </option>
-                                            @foreach($branches as $branch)
-                                                <option value="{{ $branch->id_branch }}" class="text-body"> {{ $branch->title }} </option>
-                                            @endforeach
+                                        <option value="" disabled selected class="text-body">
+                                            اختر
+                                        </option>
+                                        @foreach($branches as $branch)
+                                            <option value="{{ $branch->branch_id }}" class="text-body"> {{ $branch->title }} </option>
+                                        @endforeach
 
                                     </select>
                                     <span class="absolute ltr:right-4 rtl:left-4 top-1/2 z-30 -translate-y-1/2">

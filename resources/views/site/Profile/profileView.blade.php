@@ -62,7 +62,7 @@
             </h3>
         </div>
         <div class="p-6.5">
-            <form action="{{ route('profile.update', Auth()->user()->id) }}" method="POST" class="needs-validation" novalidate>
+            <form action="{{ route('profile.update', Auth()->user()->pid) }}" method="POST" class="needs-validation" novalidate>
                 @csrf
                 @method('PATCH')
                 <div class="mb-5.5 flex flex-col gap-5.5 sm:flex-row" style="gap: 22px">

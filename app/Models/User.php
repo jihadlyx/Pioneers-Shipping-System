@@ -27,7 +27,7 @@ class User extends Authenticatable
         'pid',
         'email',
         'password',
-        'emp_id',
+        'user_id',
         'id_type_users',
     ];
 
@@ -115,6 +115,7 @@ class User extends Authenticatable
                 return null;
         }
     }
+
     public function getRole() {
         $type = Auth::user()->id_type_users;
         $user = $this->findUserByType($type);
@@ -132,5 +133,8 @@ class User extends Authenticatable
 
     public function pid() {
         return isset($this->attributes['pid']) ? substr($this->attributes['pid'], 1) : null;
+    }
+    public function getUserId() {
+        return isset($this->attributes['user_id']) ? substr($this->attributes['user_id'], 1) : null;
     }
 }

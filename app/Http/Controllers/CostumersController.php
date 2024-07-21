@@ -104,7 +104,7 @@ class CostumersController extends Controller
                     'password' => Hash::make($request->password),
                     'id_type_users' => 3,
                     'pid' => 3 . $request->customer_id,
-                    'emp_id' => Auth()->user()->pid(),
+                    'user_id' => Auth()->user()->pid,
                 ]);
 
             });

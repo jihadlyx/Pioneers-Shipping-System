@@ -74,7 +74,7 @@
             <form id="TrashedForm" class="TrashedForm" method="POST">
                 @csrf
                 @method("PATCH")
-                @if($isUpdate)
+                @if($isUpdateTrash)
                     <div class="flex items-center gap-1 border-b border-stroke px-6.5 py-4 dark:border-strokedark">
                         <button type="button" data-target="RestoreRole"
                                 class="modal-show flex items-center gap-2 text-white hover:bg-opacity-80 rounded bg-primary px-4.5 py-2 font-bold border-b-4 border-blue-700 hover:border-blue-500 transition-transform hover:scale-95">

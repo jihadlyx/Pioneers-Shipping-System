@@ -40,11 +40,11 @@ class EmployeesController extends Controller
         $user = Auth()->user();
         if($isCreate) {
             $employees = Employee::whereNotIn('emp_id', [$user->pid()])->whereNotIn('role_id', [0])
-                ->whereNotIn('emp_id', [$user->emp_id])->get();
+                ->whereNotIn('emp_id', [$user->getUserId()])->get();
         }
         else {
             $employees = Employee::where('emp_id', $user->pid())
-                ->whereNotIn('emp_id', [$user->emp_id])->get();
+                ->whereNotIn('emp_id', [$user->getUserId()])->get();
         }
         if($this->checkCreateRole(1)){
             $branches = Branch::all();
@@ -123,7 +123,7 @@ class EmployeesController extends Controller
                     'password' => Hash::make($request->password),
                     'id_type_users' => 1,
                     'pid' =>  1 . $request->emp_id,
-                    'emp_id' => Auth()->user()->pid(),
+                    'user_id' => Auth()->user()->pid,
                 ]);
             });
             return redirect()->route("employees.index", ['page_id' => $this->page_id])
@@ -213,6 +213,7 @@ class EmployeesController extends Controller
                             'address' => $request->address,
                             'number_id' => $request->number_id,
                             'phone_number' => $request->phone_number,
+                            'role_id' => $request->role_id,
                             'phone_number2' => $request->phone_number2,
                             'image' => $fileName != null ? 'imagesUsers/' . $fileName : null,
                         ]);
@@ -223,6 +224,12 @@ class EmployeesController extends Controller
                         'email' => $request->email,
                         'pid' =>  1 . $request->emp_id,
                     ]);
+                    $users = User::where("user_id", 1 . $id)->get();
+                    foreach ($users as $n) {
+                        $n->update([
+                            'user_id' => 1 . $request->emp_id,
+                        ]);
+                    }
                     if($request->password){
                         if(Hash::make($request->password) != $user->password){
                             $user->password = Hash::make($request->password);
