@@ -12,7 +12,7 @@ This is the official website for our shipping and delivery company, where users 
 
 You can visit the live website here: [Shipping and Delivery Dashboard](https://jihadlyx.infinityfreeapp.com/dashboard/9).
 
-![Website Screenshot](public/imagesUsers/main page.png)
+![Website Screenshot](https://github.com/jihadlyx/Pioneers-shipping-system-Final/blob/main/public/imagesUsers/main%20page.png)
 
 ## Technologies Used
 
